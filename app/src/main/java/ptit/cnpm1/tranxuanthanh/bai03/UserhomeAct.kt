@@ -17,7 +17,7 @@ class UserhomeAct : Activity(), View.OnClickListener {
         private const val REQ_VIEW = 2
     }
 
-    private lateinit var txtWelcome: TextView
+    private lateinit var lblWelcome: TextView
     private lateinit var btnAdd: Button
     private lateinit var lwUsers: ListView
 
@@ -29,7 +29,7 @@ class UserhomeAct : Activity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.userhome)
 
-        txtWelcome = findViewById(R.id.txtWelcome)
+        lblWelcome = findViewById(R.id.lblWelcome)
         btnAdd = findViewById(R.id.btnAdd)
         lwUsers = findViewById(R.id.lwUsers)
 
@@ -39,7 +39,7 @@ class UserhomeAct : Activity(), View.OnClickListener {
             @Suppress("DEPRECATION")
             intent.getSerializableExtra("user") as? User
         }
-        user?.let { txtWelcome.text = "Xin chào " + it.fullname }
+        user?.let { lblWelcome.text = "Xin chào " + it.fullname }
 
         seedInitialUsers()
 

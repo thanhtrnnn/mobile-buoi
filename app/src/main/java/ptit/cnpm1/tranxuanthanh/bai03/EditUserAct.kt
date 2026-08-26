@@ -14,6 +14,9 @@ class EditUserAct : Activity(), View.OnClickListener {
     private lateinit var btnSave: Button
     private lateinit var btnCancel: Button
 
+    /** Người dùng đang được sửa, giữ nguyên bản gốc nhận từ ViewUserAct. */
+    private lateinit var user: User
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.edituser)
@@ -22,8 +25,9 @@ class EditUserAct : Activity(), View.OnClickListener {
         btnSave = findViewById(R.id.btnSave)
         btnCancel = findViewById(R.id.btnCancel)
 
+        user = getUserExtra() ?: User()
         // Điền sẵn thông tin cũ vào 3 ô của component
-        formUser.user = getUserExtra() ?: User()
+        formUser.user = user
 
         btnSave.setOnClickListener(this)
         btnCancel.setOnClickListener(this)
@@ -37,7 +41,8 @@ class EditUserAct : Activity(), View.OnClickListener {
                     return
                 }
 
-                val result = Intent().putExtra("user", formUser.user)
+                user = formUser.user
+                val result = Intent().putExtra("user", user)
                 setResult(RESULT_OK, result)
                 finish()
             }

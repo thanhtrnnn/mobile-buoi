@@ -613,15 +613,35 @@
             <thead><tr><th>Layout XML</th><th>Activity</th><th>Trường dữ liệu chính</th><th>Hàm xử lý</th></tr></thead>
             <tbody>
               <tr><td><code>login.xml</code></td><td><code>LoginAct</code></td><td><code>txtUN</code>, <code>txtPW</code>, <code>btnLogin</code></td><td><code>onCreate()</code>, <code>onClick()</code></td></tr>
-              <tr><td><code>userhome.xml</code></td><td><code>UserhomeAct</code></td><td><code>txtWelcome</code>, <code>btnAdd</code>, <code>lwUsers</code>, <code>listUser: ArrayList&lt;User&gt;</code>, <code>user: User</code></td><td><code>onCreate()</code>, <code>onClick()</code>, <code>onResume()</code>, <code>onActivityResult()</code></td></tr>
+              <tr><td><code>userhome.xml</code></td><td><code>UserhomeAct</code></td><td><code>lblWelcome</code>, <code>btnAdd</code>, <code>lwUsers</code>, <code>listUser: ArrayList&lt;User&gt;</code>, <code>user: User</code></td><td><code>onCreate()</code>, <code>onClick()</code>, <code>onResume()</code>, <code>onActivityResult()</code></td></tr>
               <tr><td><code>adduser.xml</code></td><td><code>AddUserAct</code></td><td><code>formUser: UserFormView</code>, <code>btnAdd</code>, <code>btnCancel</code></td><td><code>onCreate()</code>, <code>onClick()</code></td></tr>
               <tr><td><code>viewuser.xml</code></td><td><code>ViewUserAct</code></td><td><code>btnEdit</code>, <code>btnDel</code>, <code>user: User</code>, <code>position: Int</code></td><td><code>onCreate()</code>, <code>onClick()</code>, <code>onResume()</code>, <code>onActivityResult()</code></td></tr>
-              <tr><td><code>edituser.xml</code></td><td><code>EditUserAct</code></td><td><code>formUser: UserFormView</code>, <code>btnSave</code>, <code>btnCancel</code></td><td><code>onCreate()</code>, <code>onClick()</code></td></tr>
+              <tr><td><code>edituser.xml</code></td><td><code>EditUserAct</code></td><td><code>formUser: UserFormView</code>, <code>btnSave</code>, <code>btnCancel</code>, <code>user: User</code></td><td><code>onCreate()</code>, <code>onClick()</code></td></tr>
               <tr><td><code>view_user_form.xml</code></td><td><code>UserFormView</code></td><td><code>txtUN</code>, <code>txtPW</code>, <code>txtName : EditText</code></td><td><code>user</code> (get/set), <code>isFilled()</code></td></tr>
               <tr><td colspan="2"><code>User</code> (model, <code>Serializable</code>)</td><td colspan="2"><code>username</code>, <code>password</code>, <code>fullname : String</code></td></tr>
             </tbody>
           </table>
         </div>
+
+        <h3 class="sub">Kết quả rà soát code so với sơ đồ lớp trong slide</h3>
+        <p>Đối chiếu từng ô trong sơ đồ với code thật. Cột cuối nói rõ chỗ nào lệch và vì sao.</p>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Ô trong UML</th><th>Trạng thái</th><th>Ghi chú</th></tr></thead>
+          <tbody>
+            <tr><td><code>login.xml</code>, <code>LoginAct</code></td><td>Khớp</td><td>Đủ 6 view, đúng tên; Activity đúng 3 trường + <code>onCreate</code>/<code>onClick</code></td></tr>
+            <tr><td><code>User</code></td><td>Khớp</td><td>Đúng 3 thuộc tính <code>String</code></td></tr>
+            <tr><td><code>UserhomeAct</code></td><td>Khớp</td><td>Có đủ <code>lblWelcome</code>, <code>btnAdd</code>, <code>listUser</code>, <code>user</code> + 3 hàm. Code thêm <code>lwUsers</code>, <code>adapter</code>, <code>onActivityResult</code> — bắt buộc phải có để chạy được, UML chỉ vẽ giản lược</td></tr>
+            <tr><td><code>ViewAct</code></td><td>Khớp</td><td>Có đủ <code>btnEdit</code>, <code>btnDel</code>, <code>user</code> + 3 hàm. Thêm <code>position</code>, <code>wasUpdated</code> để trả kết quả về Home</td></tr>
+            <tr><td><code>userhome.xml</code></td><td>Đã sửa</td><td>Slide tự mâu thuẫn: ô layout ghi <code>lblWelcome</code>, ô <code>UserhomeAct</code> ghi <code>txtWelcome</code>. Code đã thống nhất dùng <code>lblWelcome</code> ở cả hai</td></tr>
+            <tr><td><code>viewuser.xml</code></td><td>UML thiếu</td><td>Sơ đồ chỉ vẽ <code>lblUN</code>, <code>lblPW</code> — nhưng wireframe có dòng "Fullname: Nguyễn A", nên code có thêm <code>lblName</code></td></tr>
+            <tr><td><code>add.xml</code> / <code>edit.xml</code><br><code>AddAct</code> / <code>EditAct</code></td><td>Lệch có chủ đích</td><td>6 view (<code>lblUN/lblPW/lblName</code> + <code>txtUN/txtPW/txtName</code>) đã chuyển vào <code>UserFormView</code>; Activity giữ <code>formUser</code> thay cho 3 <code>EditText</code>. Xem mục 05B</td></tr>
+            <tr><td>(không có trong UML)</td><td>Lớp mới</td><td><code>UserFormView</code> + <code>view_user_form.xml</code></td></tr>
+          </tbody>
+        </table></div>
+        <p style="font-size:13px">Về tên gọi: hình vẽ dùng tên rút gọn <code>add.xml</code>/<code>edit.xml</code>,
+        <code>AddAct</code>/<code>ViewAct</code>/<code>EditAct</code>; còn phần chữ ở trang 4 của slide lại ghi
+        <code>adduser.xml</code>, <code>edituser.xml</code>, <code>AddUserAct</code>, <code>ViewUserAct</code>,
+        <code>EditUserAct</code>. Code theo phần chữ — đây mới là yêu cầu viết ra thành lời của đề bài.</p>
       </section>
 
       <section class="block" id="tra-cuu-id">
@@ -644,7 +664,7 @@
         <div class="table-wrap"><table>
           <thead><tr><th>id</th><th>Loại View</th><th>Vai trò</th></tr></thead>
           <tbody>
-            <tr><td><code>txtWelcome</code></td><td>TextView</td><td>"Xin chào &lt;fullname&gt;" góc trên</td></tr>
+            <tr><td><code>lblWelcome</code></td><td>TextView</td><td>"Xin chào &lt;fullname&gt;" góc trên</td></tr>
             <tr><td><code>lblTitle</code></td><td>TextView</td><td>Tiêu đề "Quản lí người dùng"</td></tr>
             <tr><td><code>btnAdd</code></td><td>Button</td><td>Mở AddUserAct (chờ kết quả)</td></tr>
             <tr><td><code>lwUsers</code></td><td>ListView</td><td>Danh sách người dùng, mỗi dòng bấm mở ViewUserAct</td></tr>
@@ -784,7 +804,7 @@ formUser.user = getUserExtra() ?: User()</pre>
         <code>txtName : EditText</code>. Sau khi gộp, 3 trường đó chuyển vào <code>UserFormView</code>, còn Activity chỉ
         giữ một trường <code>formUser : UserFormView</code>. Về mặt kiến trúc đây là cải tiến (bớt lặp, dễ bảo trì), nhưng
         <strong>không còn khớp 1–1 với hình vẽ trong slide</strong>. Nếu bài nộp yêu cầu đúng y UML, bản trước khi gộp vẫn
-        nằm trong git (<code>git show ec99a79</code>) để quay lại được.</div>
+        nằm trong git (<code>git show 7ac24f8</code>) để quay lại được.</div>
       </section>
 
       <section class="block" id="kich-ban">
@@ -1028,7 +1048,7 @@ txtEmail = findViewById(R.id.txtEmail)
         <p><strong>Nguyên nhân thật</strong> (xác nhận bằng <code>adb shell uiautomator dump</code> — xem tọa độ thật của
         từng View đang vẽ ở đâu): dự án target SDK 35 (Android 15), và Android 15 <strong>mặc định ép mọi app vẽ nội dung
         edge-to-edge</strong> — content tràn ra sau cả action bar thay vì được tự động chừa chỗ bên dưới nó như các bản
-        Android cũ. txtWelcome và tiêu đề <em>vẫn render đúng vị trí</em>, chỉ là bị action bar đè lên che mất; ListView
+        Android cũ. lblWelcome và tiêu đề <em>vẫn render đúng vị trí</em>, chỉ là bị action bar đè lên che mất; ListView
         (đủ cao, kéo dài xuống dưới action bar) là thứ duy nhất còn lộ ra ngoài.</p>
         <p><strong>Cách sửa</strong> — tắt hẳn việc ép edge-to-edge ở theme, thay vì viết code xử lý inset (đúng tinh thần
         "cực kỳ đơn giản" của dự án):</p>
@@ -1124,7 +1144,7 @@ adb pull /sdcard/dump.xml .
         </div>
         <p style="font-size:13px">Đây chính là cách đã lật ra Sự cố 1: <code>action_bar_container</code> có
         <code>bounds="[0,0][1344,327]"</code>, còn nội dung màn hình cũng bắt đầu từ <code>[0,0]</code> — hai vùng chồng
-        lên nhau, dù txtWelcome vẫn có tọa độ đúng bên trong vùng bị che.</p>
+        lên nhau, dù lblWelcome vẫn có tọa độ đúng bên trong vùng bị che.</p>
       </section>
 
       <section class="block" id="build">

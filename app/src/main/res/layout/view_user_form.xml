@@ -1,9 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Phần thân dùng chung của màn Thêm và màn Sửa người dùng.
-  Dùng <merge> để các View được gắn thẳng vào UserFormView (vốn đã là
-  ConstraintLayout), không sinh thêm một lớp ViewGroup lồng vô ích.
--->
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"

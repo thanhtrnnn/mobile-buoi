@@ -6,7 +6,7 @@
     android:padding="20dp">
 
     <TextView
-        android:id="@+id/txtWelcome"
+        android:id="@+id/lblWelcome"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="end"
@@ -29,7 +29,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtWelcome" />
+        app:layout_constraintTop_toBottomOf="@+id/lblWelcome" />
 
     <Button
         android:id="@+id/btnAdd"
