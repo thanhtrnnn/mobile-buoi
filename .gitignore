@@ -1,0 +1,18 @@
+# Build outputs
+/build/
+app/build/
+*.apk
+*.aab
+
+# Gradle
+.gradle/
+
+# IDE
+.idea/
+*.iml
+
+# Local machine config (contains machine-specific SDK path)
+local.properties
+
+# macOS
+.DS_Store

@@ -1,0 +1,1012 @@
+<title>Sổ Tay Bai03</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #F2F6F5;
+    --surface: #FFFFFF;
+    --surface-2: #EAF1EF;
+    --border: #D9E3E0;
+    --text: #16231F;
+    --text-2: #52625D;
+    --text-3: #7C8B86;
+    --accent: #0E8C7C;
+    --accent-strong: #0A6E62;
+    --accent-soft: #DCF3EE;
+    --danger: #B23A2E;
+    --danger-soft: #FBE6E3;
+    --code-bg: #101B19;
+    --code-text: #DCEFEA;
+    --code-text-dim: #8FADA5;
+    --code-accent: #6FE0C6;
+    --code-string: #E8C08A;
+    --code-border: #22322D;
+    --chip-bg: #FFFFFF;
+    --shadow: 0 1px 2px rgba(16, 30, 26, 0.06), 0 6px 20px rgba(16, 30, 26, 0.05);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0D1513;
+      --surface: #15201D;
+      --surface-2: #182420;
+      --border: #253430;
+      --text: #E7F2EF;
+      --text-2: #9AB0AA;
+      --text-3: #718882;
+      --accent: #3FD1B8;
+      --accent-strong: #6FE9D3;
+      --accent-soft: #16302B;
+      --danger: #E4685A;
+      --danger-soft: #2E1917;
+      --code-bg: #0A1211;
+      --code-text: #DCEFEA;
+      --code-text-dim: #7E9691;
+      --code-accent: #6FE0C6;
+      --code-string: #E8C08A;
+      --code-border: #21302B;
+      --chip-bg: #15201D;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0D1513;
+    --surface: #15201D;
+    --surface-2: #182420;
+    --border: #253430;
+    --text: #E7F2EF;
+    --text-2: #9AB0AA;
+    --text-3: #718882;
+    --accent: #3FD1B8;
+    --accent-strong: #6FE9D3;
+    --accent-soft: #16302B;
+    --danger: #E4685A;
+    --danger-soft: #2E1917;
+    --code-bg: #0A1211;
+    --code-text: #DCEFEA;
+    --code-text-dim: #7E9691;
+    --code-accent: #6FE0C6;
+    --code-string: #E8C08A;
+    --code-border: #21302B;
+    --chip-bg: #15201D;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "IBM Plex Sans", -apple-system, "Segoe UI", sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 { font-family: "IBM Plex Sans", sans-serif; font-weight: 600; text-wrap: balance; color: var(--text); }
+  code, pre, .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+  a { color: var(--accent-strong); }
+  p { color: var(--text-2); max-width: 68ch; }
+
+  .shell {
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr);
+    max-width: 1240px;
+    margin: 0 auto;
+  }
+
+  /* ---------- Sidebar ---------- */
+  .sidebar {
+    position: sticky;
+    top: 0;
+    align-self: start;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 28px 18px 40px 24px;
+    border-right: 1px solid var(--border);
+  }
+  .sidebar-brand {
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    margin-bottom: 4px;
+  }
+  .sidebar-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 22px;
+  }
+  .sidebar nav { display: flex; flex-direction: column; gap: 2px; }
+  .sidebar nav a {
+    display: block;
+    text-decoration: none;
+    color: var(--text-2);
+    font-size: 13.5px;
+    padding: 7px 10px;
+    border-radius: 7px;
+    border-left: 2px solid transparent;
+  }
+  .sidebar nav a:hover { background: var(--surface-2); color: var(--text); }
+  .sidebar nav a.active {
+    background: var(--accent-soft);
+    color: var(--accent-strong);
+    border-left-color: var(--accent);
+    font-weight: 500;
+  }
+  .sidebar nav .group-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-3);
+    margin: 16px 0 6px 10px;
+  }
+  .sidebar nav .group-label:first-child { margin-top: 0; }
+  .mobile-toc { display: none; }
+
+  /* ---------- Main ---------- */
+  main { padding: 40px 40px 100px; min-width: 0; }
+  .content-col { max-width: 780px; }
+
+  header.hero {
+    margin-bottom: 40px;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent-strong);
+    background: var(--accent-soft);
+    padding: 5px 10px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+  }
+  h1.page-title { font-size: 34px; margin: 0 0 10px; letter-spacing: -0.01em; }
+  .lede { font-size: 15.5px; color: var(--text-2); max-width: 62ch; }
+
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    margin-top: 26px;
+    max-width: 780px;
+  }
+  .stat-tile {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    box-shadow: var(--shadow);
+  }
+  .stat-tile .label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-3); margin-bottom: 4px; }
+  .stat-tile .value { font-size: 14px; font-weight: 600; color: var(--text); font-family: "IBM Plex Mono", monospace; }
+
+  section.block { margin: 56px 0; scroll-margin-top: 24px; }
+  section.block h2 {
+    font-size: 22px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 20px;
+  }
+  section.block h2 .num { color: var(--text-3); font-weight: 500; margin-right: 8px; }
+  h3.sub { font-size: 16px; margin: 28px 0 10px; }
+  h4.tiny { font-size: 13px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-3); margin: 20px 0 8px; }
+
+  /* ---------- Code blocks ---------- */
+  .code-block {
+    background: var(--code-bg);
+    border: 1px solid var(--code-border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 14px 0;
+    max-width: 780px;
+  }
+  .code-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 14px;
+    font-size: 11.5px;
+    color: var(--code-text-dim);
+    border-bottom: 1px solid var(--code-border);
+    font-family: "IBM Plex Mono", monospace;
+    letter-spacing: 0.02em;
+  }
+  .code-head .tag {
+    color: var(--code-accent);
+    font-weight: 600;
+  }
+  pre.code {
+    margin: 0;
+    padding: 14px 16px;
+    overflow-x: auto;
+    font-size: 12.8px;
+    line-height: 1.65;
+    color: var(--code-text);
+  }
+  pre.code .kw { color: var(--code-accent); }
+  pre.code .str { color: var(--code-string); }
+  pre.code .cm { color: var(--code-text-dim); font-style: italic; }
+  pre.code .attr { color: #9FD1F5; }
+
+  .code-pair { display: grid; grid-template-columns: 1fr; gap: 10px; }
+  @media (min-width: 720px) {
+    .code-pair.two { grid-template-columns: 1fr 1fr; }
+  }
+  .code-pair .code-block { margin: 0; }
+
+  /* ---------- Tables ---------- */
+  .table-wrap { overflow-x: auto; max-width: 780px; border: 1px solid var(--border); border-radius: 10px; }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; min-width: 560px; }
+  thead th {
+    text-align: left;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-3);
+    background: var(--surface-2);
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  tbody td {
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-2);
+    vertical-align: top;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  td code, th code { font-family: "IBM Plex Mono", monospace; font-size: 12px; background: var(--surface-2); padding: 1px 5px; border-radius: 4px; color: var(--text); }
+
+  /* ---------- Flow diagram ---------- */
+  .flow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 18px 0 26px;
+  }
+  .flow-node {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: var(--shadow);
+    text-align: center;
+  }
+  .flow-node .file { display: block; font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--text-3); font-weight: 400; margin-top: 2px; }
+  .flow-arrow { color: var(--text-3); font-size: 15px; }
+  .flow-branch { display: flex; flex-direction: column; gap: 8px; }
+
+  /* ---------- Callouts ---------- */
+  .callout {
+    max-width: 780px;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    background: var(--surface);
+    border-radius: 0 10px 10px 0;
+    padding: 12px 16px;
+    margin: 18px 0;
+    font-size: 13.5px;
+    color: var(--text-2);
+  }
+  .callout strong { color: var(--text); }
+  .callout.warn { border-left-color: var(--danger); }
+  .callout.warn strong { color: var(--danger); }
+
+  /* ---------- Scenario cards ---------- */
+  .scenario {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+    margin-bottom: 14px;
+    max-width: 780px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .scenario summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 16px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    font-size: 14.5px;
+  }
+  .scenario summary::-webkit-details-marker { display: none; }
+  .scenario summary .chev {
+    margin-left: auto;
+    color: var(--text-3);
+    transition: transform 0.15s ease;
+    font-size: 12px;
+  }
+  .scenario[open] summary .chev { transform: rotate(90deg); }
+  .scenario summary .idx {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    color: var(--accent-strong);
+    background: var(--accent-soft);
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-weight: 600;
+  }
+  .scenario-body { padding: 0 18px 20px; }
+  .scenario-goal { font-size: 13.5px; color: var(--text-2); margin-bottom: 10px; }
+  .file-list { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .file-chip {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11.5px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    padding: 3px 8px;
+    border-radius: 6px;
+    color: var(--text-2);
+  }
+  .step-label { font-size: 12px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.04em; margin: 14px 0 6px; }
+
+  /* ---------- misc ---------- */
+  .kbd {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11.5px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-bottom-width: 2px;
+    padding: 1px 6px;
+    border-radius: 5px;
+  }
+  ul.tight { margin: 8px 0; padding-left: 20px; color: var(--text-2); font-size: 13.5px; }
+  ul.tight li { margin-bottom: 4px; }
+  footer { max-width: 780px; padding: 30px 0 10px; color: var(--text-3); font-size: 12px; border-top: 1px solid var(--border); margin-top: 60px; }
+
+  @media (max-width: 900px) {
+    .shell { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    .mobile-toc {
+      display: block;
+      margin: 16px 40px 0;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface);
+    }
+    .mobile-toc summary { padding: 12px 16px; font-weight: 600; font-size: 13.5px; cursor: pointer; }
+    .mobile-toc nav { padding: 0 16px 14px; display: flex; flex-direction: column; gap: 2px; }
+    .mobile-toc nav a { color: var(--text-2); text-decoration: none; font-size: 13px; padding: 5px 0; }
+    main { padding: 24px 20px 80px; }
+  }
+</style>
+
+<div class="shell">
+  <aside class="sidebar">
+    <div class="sidebar-brand">PTIT · Lập trình mobile</div>
+    <div class="sidebar-title">Sổ tay Bai03</div>
+    <nav id="navlinks">
+      <div class="group-label">Tổng quan</div>
+      <a href="#tong-quan">Ứng dụng &amp; mục tiêu</a>
+      <a href="#kien-truc">Kiến trúc thư mục</a>
+      <a href="#luong-man-hinh">Luồng màn hình</a>
+      <div class="group-label">Nền tảng</div>
+      <a href="#khai-niem">Khái niệm Android cốt lõi</a>
+      <a href="#uml">Lớp &amp; UML đối chiếu code</a>
+      <a href="#tra-cuu-id">Tra cứu id theo màn hình</a>
+      <div class="group-label">Thực hành</div>
+      <a href="#kich-ban">Kịch bản sửa UI</a>
+      <a href="#su-co">Sự cố thực tế &amp; cách khắc phục</a>
+      <a href="#build">Build &amp; chạy lại</a>
+    </nav>
+  </aside>
+
+  <main>
+    <details class="mobile-toc">
+      <summary>Mục lục</summary>
+      <nav>
+        <a href="#tong-quan">Ứng dụng &amp; mục tiêu</a>
+        <a href="#kien-truc">Kiến trúc thư mục</a>
+        <a href="#luong-man-hinh">Luồng màn hình</a>
+        <a href="#khai-niem">Khái niệm Android cốt lõi</a>
+        <a href="#uml">Lớp &amp; UML đối chiếu code</a>
+        <a href="#tra-cuu-id">Tra cứu id theo màn hình</a>
+        <a href="#kich-ban">Kịch bản sửa UI</a>
+        <a href="#su-co">Sự cố thực tế &amp; cách khắc phục</a>
+        <a href="#build">Build &amp; chạy lại</a>
+      </nav>
+    </details>
+
+    <div class="content-col">
+      <header class="hero" id="tong-quan">
+        <div class="eyebrow">Bai03 · Quản lý người dùng (chưa CSDL)</div>
+        <h1 class="page-title">Sổ tay đọc hiểu &amp; chỉnh sửa giao diện</h1>
+        <p class="lede">
+          Tài liệu tra cứu cho ứng dụng Android (Kotlin, View system cổ điển — không Jetpack Compose)
+          hiện thực đúng theo slide b01–b03: đăng nhập hardcode, danh sách người dùng, thêm / xem / sửa / xóa,
+          toàn bộ dữ liệu lưu trong bộ nhớ (ArrayList), không có CSDL. Mục tiêu của trang này: đọc xong là
+          biết mọi thành phần UI nằm ở đâu, sinh ra thế nào, và cách đổi nó theo ý muốn.
+        </p>
+        <div class="stat-row">
+          <div class="stat-tile"><div class="label">Package</div><div class="value">ptit.cnpm1.tranxuanthanh.bai03</div></div>
+          <div class="stat-tile"><div class="label">Ngôn ngữ</div><div class="value">Kotlin, XML layout</div></div>
+          <div class="stat-tile"><div class="label">Kiến trúc</div><div class="value">5 Activity, không Fragment</div></div>
+          <div class="stat-tile"><div class="label">Dữ liệu</div><div class="value">ArrayList&lt;User&gt; trong RAM</div></div>
+          <div class="stat-tile"><div class="label">Build</div><div class="value">build_and_run.sh (thủ công)</div></div>
+        </div>
+      </header>
+
+      <section class="block" id="kien-truc">
+        <h2><span class="num">01</span>Kiến trúc thư mục</h2>
+        <p>Toàn bộ mã nguồn Kotlin của bài 3 nằm trong một package. Layout dùng chung thư mục <code>res/layout</code> với các bài trước, vì cả module chỉ có một <code>res/</code> duy nhất.</p>
+        <div class="code-block">
+          <div class="code-head"><span class="tag">tree</span><span>app/src/main</span></div>
+          <pre class="code"><span class="cm">app/src/main/</span>
+├── AndroidManifest.xml            <span class="cm">← package = bai03, khai báo 5 Activity</span>
+├── java/ptit/cnpm1/tranxuanthanh/
+│   ├── bai02/                     <span class="cm">← bài trước, còn giữ lại, KHÔNG build nữa</span>
+│   └── bai03/
+│       ├── User.kt                <span class="cm">← model dùng chung mọi màn hình</span>
+│       ├── LoginAct.kt
+│       ├── UserhomeAct.kt
+│       ├── AddUserAct.kt
+│       ├── ViewUserAct.kt
+│       └── EditUserAct.kt
+└── res/
+    ├── layout/
+    │   ├── login.xml
+    │   ├── userhome.xml
+    │   ├── adduser.xml
+    │   ├── viewuser.xml
+    │   └── edituser.xml
+    ├── drawable/
+    │   ├── bg_list_item.xml       <span class="cm">← viền trắng/đen đơn giản cho mỗi dòng danh sách</span>
+    │   └── bg_input.xml           <span class="cm">← viền trắng/đen cho mọi EditText (khung ô nhập)</span>
+    └── values/
+        ├── colors.xml             <span class="cm">← chỉ giữ màu gốc, KHÔNG thêm màu tùy biến</span>
+        ├── strings.xml
+        └── themes.xml             <span class="cm">← Theme.LoginApp, xem mục 07 vì sao cần file này</span></pre>
+        </div>
+        <div class="callout warn">
+          <strong>Lưu ý dễ nhầm.</strong> Vì chỉ có một <code>res/layout</code> dùng chung, khi sửa <code>login.xml</code>
+          hay <code>userhome.xml</code> là sửa cho cả bai02 lẫn bai03 — nhưng <code>build_and_run.sh</code> hiện chỉ biên dịch
+          các file <code>.kt</code> trong <code>bai03</code>, nên bai02 coi như không còn build được nữa. Nếu sau này làm
+          bai04, lặp lại đúng 3 chỗ cần đổi: <code>applicationId</code>/<code>namespace</code> trong
+          <code>app/build.gradle.kts</code>, <code>package</code> trong <code>AndroidManifest.xml</code>, và danh sách
+          file trong <code>build_and_run.sh</code>.
+        </div>
+        <div class="callout">
+          <strong>Nguyên tắc giao diện của dự án này.</strong> UI luôn giữ <strong>cực kỳ đơn giản</strong>, bám sát đúng
+          từng chi tiết trong wireframe của slide — không tự thêm màu nền, không "card" bo góc/đổ bóng, không phóng tác:
+          <ul class="tight">
+            <li><strong>Ô nhập liệu (EditText)</strong> có khung viền đen/trắng rõ ràng (<code>bg_input.xml</code>) — đúng
+            như các ô vuông trong wireframe, không dùng kiểu gạch chân mặc định của Android.</li>
+            <li><strong>Nút bấm (Button)</strong> chỉ là chữ đậm, <code>background="@android:color/transparent"</code> —
+            không nền xám, không viền, không đổ bóng — đúng như "Login", "Thêm", "Sửa"... trong wireframe chỉ là chữ.</li>
+            <li><strong>Cỡ chữ lớn, nội dung căn giữa theo chiều dọc</strong> trong khung màn hình (trừ Home vì có danh
+            sách cần chiếm phần còn lại) — để trông "to, rõ, giống hệt wireframe" thay vì bé tí dồn lên góc trên.</li>
+            <li><strong>Tiêu đề mỗi màn hình</strong> ("Login", "Thêm/Xem/Sửa người dùng", "Quản lí người dùng") luôn
+            <code>android:gravity="center"</code> trên <code>layout_width="match_parent"</code> và cỡ chữ lớn hơn hẳn nội
+            dung bên dưới — nổi bật đúng như wireframe.</li>
+            <li><strong>Nhãn + ô nhập nằm cùng một hàng ngang</strong> (label cố định bề rộng, ô nhập chiếm phần còn lại) —
+            giống hệt cách bố trí "Username: [ô nhập]" trong wireframe, không tách label ở dòng trên và ô nhập ở dòng
+            dưới.</li>
+          </ul>
+          Ngoài 3 điểm trên, mọi thứ khác (màu sắc, icon, hiệu ứng) đều <strong>không</strong> có trong baseline — các kịch
+          bản thêm màu/hiệu ứng ở mục 06 là <em>tùy chọn để luyện tập</em>, không phải giao diện mặc định.
+        </div>
+      </section>
+
+      <section class="block" id="luong-man-hinh">
+        <h2><span class="num">02</span>Luồng màn hình</h2>
+        <p>Toàn bộ điều hướng dùng <code>Intent</code> tường minh. Bốn màn hình Add / View / Edit trả dữ liệu về qua
+        <code>startActivityForResult</code> + <code>onActivityResult</code> (API cũ nhưng đúng chuẩn vì các Activity ở đây
+        kế thừa <code>android.app.Activity</code> thuần, không phải <code>ComponentActivity</code>).</p>
+        <div class="flow">
+          <div class="flow-node">LoginAct<span class="file">login.xml</span></div>
+          <div class="flow-arrow">→ đăng nhập đúng →</div>
+          <div class="flow-node">UserhomeAct<span class="file">userhome.xml · ListView</span></div>
+        </div>
+        <div class="flow">
+          <div class="flow-node" style="margin-left:32px">↳ bấm "Thêm mới"</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">AddUserAct<span class="file">adduser.xml</span></div>
+          <div class="flow-arrow">→ Thêm/Hủy →</div>
+          <div class="flow-node">quay về Home<span class="file">cập nhật ArrayList</span></div>
+        </div>
+        <div class="flow">
+          <div class="flow-node" style="margin-left:32px">↳ bấm 1 dòng trong danh sách</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">ViewUserAct<span class="file">viewuser.xml</span></div>
+        </div>
+        <div class="flow">
+          <div class="flow-node" style="margin-left:64px">↳ Xóa</div>
+          <div class="flow-arrow">→ dialog xác nhận →</div>
+          <div class="flow-node">về Home, xóa khỏi danh sách</div>
+        </div>
+        <div class="flow">
+          <div class="flow-node" style="margin-left:64px">↳ Sửa</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">EditUserAct<span class="file">edituser.xml</span></div>
+          <div class="flow-arrow">→ Lưu →</div>
+          <div class="flow-node">về ViewUserAct<span class="file">rồi mới về Home khi back</span></div>
+        </div>
+      </section>
+
+      <section class="block" id="khai-niem">
+        <h2><span class="num">03</span>Khái niệm Android cốt lõi cần biết</h2>
+        <p>Bám sát đúng những gì code trong bai03 thật sự dùng — biết chừng này là đọc hiểu &amp; sửa được toàn bộ app.</p>
+
+        <h3 class="sub">Activity &amp; vòng đời</h3>
+        <p>Mỗi màn hình là một lớp kế thừa <code>Activity</code>. <code>onCreate()</code> chạy một lần khi màn hình được tạo — nơi gọi
+        <code>setContentView(R.layout.xxx)</code> và <code>findViewById</code>. <code>onResume()</code> chạy mỗi lần màn hình
+        hiện lại trên màn hình (kể cả sau khi từ màn khác quay về) — dùng để làm mới dữ liệu hiển thị.</p>
+
+        <h3 class="sub">Liên kết XML ↔ Kotlin qua id</h3>
+        <p>Mỗi thẻ trong layout XML có <code>android:id="@+id/tenId"</code>. Android sinh ra hằng số <code>R.id.tenId</code>,
+        và <code>findViewById&lt;Kiểu&gt;(R.id.tenId)</code> lấy đúng View đó ra để thao tác trong Kotlin. Đổi giao diện gần như
+        luôn bắt đầu từ việc tìm đúng id này trong <a href="#tra-cuu-id">bảng tra cứu</a> bên dưới.</p>
+
+        <h3 class="sub">Intent — truyền dữ liệu giữa màn hình</h3>
+        <p><code>Intent(this, DichAct::class.java)</code> mở màn hình đích; <code>putExtra("khoa", giaTri)</code> gửi kèm dữ liệu.
+        Vì <code>User</code> implement <code>Serializable</code>, cả object <code>User</code> có thể gửi nguyên vẹn qua
+        <code>putExtra("user", user)</code> và lấy lại bằng <code>getSerializableExtra("user", User::class.java)</code>.</p>
+
+        <h3 class="sub">startActivityForResult / onActivityResult / setResult</h3>
+        <p>Khi một màn hình cần <em>trả kết quả</em> về màn hình đã mở nó (ví dụ AddUserAct trả User mới về Home), dùng
+        <code>startActivityForResult(intent, requestCode)</code> thay vì <code>startActivity</code>. Màn con gọi
+        <code>setResult(RESULT_OK, intent)</code> rồi <code>finish()</code>; màn cha nhận lại trong
+        <code>onActivityResult(requestCode, resultCode, data)</code>. Mỗi màn cha có thể mở nhiều màn con khác nhau,
+        nên dùng <code>requestCode</code> (hằng số như <code>REQ_ADD</code>, <code>REQ_VIEW</code>) để phân biệt kết quả nào
+        đến từ đâu.</p>
+
+        <h3 class="sub">ListView + Adapter</h3>
+        <p><code>ListView</code> tự nó không biết vẽ gì — nó hỏi một <code>Adapter</code> "dòng thứ N trông như thế nào?".
+        <code>UserhomeAct</code> tạo một <code>ArrayAdapter&lt;User&gt;</code> tùy biến, ghi đè <code>getView()</code> để tự
+        set text hai dòng (username in đậm, fullname bên dưới) và nền bo góc cho mỗi dòng.</p>
+
+        <h3 class="sub">Toast &amp; AlertDialog</h3>
+        <p><code>Toast.makeText(...).show()</code>: thông báo ngắn tự biến mất, dùng cho lỗi đăng nhập / thiếu dữ liệu.
+        <code>AlertDialog.Builder(this)...show()</code>: hộp thoại có nút bấm, dùng cho xác nhận xóa người dùng
+        trong <code>ViewUserAct</code>.</p>
+
+        <h3 class="sub">Drawable shape — vẽ nền không cần ảnh</h3>
+        <p>File trong <code>res/drawable/</code> dạng <code>&lt;shape&gt;</code> mô tả một hình chữ nhật bo góc + viền, dùng
+        làm <code>android:background</code> cho bất kỳ View nào. Đây là cách toàn bộ "card" bo góc trong app được vẽ ra,
+        không cần ảnh PNG.</p>
+      </section>
+
+      <section class="block" id="uml">
+        <h2><span class="num">04</span>Lớp &amp; UML đối chiếu code thật</h2>
+        <p>Đúng theo sơ đồ lớp trong slide b03, đối chiếu tên thật trong code (slide dùng tên rút gọn <code>AddAct</code> /
+        <code>ViewAct</code> / <code>EditAct</code> trong hình vẽ, nhưng phần chữ và code dùng tên đầy đủ
+        <code>AddUserAct</code> / <code>ViewUserAct</code> / <code>EditUserAct</code>).</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Layout XML</th><th>Activity</th><th>Trường dữ liệu chính</th><th>Hàm xử lý</th></tr></thead>
+            <tbody>
+              <tr><td><code>login.xml</code></td><td><code>LoginAct</code></td><td><code>txtUN</code>, <code>txtPW</code>, <code>btnLogin</code></td><td><code>onCreate()</code>, <code>onClick()</code></td></tr>
+              <tr><td><code>userhome.xml</code></td><td><code>UserhomeAct</code></td><td><code>txtWelcome</code>, <code>btnAdd</code>, <code>lwUsers</code>, <code>listUser: ArrayList&lt;User&gt;</code>, <code>user: User</code></td><td><code>onCreate()</code>, <code>onClick()</code>, <code>onResume()</code>, <code>onActivityResult()</code></td></tr>
+              <tr><td><code>adduser.xml</code></td><td><code>AddUserAct</code></td><td><code>txtUN</code>, <code>txtPW</code>, <code>txtName</code>, <code>btnAdd</code>, <code>btnCancel</code></td><td><code>onCreate()</code>, <code>onClick()</code></td></tr>
+              <tr><td><code>viewuser.xml</code></td><td><code>ViewUserAct</code></td><td><code>btnEdit</code>, <code>btnDel</code>, <code>user: User</code>, <code>position: Int</code></td><td><code>onCreate()</code>, <code>onClick()</code>, <code>onResume()</code>, <code>onActivityResult()</code></td></tr>
+              <tr><td><code>edituser.xml</code></td><td><code>EditUserAct</code></td><td><code>txtUN</code>, <code>txtPW</code>, <code>txtName</code>, <code>btnSave</code>, <code>btnCancel</code>, <code>user: User</code></td><td><code>onCreate()</code>, <code>onClick()</code></td></tr>
+              <tr><td colspan="2"><code>User</code> (model, <code>Serializable</code>)</td><td colspan="2"><code>username</code>, <code>password</code>, <code>fullname : String</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="block" id="tra-cuu-id">
+        <h2><span class="num">05</span>Tra cứu id theo từng màn hình</h2>
+        <p>Bảng này là chỗ tra nhanh nhất khi muốn sửa một thành phần cụ thể: tìm màn hình → tìm id → biết đúng file XML
+        cần sửa giao diện và đúng dòng Kotlin đang thao tác với nó.</p>
+
+        <h4 class="tiny">login.xml — LoginAct</h4>
+        <div class="table-wrap"><table>
+          <thead><tr><th>id</th><th>Loại View</th><th>Vai trò</th></tr></thead>
+          <tbody>
+            <tr><td><code>lblLogin</code></td><td>TextView</td><td>Tiêu đề "Login"</td></tr>
+            <tr><td><code>txtUN</code></td><td>EditText</td><td>Nhập mã sinh viên (username)</td></tr>
+            <tr><td><code>txtPW</code></td><td>EditText</td><td>Nhập mật khẩu (ngày sinh 8 số)</td></tr>
+            <tr><td><code>btnLogin</code></td><td>Button</td><td>Kiểm tra hardcode, chuyển sang UserhomeAct</td></tr>
+          </tbody>
+        </table></div>
+
+        <h4 class="tiny">userhome.xml — UserhomeAct</h4>
+        <div class="table-wrap"><table>
+          <thead><tr><th>id</th><th>Loại View</th><th>Vai trò</th></tr></thead>
+          <tbody>
+            <tr><td><code>txtWelcome</code></td><td>TextView</td><td>"Xin chào &lt;fullname&gt;" góc trên</td></tr>
+            <tr><td><code>lblTitle</code></td><td>TextView</td><td>Tiêu đề "Quản lí người dùng"</td></tr>
+            <tr><td><code>btnAdd</code></td><td>Button</td><td>Mở AddUserAct (chờ kết quả)</td></tr>
+            <tr><td><code>lwUsers</code></td><td>ListView</td><td>Danh sách người dùng, mỗi dòng bấm mở ViewUserAct</td></tr>
+          </tbody>
+        </table></div>
+
+        <h4 class="tiny">adduser.xml — AddUserAct</h4>
+        <div class="table-wrap"><table>
+          <thead><tr><th>id</th><th>Loại View</th><th>Vai trò</th></tr></thead>
+          <tbody>
+            <tr><td><code>txtUN</code> / <code>txtPW</code> / <code>txtName</code></td><td>EditText</td><td>Username / Password / Fullname nhập mới</td></tr>
+            <tr><td><code>btnAdd</code></td><td>Button</td><td>Validate rồi trả <code>User</code> mới về Home</td></tr>
+            <tr><td><code>btnCancel</code></td><td>Button</td><td>Hủy, không trả gì (RESULT_CANCELED)</td></tr>
+          </tbody>
+        </table></div>
+
+        <h4 class="tiny">viewuser.xml — ViewUserAct</h4>
+        <div class="table-wrap"><table>
+          <thead><tr><th>id</th><th>Loại View</th><th>Vai trò</th></tr></thead>
+          <tbody>
+            <tr><td><code>lblUN</code> / <code>lblPW</code> / <code>lblName</code></td><td>TextView</td><td>Hiển thị thông tin chỉ đọc (password bị che bằng *)</td></tr>
+            <tr><td><code>btnEdit</code></td><td>Button</td><td>Mở EditUserAct, nhận lại User đã sửa</td></tr>
+            <tr><td><code>btnDel</code></td><td>Button</td><td>Mở AlertDialog xác nhận, rồi trả action="delete" về Home</td></tr>
+          </tbody>
+        </table></div>
+
+        <h4 class="tiny">edituser.xml — EditUserAct</h4>
+        <div class="table-wrap"><table>
+          <thead><tr><th>id</th><th>Loại View</th><th>Vai trò</th></tr></thead>
+          <tbody>
+            <tr><td><code>txtUN</code> / <code>txtPW</code> / <code>txtName</code></td><td>EditText</td><td>Đã điền sẵn giá trị cũ, cho sửa</td></tr>
+            <tr><td><code>btnSave</code></td><td>Button</td><td>Validate rồi trả <code>User</code> đã sửa về ViewUserAct</td></tr>
+            <tr><td><code>btnCancel</code></td><td>Button</td><td>Hủy, không trả gì</td></tr>
+          </tbody>
+        </table></div>
+      </section>
+
+      <section class="block" id="kich-ban">
+        <h2><span class="num">06</span>Kịch bản chỉnh sửa UI</h2>
+        <p>Sáu tình huống thực hành thường gặp nhất, đi từ dễ đến khó. Mỗi kịch bản nêu rõ mục tiêu, file cần đụng vào,
+        và đoạn code trước/sau để đối chiếu.</p>
+
+        <details class="scenario" open>
+          <summary><span class="idx">01</span>Đổi màu &amp; chữ nút "Login"<span class="chev">▸</span></summary>
+          <div class="scenario-body">
+            <div class="scenario-goal">Mục tiêu: đổi nút Login sang tiếng Việt và đổi màu nền nút — <strong>một ví dụ tùy
+            biến</strong>, không phải giao diện mặc định của app (mặc định phải giữ nguyên, không màu, đúng wireframe).</div>
+            <div class="file-list"><span class="file-chip">res/layout/login.xml</span></div>
+            <div class="step-label">Trước (baseline hiện tại — giữ nguyên nếu không cần tùy biến) → sau</div>
+            <div class="code-pair two">
+              <div class="code-block">
+                <div class="code-head"><span class="tag">XML</span><span>trước (baseline hiện tại)</span></div>
+                <pre class="code">&lt;Button
+    android:id=<span class="str">"@+id/btnLogin"</span>
+    android:layout_width=<span class="str">"wrap_content"</span>
+    android:layout_height=<span class="str">"wrap_content"</span>
+    android:minWidth=<span class="str">"140dp"</span>
+    android:background=<span class="str">"@android:color/transparent"</span>
+    android:textSize=<span class="str">"20sp"</span>
+    android:textStyle=<span class="str">"bold"</span>
+    android:text=<span class="str">"Login"</span> /&gt;</pre>
+              </div>
+              <div class="code-block">
+                <div class="code-head"><span class="tag">XML</span><span>sau (tùy biến)</span></div>
+                <pre class="code">&lt;Button
+    android:id=<span class="str">"@+id/btnLogin"</span>
+    android:layout_width=<span class="str">"wrap_content"</span>
+    android:layout_height=<span class="str">"wrap_content"</span>
+    android:minWidth=<span class="str">"140dp"</span>
+    android:textSize=<span class="str">"20sp"</span>
+    android:textStyle=<span class="str">"bold"</span>
+    android:text=<span class="str">"Đăng nhập"</span>
+    android:background=<span class="str">"@drawable/bg_input"</span>
+    android:backgroundTint=<span class="str">"#0E8C7C"</span>
+    android:textColor=<span class="str">"@color/white"</span> /&gt;</pre>
+              </div>
+            </div>
+            <div class="callout"><strong>Vì sao baseline đã có <code>background="@android:color/transparent"</code>?</strong>
+            Đó là cách duy nhất để nút chỉ hiện chữ đậm, không nền/không viền — mặc định Button của hệ thống luôn có nền
+            xám bo góc riêng. Muốn thêm màu nền thật sự (như ví dụ "sau"), phải đổi <code>background</code> sang một
+            drawable (ví dụ <code>bg_input.xml</code> có sẵn) rồi mới dùng <code>backgroundTint</code> để tô màu lên
+            drawable đó.</div>
+          </div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">02</span>Thêm gợi ý (hint) cho ô nhập liệu<span class="chev">▸</span></summary>
+          <div class="scenario-body">
+            <div class="scenario-goal">Mục tiêu: người dùng thấy chữ mờ gợi ý bên trong ô trống, biến mất khi họ gõ.</div>
+            <div class="file-list"><span class="file-chip">res/layout/login.xml</span><span class="file-chip">res/layout/adduser.xml</span><span class="file-chip">res/layout/edituser.xml</span></div>
+            <div class="step-label">Thêm thuộc tính <code>android:hint</code></div>
+            <div class="code-block">
+              <div class="code-head"><span class="tag">XML</span><span>login.xml — txtUN</span></div>
+              <pre class="code">&lt;EditText
+    android:id=<span class="str">"@+id/txtUN"</span>
+    android:layout_width=<span class="str">"match_parent"</span>
+    android:layout_height=<span class="str">"wrap_content"</span>
+    android:background=<span class="str">"@drawable/bg_input"</span>
+    android:padding=<span class="str">"10dp"</span>
+    android:textSize=<span class="str">"18sp"</span>
+    android:inputType=<span class="str">"text"</span>
+    android:hint=<span class="str">"Nhập mã sinh viên"</span> /&gt;</pre>
+            </div>
+            <div class="callout"><strong>Phân biệt <code>hint</code> và <code>text</code>.</strong> <code>hint</code> chỉ là chữ
+            mờ hiển thị khi ô rỗng, không phải giá trị thật — <code>txtUN.text.toString()</code> vẫn trả về chuỗi rỗng nếu
+            người dùng chưa gõ gì, kể cả khi có hint.</div>
+          </div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">03</span>Đổi giao diện từng dòng trong danh sách<span class="chev">▸</span></summary>
+          <div class="scenario-body">
+            <div class="scenario-goal">Mục tiêu: đổi màu/độ bo góc của từng dòng người dùng trong danh sách ở Home — ví
+            dụ tùy biến, mặc định app không dùng màu (chỉ viền đen/trắng theo đúng wireframe).</div>
+            <div class="file-list"><span class="file-chip">res/drawable/bg_list_item.xml</span><span class="file-chip">res/values/colors.xml</span></div>
+            <div class="step-label">Sửa nền dòng danh sách</div>
+            <div class="code-pair two">
+              <div class="code-block">
+                <div class="code-head"><span class="tag">XML</span><span>trước (baseline hiện tại)</span></div>
+                <pre class="code">&lt;shape android:shape=<span class="str">"rectangle"</span>&gt;
+    &lt;solid android:color=<span class="str">"@color/white"</span> /&gt;
+    &lt;corners android:radius=<span class="str">"6dp"</span> /&gt;
+    &lt;stroke android:width=<span class="str">"1dp"</span>
+        android:color=<span class="str">"@color/black"</span> /&gt;
+&lt;/shape&gt;</pre>
+              </div>
+              <div class="code-block">
+                <div class="code-head"><span class="tag">XML</span><span>sau (tùy biến)</span></div>
+                <pre class="code">&lt;shape android:shape=<span class="str">"rectangle"</span>&gt;
+    &lt;solid android:color=<span class="str">"@color/accent_soft"</span> /&gt;
+    &lt;corners android:radius=<span class="str">"18dp"</span> /&gt;
+    &lt;stroke android:width=<span class="str">"0dp"</span>
+        android:color=<span class="str">"@android:color/transparent"</span> /&gt;
+&lt;/shape&gt;</pre>
+              </div>
+            </div>
+            <p style="font-size:13px">Muốn dùng <code>accent_soft</code> thì phải tự thêm màu đó vào
+            <code>res/values/colors.xml</code> trước — file hiện tại chỉ có <code>black</code>/<code>white</code>/vài màu
+            gốc, không có sẵn màu tùy biến nào. Vì mỗi dòng dùng chung một file drawable, sửa một chỗ này áp dụng cho toàn
+            bộ danh sách ngay lập tức.</p>
+          </div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">04</span>Đổi quy tắc kiểm tra mật khẩu<span class="chev">▸</span></summary>
+          <div class="scenario-body">
+            <div class="scenario-goal">Mục tiêu: bắt buộc mật khẩu khi thêm/sửa người dùng phải từ 6 ký tự trở lên.</div>
+            <div class="file-list"><span class="file-chip">AddUserAct.kt</span><span class="file-chip">EditUserAct.kt</span></div>
+            <div class="step-label">Trong hàm <code>onClick()</code>, trước khi tạo <code>User</code></div>
+            <div class="code-pair two">
+              <div class="code-block">
+                <div class="code-head"><span class="tag">Kotlin</span><span>trước</span></div>
+                <pre class="code"><span class="kw">if</span> (username.isEmpty() || password.isEmpty()
+    || fullname.isEmpty()) {
+    Toast.makeText(<span class="kw">this</span>,
+        <span class="str">"Vui lòng nhập đầy đủ thông tin"</span>,
+        Toast.LENGTH_SHORT).show()
+    <span class="kw">return</span>
+}</pre>
+              </div>
+              <div class="code-block">
+                <div class="code-head"><span class="tag">Kotlin</span><span>sau</span></div>
+                <pre class="code"><span class="kw">if</span> (username.isEmpty() || password.isEmpty()
+    || fullname.isEmpty()) {
+    Toast.makeText(<span class="kw">this</span>,
+        <span class="str">"Vui lòng nhập đầy đủ thông tin"</span>,
+        Toast.LENGTH_SHORT).show()
+    <span class="kw">return</span>
+}
+<span class="kw">if</span> (password.length &lt; <span class="str">6</span>) {
+    Toast.makeText(<span class="kw">this</span>,
+        <span class="str">"Mật khẩu phải có ít nhất 6 ký tự"</span>,
+        Toast.LENGTH_SHORT).show()
+    <span class="kw">return</span>
+}</pre>
+              </div>
+            </div>
+            <p style="font-size:13px">Sửa giống hệt ở cả hai file — <code>AddUserAct</code> khi tạo mới,
+            <code>EditUserAct</code> khi lưu chỉnh sửa — vì hai luồng này độc lập nhau, không dùng chung một hàm validate.</p>
+          </div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">05</span>Thêm trường "Email" xuyên suốt ứng dụng<span class="chev">▸</span></summary>
+          <div class="scenario-body">
+            <div class="scenario-goal">Mục tiêu: kịch bản tổng hợp — thêm 1 trường dữ liệu mới và cho nó xuất hiện đúng ở
+            cả 3 luồng thêm / xem / sửa. Đây là bài tập tốt nhất để hiểu toàn bộ vòng đời dữ liệu của app.</div>
+            <div class="file-list">
+              <span class="file-chip">User.kt</span><span class="file-chip">adduser.xml</span><span class="file-chip">AddUserAct.kt</span>
+              <span class="file-chip">viewuser.xml</span><span class="file-chip">ViewUserAct.kt</span>
+              <span class="file-chip">edituser.xml</span><span class="file-chip">EditUserAct.kt</span>
+            </div>
+
+            <div class="step-label">Bước 1 — thêm field vào model</div>
+            <div class="code-block">
+              <div class="code-head"><span class="tag">Kotlin</span><span>User.kt</span></div>
+              <pre class="code"><span class="kw">data class</span> User(
+    <span class="kw">var</span> username: String = <span class="str">""</span>,
+    <span class="kw">var</span> password: String = <span class="str">""</span>,
+    <span class="kw">var</span> fullname: String = <span class="str">""</span>,
+    <span class="kw">var</span> email: String = <span class="str">""</span>          <span class="cm">// mới</span>
+) : Serializable</pre>
+            </div>
+
+            <div class="step-label">Bước 2 — thêm ô nhập vào adduser.xml (đặt sau khối Fullname)</div>
+            <div class="code-block">
+              <div class="code-head"><span class="tag">XML</span><span>adduser.xml</span></div>
+              <pre class="code">&lt;TextView
+    android:id=<span class="str">"@+id/lblEmail"</span>
+    android:layout_width=<span class="str">"wrap_content"</span>
+    android:layout_height=<span class="str">"wrap_content"</span>
+    android:text=<span class="str">"Email:"</span> /&gt;
+
+&lt;EditText
+    android:id=<span class="str">"@+id/txtEmail"</span>
+    android:layout_width=<span class="str">"match_parent"</span>
+    android:layout_height=<span class="str">"wrap_content"</span>
+    android:inputType=<span class="str">"textEmailAddress"</span>
+    android:layout_marginBottom=<span class="str">"24dp"</span> /&gt;</pre>
+            </div>
+
+            <div class="step-label">Bước 3 — đọc giá trị trong AddUserAct.kt</div>
+            <div class="code-block">
+              <div class="code-head"><span class="tag">Kotlin</span><span>AddUserAct.kt</span></div>
+              <pre class="code"><span class="kw">private lateinit var</span> txtEmail: EditText   <span class="cm">// khai báo cùng chỗ txtName</span>
+
+<span class="cm">// trong onCreate(), cùng chỗ findViewById các ô khác</span>
+txtEmail = findViewById(R.id.txtEmail)
+
+<span class="cm">// trong onClick(), khi build User mới</span>
+<span class="kw">val</span> email = txtEmail.text.toString().trim()
+<span class="kw">val</span> newUser = User(username, password, fullname, email)</pre>
+            </div>
+
+            <div class="step-label">Bước 4 — hiển thị ở viewuser.xml + ViewUserAct.kt (tương tự lblName)</div>
+            <div class="code-block">
+              <div class="code-head"><span class="tag">Kotlin</span><span>ViewUserAct.kt — renderUser()</span></div>
+              <pre class="code">lblEmail.text = <span class="str">"Email: "</span> + user.email</pre>
+            </div>
+
+            <div class="step-label">Bước 5 — cho sửa ở edituser.xml + EditUserAct.kt (giống hệt bước 2–3, thêm <code>txtEmail.setText(user.email)</code> khi prefill và đưa <code>email</code> vào <code>User(...)</code> lúc Lưu)</div>
+            <div class="callout"><strong>Vì sao chia nhỏ 5 bước?</strong> Vì <code>User</code> đi qua Intent dưới dạng
+            Serializable, quên cập nhật một trong ba luồng (add / view / edit) sẽ khiến email luôn rỗng khi đi qua đúng
+            luồng đó — lỗi rất hay gặp khi thêm field mới.</div>
+          </div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">06</span>Đổi nhãn &amp; icon nút Sửa/Xóa<span class="chev">▸</span></summary>
+          <div class="scenario-body">
+            <div class="scenario-goal">Mục tiêu: đổi chữ nút hoặc thêm icon cạnh chữ mà không cần đổi logic Kotlin (id giữ nguyên).</div>
+            <div class="file-list"><span class="file-chip">res/layout/viewuser.xml</span></div>
+            <div class="code-block">
+              <div class="code-head"><span class="tag">XML</span><span>viewuser.xml — btnDel</span></div>
+              <pre class="code">&lt;Button
+    android:id=<span class="str">"@+id/btnDel"</span>
+    android:layout_width=<span class="str">"wrap_content"</span>
+    android:layout_height=<span class="str">"wrap_content"</span>
+    android:text=<span class="str">"🗑 Xóa"</span> /&gt;</pre>
+            </div>
+            <p style="font-size:13px">Vì Kotlin chỉ tham chiếu tới View qua <code>R.id.btnDel</code> (không đọc nội dung
+            <code>android:text</code>), mọi thay đổi thuần hiển thị — chữ, icon, màu, cỡ chữ — đều an toàn 100%, không bao
+            giờ làm hỏng logic.</p>
+          </div>
+        </details>
+      </section>
+
+      <section class="block" id="su-co">
+        <h2><span class="num">07</span>Sự cố thực tế &amp; cách khắc phục</h2>
+        <p>Hai lỗi giao diện thật đã gặp khi build và chạy trên máy ảo — đáng nhớ vì đều là lỗi <em>vô hình trên code</em>,
+        chỉ lộ ra khi thực sự chạy app, và cả hai đều liên quan đến cách các View sắp xếp không gian với nhau.</p>
+
+        <h3 class="sub">Sự cố 1 — Tiêu đề &amp; nút "Thêm mới" biến mất khỏi Home</h3>
+        <p><strong>Triệu chứng:</strong> chạy app, đăng nhập xong, màn Home chỉ thấy danh sách người dùng — dòng "Xin chào..."
+        và tiêu đề "Quản lí người dùng" hoàn toàn không thấy đâu, dù code/XML nhìn hoàn toàn hợp lý.</p>
+        <p><strong>Nguyên nhân thật</strong> (xác nhận bằng <code>adb shell uiautomator dump</code> — xem tọa độ thật của
+        từng View đang vẽ ở đâu): dự án target SDK 35 (Android 15), và Android 15 <strong>mặc định ép mọi app vẽ nội dung
+        edge-to-edge</strong> — content tràn ra sau cả action bar thay vì được tự động chừa chỗ bên dưới nó như các bản
+        Android cũ. txtWelcome và tiêu đề <em>vẫn render đúng vị trí</em>, chỉ là bị action bar đè lên che mất; ListView
+        (đủ cao, kéo dài xuống dưới action bar) là thứ duy nhất còn lộ ra ngoài.</p>
+        <p><strong>Cách sửa</strong> — tắt hẳn việc ép edge-to-edge ở theme, thay vì viết code xử lý inset (đúng tinh thần
+        "cực kỳ đơn giản" của dự án):</p>
+        <div class="code-pair two">
+          <div class="code-block">
+            <div class="code-head"><span class="tag">XML</span><span>res/values/themes.xml</span></div>
+            <pre class="code">&lt;style name=<span class="str">"Theme.LoginApp"</span>
+    parent=<span class="str">"@android:style/Theme.DeviceDefault.Light.NoActionBar"</span>&gt;
+    &lt;item name=<span class="str">"android:windowOptOutEdgeToEdgeEnforcement"</span>&gt;<span class="kw">true</span>&lt;/item&gt;
+&lt;/style&gt;</pre>
+          </div>
+          <div class="code-block">
+            <div class="code-head"><span class="tag">XML</span><span>AndroidManifest.xml</span></div>
+            <pre class="code">&lt;application
+    ...
+    android:theme=<span class="str">"@style/Theme.LoginApp"</span>&gt;   <span class="cm">← trước là @android:style/... trực tiếp</span></pre>
+          </div>
+        </div>
+        <div class="callout warn"><strong>Vì sao trước đó lại dùng thẳng theme hệ thống?</strong> Trỏ
+        <code>android:theme</code> thẳng vào <code>@android:style/Theme.DeviceDefault.Light</code> thì không có chỗ nào để
+        thêm <code>&lt;item&gt;</code> tùy biến — phải đổi sang một theme tự định nghĩa (kế thừa theme hệ thống) trong
+        <code>themes.xml</code> trước, rồi mới thêm được <code>windowOptOutEdgeToEdgeEnforcement</code>.</div>
+        <p style="font-size:13px">Tiện thể, đổi parent sang biến thể <code>.NoActionBar</code> luôn còn giải quyết một điều
+        wireframe không hề có: thanh tiêu đề xám ghi tên app ("LoginApp") ở đầu mỗi màn hình — biến thể này ẩn hẳn thanh
+        đó, để nội dung app là thứ duy nhất hiển thị, giống hệt các khung điện thoại trong slide.</p>
+
+        <h3 class="sub">Sự cố 2 — ListView có thể "nuốt" hết chỗ của các View phía trên nó</h3>
+        <p>Đây là lỗi tiềm ẩn thứ hai phát hiện được khi soát lại <code>userhome.xml</code> (không phải nguyên nhân chính
+        của Sự cố 1, nhưng vẫn là lỗi thật, nên sửa luôn): trong một <code>LinearLayout</code> dọc, nếu một View con dùng
+        <code>layout_height="match_parent"</code>, nó sẽ cố chiếm <em>toàn bộ</em> chiều cao của cha — chèn ép/đẩy lệch
+        các View anh em khác thay vì chỉ chiếm phần còn lại sau khi các View kia đã có chỗ.</p>
+        <div class="code-pair two">
+          <div class="code-block">
+            <div class="code-head"><span class="tag">XML</span><span>sai</span></div>
+            <pre class="code">&lt;ListView
+    android:id=<span class="str">"@+id/lwUsers"</span>
+    android:layout_width=<span class="str">"match_parent"</span>
+    android:layout_height=<span class="str">"match_parent"</span> /&gt;</pre>
+          </div>
+          <div class="code-block">
+            <div class="code-head"><span class="tag">XML</span><span>đúng</span></div>
+            <pre class="code">&lt;ListView
+    android:id=<span class="str">"@+id/lwUsers"</span>
+    android:layout_width=<span class="str">"match_parent"</span>
+    android:layout_height=<span class="str">"0dp"</span>
+    android:layout_weight=<span class="str">"1"</span> /&gt;</pre>
+          </div>
+        </div>
+        <p style="font-size:13px"><strong>Quy tắc chung:</strong> trong <code>LinearLayout</code>, bất kỳ View nào muốn
+        "chiếm hết phần còn lại" (sau khi các View khác đã có chỗ) đều phải dùng cặp <code>0dp</code> +
+        <code>layout_weight="1"</code>, không phải <code>match_parent</code>. Đây là lỗi rất hay gặp mỗi khi trộn một
+        View co giãn (ListView, RecyclerView, ScrollView...) với các View cố định kích thước trong cùng một
+        <code>LinearLayout</code>.</p>
+
+        <h3 class="sub">Cách tự chẩn đoán lỗi giao diện "vô hình"</h3>
+        <p>Khi giao diện chạy thật trông khác hẳn XML (mà XML đọc lại vẫn thấy đúng), đừng đoán — lấy tọa độ thật của từng
+        View đang được vẽ:</p>
+        <div class="code-block">
+          <div class="code-head"><span class="tag">bash</span><span>khi app đang mở màn hình cần kiểm tra</span></div>
+          <pre class="code">adb shell uiautomator dump /sdcard/dump.xml
+adb pull /sdcard/dump.xml .
+<span class="cm"># mở dump.xml, tìm "bounds=" của từng id — so với vị trí mong đợi</span></pre>
+        </div>
+        <p style="font-size:13px">Đây chính là cách đã lật ra Sự cố 1: <code>action_bar_container</code> có
+        <code>bounds="[0,0][1344,327]"</code>, còn nội dung màn hình cũng bắt đầu từ <code>[0,0]</code> — hai vùng chồng
+        lên nhau, dù txtWelcome vẫn có tọa độ đúng bên trong vùng bị che.</p>
+      </section>
+
+      <section class="block" id="build">
+        <h2><span class="num">08</span>Build &amp; chạy lại</h2>
+        <p>Project này <strong>không dùng Gradle wrapper</strong> để chạy nhanh trên máy — <code>build_and_run.sh</code> tự
+        gọi trực tiếp <code>aapt2</code>, <code>kotlinc</code>, <code>d8</code>, <code>zipalign</code>, <code>apksigner</code>,
+        <code>adb</code>. Sau bất kỳ thay đổi nào ở trên, chạy lại toàn bộ script để build và cài lên máy ảo/thiết bị đang mở:</p>
+        <div class="code-block">
+          <div class="code-head"><span class="tag">bash</span><span>từ thư mục gốc project</span></div>
+          <pre class="code">./build_and_run.sh</pre>
+        </div>
+        <ul class="tight">
+          <li>Chỉ sửa XML/màu sắc → không cần thêm gì, script tự biên dịch lại toàn bộ <code>res/</code>.</li>
+          <li>Thêm <strong>file .kt mới</strong> (ví dụ tách thêm 1 Activity) → phải thêm đường dẫn file đó vào danh sách
+          truyền cho <code>kotlinc</code> trong bước 4 của script, nếu không sẽ báo lỗi "unresolved reference".</li>
+          <li>Đổi package/tên bài (bai03 → bai04...) → đổi cả 3 nơi đã nêu ở mục <a href="#kien-truc">Kiến trúc thư mục</a>.</li>
+          <li>Không có máy ảo/thiết bị nào kết nối → 2 bước cuối (<code>adb install</code>, <code>adb shell am start</code>)
+          sẽ báo lỗi "no devices/emulators found", nhưng APK vẫn được build và ký thành công tại
+          <code>build/app-signed.apk</code>.</li>
+        </ul>
+      </section>
+
+      <footer>Sổ tay này mô tả đúng trạng thái code tại thời điểm hoàn thành bai03 (login → quản lý người dùng, chưa CSDL). Khi sang bai04 (menu &amp; spinner) hoặc bai05 (SQLite), cấu trúc dữ liệu sẽ đổi khác — cập nhật lại tài liệu khi đó.</footer>
+    </div>
+  </main>
+</div>
+
+<script>
+(function () {
+  try {
+    var links = Array.prototype.slice.call(document.querySelectorAll('#navlinks a'));
+    var sections = links.map(function (a) {
+      return document.querySelector(a.getAttribute('href'));
+    });
+    if (!('IntersectionObserver' in window)) return;
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        var idx = sections.indexOf(entry.target);
+        if (idx === -1) return;
+        if (entry.isIntersecting) {
+          links.forEach(function (l) { l.classList.remove('active'); });
+          links[idx].classList.add('active');
+        }
+      });
+    }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+    sections.forEach(function (s) { if (s) observer.observe(s); });
+  } catch (e) { /* scrollspy is a non-essential enhancement */ }
+})();
+</script>
