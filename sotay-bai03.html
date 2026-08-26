@@ -464,7 +464,13 @@
     └── values/
         ├── colors.xml             <span class="cm">← chỉ giữ màu gốc, KHÔNG thêm màu tùy biến</span>
         ├── strings.xml
-        └── themes.xml             <span class="cm">← Theme.LoginApp, xem mục 07 vì sao cần file này</span></pre>
+        └── themes.xml             <span class="cm">← Theme.LoginApp, xem mục 07 vì sao cần file này</span>
+
+<span class="cm">vendor/                            ← thư viện ngoài, giải nén sẵn (xem mục 07, sự cố 3)</span>
+├── constraintlayout/              <span class="cm">← giải nén từ constraintlayout-2.2.0.aar</span>
+│   ├── classes.jar
+│   └── res/                       <span class="cm">← chứa khai báo các thuộc tính layout_constraint*</span>
+└── constraintlayout-core.jar</pre>
         </div>
         <div class="callout warn">
           <strong>Lưu ý dễ nhầm.</strong> Vì chỉ có một <code>res/layout</code> dùng chung, khi sửa <code>login.xml</code>
@@ -482,17 +488,35 @@
             như các ô vuông trong wireframe, không dùng kiểu gạch chân mặc định của Android.</li>
             <li><strong>Nút bấm (Button)</strong> chỉ là chữ đậm, <code>background="@android:color/transparent"</code> —
             không nền xám, không viền, không đổ bóng — đúng như "Login", "Thêm", "Sửa"... trong wireframe chỉ là chữ.</li>
-            <li><strong>Cỡ chữ lớn, nội dung căn giữa theo chiều dọc</strong> trong khung màn hình (trừ Home vì có danh
-            sách cần chiếm phần còn lại) — để trông "to, rõ, giống hệt wireframe" thay vì bé tí dồn lên góc trên.</li>
+            <li><strong>Cỡ chữ lớn, nội dung dồn lên nửa trên màn hình</strong> — tiêu đề cách mép trên
+            <code>48dp</code>, phần còn lại xếp xuống dưới nó; nửa dưới để trống, đúng như các khung điện thoại trong
+            wireframe.</li>
             <li><strong>Tiêu đề mỗi màn hình</strong> ("Login", "Thêm/Xem/Sửa người dùng", "Quản lí người dùng") luôn
-            <code>android:gravity="center"</code> trên <code>layout_width="match_parent"</code> và cỡ chữ lớn hơn hẳn nội
-            dung bên dưới — nổi bật đúng như wireframe.</li>
-            <li><strong>Nhãn + ô nhập nằm cùng một hàng ngang</strong> (label cố định bề rộng, ô nhập chiếm phần còn lại) —
-            giống hệt cách bố trí "Username: [ô nhập]" trong wireframe, không tách label ở dòng trên và ô nhập ở dòng
-            dưới.</li>
+            <code>android:gravity="center"</code> trên <code>layout_width="0dp"</code> căng hai mép, cỡ chữ lớn hơn hẳn
+            nội dung bên dưới — nổi bật đúng như wireframe.</li>
+            <li><strong>Nhãn + ô nhập nằm cùng một hàng ngang</strong> — nhãn neo
+            <code>layout_constraintBaseline_toBaselineOf</code> vào ô nhập nên hai chữ luôn thẳng hàng chân chữ, ô nhập
+            <code>0dp</code> chiếm hết phần còn lại. Giống hệt "Username: [ô nhập]" trong wireframe.</li>
+            <li><strong>Màu chữ khai báo tường minh</strong>: tiêu đề <code>#040404</code>, nhãn/nút <code>#000000</code> —
+            không để mặc định theo theme (mặc định ra màu xám nhạt, chữ mờ hơn wireframe rõ rệt).</li>
           </ul>
-          Ngoài 3 điểm trên, mọi thứ khác (màu sắc, icon, hiệu ứng) đều <strong>không</strong> có trong baseline — các kịch
-          bản thêm màu/hiệu ứng ở mục 06 là <em>tùy chọn để luyện tập</em>, không phải giao diện mặc định.
+          Ngoài các điểm trên, mọi thứ khác (màu nền, icon, hiệu ứng) đều <strong>không</strong> có trong baseline — các
+          kịch bản thêm màu/hiệu ứng ở mục 06 là <em>tùy chọn để luyện tập</em>, không phải giao diện mặc định.
+        </div>
+        <div class="callout">
+          <strong>Toàn bộ 5 layout dùng <code>ConstraintLayout</code>.</strong> Mỗi View tự neo mình vào cha hoặc vào View
+          khác qua các thuộc tính <code>app:layout_constraint*</code>, thay vì lồng nhiều <code>LinearLayout</code> vào
+          nhau. Bốn kiểu neo được dùng trong dự án này:
+          <ul class="tight">
+            <li><code>layout_constraintTop_toTopOf="parent"</code> — neo cạnh trên vào cạnh trên của cha.</li>
+            <li><code>layout_constraintTop_toBottomOf="@+id/x"</code> — xếp View này ngay dưới View <code>x</code>.</li>
+            <li><code>layout_constraintStart_toEndOf="@+id/x"</code> — đặt View này ngay bên phải View <code>x</code>
+            (dùng cho cặp nhãn → ô nhập).</li>
+            <li><code>layout_constraintBaseline_toBaselineOf="@+id/x"</code> — canh <em>chân chữ</em> thẳng hàng với View
+            <code>x</code>, thứ mà LinearLayout không làm được chính xác.</li>
+          </ul>
+          Quy ước quan trọng: <code>layout_width="0dp"</code> trong ConstraintLayout nghĩa là "giãn hết khoảng giữa hai
+          ràng buộc trái/phải" — <strong>không phải</strong> rộng bằng 0. Đây là cách ô nhập tự kéo dài tới mép phải.
         </div>
       </section>
 
@@ -949,6 +973,36 @@ txtEmail = findViewById(R.id.txtEmail)
         View co giãn (ListView, RecyclerView, ScrollView...) với các View cố định kích thước trong cùng một
         <code>LinearLayout</code>.</p>
 
+        <h3 class="sub">Sự cố 3 — Đổi sang ConstraintLayout thì build báo "attribute ... not found"</h3>
+        <p><strong>Triệu chứng:</strong> ngay khi layout dùng <code>app:layout_constraintTop_toTopOf</code>...,
+        <code>aapt2</code> báo hàng loạt lỗi <code>attribute layout_constraintEnd_toEndOf ... not found</code>.</p>
+        <p><strong>Nguyên nhân:</strong> khác với <code>LinearLayout</code> (thuộc Android SDK, có sẵn trong
+        <code>android.jar</code>), <code>ConstraintLayout</code> là <strong>thư viện ngoài</strong>. Các thuộc tính
+        <code>layout_constraint*</code> được khai báo trong resource của chính thư viện đó. Android Studio/Gradle tự tải
+        và nối thư viện vào, còn <code>build_and_run.sh</code> gọi tay từng công cụ nên không biết gì về nó.</p>
+        <p><strong>Cách sửa</strong> — file <code>.aar</code> thực chất chỉ là file zip, giải nén ra rồi nạp thủ công vào
+        đúng 3 bước của pipeline:</p>
+        <div class="code-block">
+          <div class="code-head"><span class="tag">bash</span><span>lấy thư viện từ cache Gradle về thư mục vendor/</span></div>
+          <pre class="code">CL=~/.gradle/caches/modules-2/files-2.1/androidx.constraintlayout
+unzip -q $CL/constraintlayout/2.2.0/*/constraintlayout-2.2.0.aar -d vendor/constraintlayout
+cp $CL/constraintlayout-core/1.1.0/*/constraintlayout-core-1.1.0.jar vendor/constraintlayout-core.jar</pre>
+        </div>
+        <ul class="tight">
+          <li><strong>aapt2 compile</strong> thêm một lần nữa cho <code>vendor/constraintlayout/res</code> → đây là chỗ
+          định nghĩa các thuộc tính <code>layout_constraint*</code>.</li>
+          <li><strong>aapt2 link</strong> nhận cả 2 gói resource, kèm
+          <code>--extra-packages androidx.constraintlayout.widget</code> để sinh luôn lớp <code>R</code> cho thư viện.</li>
+          <li><strong>kotlinc / d8</strong> nhận thêm <code>classes.jar</code> và <code>constraintlayout-core.jar</code>.</li>
+        </ul>
+        <div class="callout warn"><strong>Bẫy tinh vi: phải biên dịch thật <code>R.java</code> bằng <code>javac</code>.</strong>
+        Trước đây script chỉ đưa <code>R.java</code> cho <code>kotlinc</code> — vẫn chạy được vì các hằng như
+        <code>R.layout.login</code> là <code>static final int</code>, được Kotlin <em>chèn thẳng giá trị</em> vào bytecode,
+        không cần lớp <code>R</code> lúc chạy. Nhưng thư viện ConstraintLayout đã biên dịch sẵn thì lại đọc
+        <code>R.styleable.ConstraintLayout_Layout</code> — là <code>int[]</code>, <em>không</em> chèn được, phải có lớp
+        <code>R</code> thật trong APK. Thiếu bước <code>javac</code> này app sẽ crash
+        <code>NoClassDefFoundError</code> ngay khi mở màn hình đầu tiên.</div>
+
         <h3 class="sub">Cách tự chẩn đoán lỗi giao diện "vô hình"</h3>
         <p>Khi giao diện chạy thật trông khác hẳn XML (mà XML đọc lại vẫn thấy đúng), đừng đoán — lấy tọa độ thật của từng
         View đang được vẽ:</p>
@@ -965,17 +1019,31 @@ adb pull /sdcard/dump.xml .
 
       <section class="block" id="build">
         <h2><span class="num">08</span>Build &amp; chạy lại</h2>
-        <p>Project này <strong>không dùng Gradle wrapper</strong> để chạy nhanh trên máy — <code>build_and_run.sh</code> tự
-        gọi trực tiếp <code>aapt2</code>, <code>kotlinc</code>, <code>d8</code>, <code>zipalign</code>, <code>apksigner</code>,
-        <code>adb</code>. Sau bất kỳ thay đổi nào ở trên, chạy lại toàn bộ script để build và cài lên máy ảo/thiết bị đang mở:</p>
+        <p><code>build_and_run.sh</code> <strong>không đi qua Gradle</strong> mà gọi tay từng công cụ, để thấy rõ mỗi bước
+        biến đổi gì. Sau bất kỳ thay đổi nào ở trên, chạy lại toàn bộ script để build và cài lên máy ảo/thiết bị đang mở:</p>
         <div class="code-block">
           <div class="code-head"><span class="tag">bash</span><span>từ thư mục gốc project</span></div>
           <pre class="code">./build_and_run.sh</pre>
         </div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Bước</th><th>Công cụ</th><th>Biến gì thành gì</th></tr></thead>
+          <tbody>
+            <tr><td>2</td><td><code>aapt2 compile</code></td><td>XML trong <code>res/</code> + <code>vendor/constraintlayout/res</code> → dạng nhị phân</td></tr>
+            <tr><td>3</td><td><code>aapt2 link</code></td><td>Gộp resource, sinh <code>R.java</code> cho cả app lẫn thư viện</td></tr>
+            <tr><td>4a</td><td><code>javac</code></td><td><code>R.java</code> → <code>R.class</code> (bắt buộc, xem sự cố 3)</td></tr>
+            <tr><td>4b</td><td><code>kotlinc</code></td><td>File <code>.kt</code> → bytecode JVM <code>.class</code></td></tr>
+            <tr><td>5</td><td><code>d8</code></td><td>Bytecode JVM + các <code>.jar</code> thư viện → <code>classes.dex</code></td></tr>
+            <tr><td>6–8</td><td><code>zip</code> / <code>zipalign</code> / <code>apksigner</code></td><td>Đóng gói, căn lề, ký số thành APK cài được</td></tr>
+            <tr><td>9–10</td><td><code>adb</code></td><td>Cài và khởi chạy trên máy ảo</td></tr>
+          </tbody>
+        </table></div>
         <ul class="tight">
           <li>Chỉ sửa XML/màu sắc → không cần thêm gì, script tự biên dịch lại toàn bộ <code>res/</code>.</li>
           <li>Thêm <strong>file .kt mới</strong> (ví dụ tách thêm 1 Activity) → phải thêm đường dẫn file đó vào danh sách
-          truyền cho <code>kotlinc</code> trong bước 4 của script, nếu không sẽ báo lỗi "unresolved reference".</li>
+          truyền cho <code>kotlinc</code> ở bước 4b, nếu không sẽ báo lỗi "unresolved reference".</li>
+          <li>Dùng thêm <strong>thư viện ngoài mới</strong> (Material, RecyclerView...) → lặp lại cách làm ở
+          <a href="#su-co">sự cố 3</a>: giải nén <code>.aar</code> vào <code>vendor/</code>, thêm <code>res</code> của nó
+          vào bước 2–3 và <code>classes.jar</code> vào bước 4b–5.</li>
           <li>Đổi package/tên bài (bai03 → bai04...) → đổi cả 3 nơi đã nêu ở mục <a href="#kien-truc">Kiến trúc thư mục</a>.</li>
           <li>Không có máy ảo/thiết bị nào kết nối → 2 bước cuối (<code>adb install</code>, <code>adb shell am start</code>)
           sẽ báo lỗi "no devices/emulators found", nhưng APK vẫn được build và ký thành công tại
