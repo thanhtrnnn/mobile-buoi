@@ -48,6 +48,7 @@ JAVA_HOME="$JAVA_HOME" \
   -cp "$PLATFORM:$KOTLINC/lib/kotlin-stdlib.jar:$LIBS:build/classes" \
   -d build/classes \
   app/src/main/java/ptit/cnpm1/tranxuanthanh/bai03/User.kt \
+  app/src/main/java/ptit/cnpm1/tranxuanthanh/bai03/UserFormView.kt \
   app/src/main/java/ptit/cnpm1/tranxuanthanh/bai03/LoginAct.kt \
   app/src/main/java/ptit/cnpm1/tranxuanthanh/bai03/UserhomeAct.kt \
   app/src/main/java/ptit/cnpm1/tranxuanthanh/bai03/AddUserAct.kt \

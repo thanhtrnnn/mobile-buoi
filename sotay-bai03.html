@@ -393,6 +393,8 @@
       <a href="#khai-niem">Khái niệm Android cốt lõi</a>
       <a href="#uml">Lớp &amp; UML đối chiếu code</a>
       <a href="#tra-cuu-id">Tra cứu id theo màn hình</a>
+        <a href="#component">Component UserFormView</a>
+      <a href="#component">Component UserFormView</a>
       <div class="group-label">Thực hành</div>
       <a href="#kich-ban">Kịch bản sửa UI</a>
       <a href="#su-co">Sự cố thực tế &amp; cách khắc phục</a>
@@ -446,6 +448,7 @@
 │   ├── bai02/                     <span class="cm">← bài trước, còn giữ lại, KHÔNG build nữa</span>
 │   └── bai03/
 │       ├── User.kt                <span class="cm">← model dùng chung mọi màn hình</span>
+│       ├── UserFormView.kt        <span class="cm">← component gộp 3 ô nhập, xem mục 05</span>
 │       ├── LoginAct.kt
 │       ├── UserhomeAct.kt
 │       ├── AddUserAct.kt
@@ -457,7 +460,8 @@
     │   ├── userhome.xml
     │   ├── adduser.xml
     │   ├── viewuser.xml
-    │   └── edituser.xml
+    │   ├── edituser.xml
+    │   └── view_user_form.xml     <span class="cm">← phần thân dùng chung của adduser + edituser</span>
     ├── drawable/
     │   ├── bg_list_item.xml       <span class="cm">← viền trắng/đen đơn giản cho mỗi dòng danh sách</span>
     │   └── bg_input.xml           <span class="cm">← viền trắng/đen cho mọi EditText (khung ô nhập)</span>
@@ -610,9 +614,10 @@
             <tbody>
               <tr><td><code>login.xml</code></td><td><code>LoginAct</code></td><td><code>txtUN</code>, <code>txtPW</code>, <code>btnLogin</code></td><td><code>onCreate()</code>, <code>onClick()</code></td></tr>
               <tr><td><code>userhome.xml</code></td><td><code>UserhomeAct</code></td><td><code>txtWelcome</code>, <code>btnAdd</code>, <code>lwUsers</code>, <code>listUser: ArrayList&lt;User&gt;</code>, <code>user: User</code></td><td><code>onCreate()</code>, <code>onClick()</code>, <code>onResume()</code>, <code>onActivityResult()</code></td></tr>
-              <tr><td><code>adduser.xml</code></td><td><code>AddUserAct</code></td><td><code>txtUN</code>, <code>txtPW</code>, <code>txtName</code>, <code>btnAdd</code>, <code>btnCancel</code></td><td><code>onCreate()</code>, <code>onClick()</code></td></tr>
+              <tr><td><code>adduser.xml</code></td><td><code>AddUserAct</code></td><td><code>formUser: UserFormView</code>, <code>btnAdd</code>, <code>btnCancel</code></td><td><code>onCreate()</code>, <code>onClick()</code></td></tr>
               <tr><td><code>viewuser.xml</code></td><td><code>ViewUserAct</code></td><td><code>btnEdit</code>, <code>btnDel</code>, <code>user: User</code>, <code>position: Int</code></td><td><code>onCreate()</code>, <code>onClick()</code>, <code>onResume()</code>, <code>onActivityResult()</code></td></tr>
-              <tr><td><code>edituser.xml</code></td><td><code>EditUserAct</code></td><td><code>txtUN</code>, <code>txtPW</code>, <code>txtName</code>, <code>btnSave</code>, <code>btnCancel</code>, <code>user: User</code></td><td><code>onCreate()</code>, <code>onClick()</code></td></tr>
+              <tr><td><code>edituser.xml</code></td><td><code>EditUserAct</code></td><td><code>formUser: UserFormView</code>, <code>btnSave</code>, <code>btnCancel</code></td><td><code>onCreate()</code>, <code>onClick()</code></td></tr>
+              <tr><td><code>view_user_form.xml</code></td><td><code>UserFormView</code></td><td><code>txtUN</code>, <code>txtPW</code>, <code>txtName : EditText</code></td><td><code>user</code> (get/set), <code>isFilled()</code></td></tr>
               <tr><td colspan="2"><code>User</code> (model, <code>Serializable</code>)</td><td colspan="2"><code>username</code>, <code>password</code>, <code>fullname : String</code></td></tr>
             </tbody>
           </table>
@@ -650,7 +655,8 @@
         <div class="table-wrap"><table>
           <thead><tr><th>id</th><th>Loại View</th><th>Vai trò</th></tr></thead>
           <tbody>
-            <tr><td><code>txtUN</code> / <code>txtPW</code> / <code>txtName</code></td><td>EditText</td><td>Username / Password / Fullname nhập mới</td></tr>
+            <tr><td><code>lblTitle</code></td><td>TextView</td><td>Tiêu đề "Thêm người dùng"</td></tr>
+            <tr><td><code>formUser</code></td><td><code>UserFormView</code></td><td>Component gộp cả 3 ô nhập — xem mục 05B</td></tr>
             <tr><td><code>btnAdd</code></td><td>Button</td><td>Validate rồi trả <code>User</code> mới về Home</td></tr>
             <tr><td><code>btnCancel</code></td><td>Button</td><td>Hủy, không trả gì (RESULT_CANCELED)</td></tr>
           </tbody>
@@ -670,11 +676,115 @@
         <div class="table-wrap"><table>
           <thead><tr><th>id</th><th>Loại View</th><th>Vai trò</th></tr></thead>
           <tbody>
-            <tr><td><code>txtUN</code> / <code>txtPW</code> / <code>txtName</code></td><td>EditText</td><td>Đã điền sẵn giá trị cũ, cho sửa</td></tr>
+            <tr><td><code>lblTitle</code></td><td>TextView</td><td>Tiêu đề "Sửa người dùng"</td></tr>
+            <tr><td><code>formUser</code></td><td><code>UserFormView</code></td><td>Cùng component với màn Thêm, được điền sẵn giá trị cũ</td></tr>
             <tr><td><code>btnSave</code></td><td>Button</td><td>Validate rồi trả <code>User</code> đã sửa về ViewUserAct</td></tr>
             <tr><td><code>btnCancel</code></td><td>Button</td><td>Hủy, không trả gì</td></tr>
           </tbody>
         </table></div>
+
+        <h4 class="tiny">view_user_form.xml — bên trong UserFormView</h4>
+        <div class="table-wrap"><table>
+          <thead><tr><th>id</th><th>Loại View</th><th>Vai trò</th></tr></thead>
+          <tbody>
+            <tr><td><code>lblUN</code> / <code>lblPW</code> / <code>lblName</code></td><td>TextView</td><td>Nhãn "Username:" / "Password:" / "Fullname:"</td></tr>
+            <tr><td><code>txtUN</code> / <code>txtPW</code> / <code>txtName</code></td><td>EditText</td><td>Ba ô nhập — Activity <strong>không</strong> chạm trực tiếp, chỉ đi qua <code>formUser.user</code></td></tr>
+          </tbody>
+        </table></div>
+      </section>
+
+      <section class="block" id="component">
+        <h2><span class="num">05B</span>Component <code>UserFormView</code></h2>
+        <p>Màn Thêm và màn Sửa có phần thân giống hệt nhau: cùng 3 cặp nhãn + ô nhập, chỉ khác tiêu đề và tên hai nút.
+        Trước đây điều đó nghĩa là 6 View bị chép y nguyên sang cả hai file layout, và cả hai Activity đều lặp lại đúng
+        một đoạn "findViewById 3 ô → đọc text → trim → ghép thành User". Gộp lại thành một component xóa hết phần lặp đó.</p>
+
+        <h3 class="sub">Compound view — một lớp View tự chứa layout của nó</h3>
+        <p><code>UserFormView</code> là một lớp Kotlin kế thừa <code>ConstraintLayout</code>. Trong khối <code>init</code>
+        nó tự bơm (inflate) file <code>view_user_form.xml</code> vào chính mình, rồi giữ tham chiếu tới 3 ô nhập:</p>
+        <div class="code-block">
+          <div class="code-head"><span class="tag">Kotlin</span><span>UserFormView.kt — phần cốt lõi</span></div>
+          <pre class="code"><span class="kw">class</span> UserFormView @JvmOverloads <span class="kw">constructor</span>(
+    context: Context,
+    attrs: AttributeSet? = <span class="kw">null</span>,
+    defStyleAttr: Int = <span class="str">0</span>
+) : ConstraintLayout(context, attrs, defStyleAttr) {
+
+    <span class="kw">private val</span> txtUN: EditText
+    <span class="kw">private val</span> txtPW: EditText
+    <span class="kw">private val</span> txtName: EditText
+
+    <span class="kw">init</span> {
+        LayoutInflater.from(context).inflate(R.layout.view_user_form, <span class="kw">this</span>, <span class="kw">true</span>)
+        txtUN = findViewById(R.id.txtUN)
+        txtPW = findViewById(R.id.txtPW)
+        txtName = findViewById(R.id.txtName)
+    }
+
+    <span class="cm">// Đọc ra User từ 3 ô, hoặc điền 3 ô từ một User</span>
+    <span class="kw">var</span> user: User
+        <span class="kw">get</span>() = User(
+            username = txtUN.text.toString().trim(),
+            password = txtPW.text.toString().trim(),
+            fullname = txtName.text.toString().trim()
+        )
+        <span class="kw">set</span>(value) {
+            txtUN.setText(value.username)
+            txtPW.setText(value.password)
+            txtName.setText(value.fullname)
+        }
+
+    <span class="kw">fun</span> isFilled(): Boolean { <span class="cm">/* cả 3 ô đều khác rỗng */</span> }
+}</pre>
+        </div>
+
+        <h3 class="sub">Ba chi tiết kỹ thuật dễ sai</h3>
+        <ul class="tight">
+          <li><strong>Hàm dựng phải có <code>attrs: AttributeSet?</code></strong> — khi Android đọc thẻ
+          <code>&lt;ptit...UserFormView&gt;</code> trong XML, nó gọi đúng hàm dựng 2 tham số này để truyền các thuộc tính
+          XML vào. Thiếu nó thì app crash <code>InflateException</code> lúc mở màn hình.
+          <code>@JvmOverloads</code> sinh sẵn cả 3 biến thể hàm dựng cho Java gọi được.</li>
+          <li><strong><code>inflate(..., this, true)</code></strong> — tham số <code>true</code> nghĩa là "gắn luôn các
+          View vừa đọc vào <code>this</code>". Nếu để <code>false</code>, layout được tạo ra nhưng không dính vào đâu cả,
+          component sẽ hiện ra trống trơn.</li>
+          <li><strong>File layout dùng thẻ gốc <code>&lt;merge&gt;</code></strong> — vì các View sẽ được gắn vào một
+          ConstraintLayout (chính là <code>UserFormView</code>) đã có sẵn, không cần thêm một ViewGroup bọc ngoài nữa.
+          Dùng <code>&lt;merge&gt;</code> tránh lồng thừa một lớp, giúp cây View phẳng và vẽ nhanh hơn.</li>
+        </ul>
+
+        <h3 class="sub">Activity gọn đi bao nhiêu</h3>
+        <div class="code-pair two">
+          <div class="code-block">
+            <div class="code-head"><span class="tag">Kotlin</span><span>trước</span></div>
+            <pre class="code">txtUN = findViewById(R.id.txtUN)
+txtPW = findViewById(R.id.txtPW)
+txtName = findViewById(R.id.txtName)
+<span class="cm">// ...</span>
+<span class="kw">val</span> username = txtUN.text.toString().trim()
+<span class="kw">val</span> password = txtPW.text.toString().trim()
+<span class="kw">val</span> fullname = txtName.text.toString().trim()
+<span class="kw">if</span> (username.isEmpty() || password.isEmpty()
+    || fullname.isEmpty()) { <span class="cm">/* toast */</span> }
+<span class="kw">val</span> newUser = User(username, password, fullname)</pre>
+          </div>
+          <div class="code-block">
+            <div class="code-head"><span class="tag">Kotlin</span><span>sau</span></div>
+            <pre class="code">formUser = findViewById(R.id.formUser)
+<span class="cm">// ...</span>
+<span class="kw">if</span> (!formUser.isFilled()) { <span class="cm">/* toast */</span> }
+<span class="kw">val</span> newUser = formUser.user
+
+<span class="cm">// Màn Sửa điền sẵn dữ liệu cũ cũng chỉ 1 dòng:</span>
+formUser.user = getUserExtra() ?: User()</pre>
+          </div>
+        </div>
+
+        <div class="callout warn"><strong>Đối chiếu với UML trong slide.</strong> Sơ đồ lớp bài 03 vẽ
+        <code>AddAct</code> / <code>EditAct</code> có sẵn 3 trường <code>txtUN</code>, <code>txtPW</code>,
+        <code>txtName : EditText</code>. Sau khi gộp, 3 trường đó chuyển vào <code>UserFormView</code>, còn Activity chỉ
+        giữ một trường <code>formUser : UserFormView</code>. Về mặt kiến trúc đây là cải tiến (bớt lặp, dễ bảo trì), nhưng
+        <strong>không còn khớp 1–1 với hình vẽ trong slide</strong>. Nếu bài nộp yêu cầu đúng y UML, bản trước khi gộp vẫn
+        nằm trong git (<code>git show ec99a79</code>) để quay lại được.</div>
       </section>
 
       <section class="block" id="kich-ban">

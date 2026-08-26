@@ -6,33 +6,24 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 
 class EditUserAct : Activity(), View.OnClickListener {
 
-    private lateinit var txtUN: EditText
-    private lateinit var txtPW: EditText
-    private lateinit var txtName: EditText
+    private lateinit var formUser: UserFormView
     private lateinit var btnSave: Button
     private lateinit var btnCancel: Button
-
-    private lateinit var user: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.edituser)
 
-        txtUN = findViewById(R.id.txtUN)
-        txtPW = findViewById(R.id.txtPW)
-        txtName = findViewById(R.id.txtName)
+        formUser = findViewById(R.id.formUser)
         btnSave = findViewById(R.id.btnSave)
         btnCancel = findViewById(R.id.btnCancel)
 
-        user = getUserExtra() ?: User()
-        txtUN.setText(user.username)
-        txtPW.setText(user.password)
-        txtName.setText(user.fullname)
+        // Điền sẵn thông tin cũ vào 3 ô của component
+        formUser.user = getUserExtra() ?: User()
 
         btnSave.setOnClickListener(this)
         btnCancel.setOnClickListener(this)
@@ -41,17 +32,12 @@ class EditUserAct : Activity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.btnSave -> {
-                val username = txtUN.text.toString().trim()
-                val password = txtPW.text.toString().trim()
-                val fullname = txtName.text.toString().trim()
-
-                if (username.isEmpty() || password.isEmpty() || fullname.isEmpty()) {
+                if (!formUser.isFilled()) {
                     Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show()
                     return
                 }
 
-                val updated = User(username, password, fullname)
-                val result = Intent().putExtra("user", updated)
+                val result = Intent().putExtra("user", formUser.user)
                 setResult(RESULT_OK, result)
                 finish()
             }
