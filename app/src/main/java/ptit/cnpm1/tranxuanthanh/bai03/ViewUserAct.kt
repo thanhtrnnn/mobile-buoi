@@ -25,6 +25,8 @@ class ViewUserAct : Activity(), View.OnClickListener {
     private var position: Int = -1
     private var wasUpdated = false
 
+    private var usernames = ArrayList<String>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.viewuser)
@@ -37,6 +39,7 @@ class ViewUserAct : Activity(), View.OnClickListener {
 
         user = getUserExtra(intent) ?: User()
         position = intent.getIntExtra("position", -1)
+        usernames = intent.getStringArrayListExtra("usernames") ?: ArrayList()
 
         btnEdit.setOnClickListener(this)
         btnDel.setOnClickListener(this)
@@ -58,6 +61,7 @@ class ViewUserAct : Activity(), View.OnClickListener {
             R.id.btnEdit -> {
                 val intent = Intent(this, EditUserAct::class.java).apply {
                     putExtra("user", user)
+                    putExtra("usernames", usernames)
                 }
                 startActivityForResult(intent, REQ_EDIT)
             }
@@ -83,6 +87,10 @@ class ViewUserAct : Activity(), View.OnClickListener {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQ_EDIT && resultCode == RESULT_OK && data != null) {
             val edited = getUserExtra(data) ?: return
+            // Cập nhật luôn danh sách username, để lần sửa kế tiếp không bị
+            // chặn nhầm bởi tên cũ vừa được giải phóng
+            val idx = usernames.indexOfFirst { it.equals(user.username, ignoreCase = true) }
+            if (idx >= 0) usernames[idx] = edited.username
             user = edited
             wasUpdated = true
             renderUser()

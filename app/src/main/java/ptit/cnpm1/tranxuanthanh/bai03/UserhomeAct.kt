@@ -76,9 +76,16 @@ class UserhomeAct : Activity(), View.OnClickListener {
             val intent = Intent(this, ViewUserAct::class.java).apply {
                 putExtra("user", listUser[position])
                 putExtra("position", position)
+                putExtra("usernames", takenUsernames())
             }
             startActivityForResult(intent, REQ_VIEW)
         }
+    }
+
+    private fun takenUsernames(): ArrayList<String> {
+        val names = ArrayList<String>()
+        for (u in listUser) names.add(u.username)
+        return names
     }
 
     private fun seedInitialUsers() {
@@ -92,7 +99,10 @@ class UserhomeAct : Activity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         if (v?.id == R.id.btnAdd) {
-            startActivityForResult(Intent(this, AddUserAct::class.java), REQ_ADD)
+            val intent = Intent(this, AddUserAct::class.java).apply {
+                putExtra("usernames", takenUsernames())
+            }
+            startActivityForResult(intent, REQ_ADD)
         }
     }
 

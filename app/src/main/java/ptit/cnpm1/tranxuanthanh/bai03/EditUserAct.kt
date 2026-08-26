@@ -17,6 +17,9 @@ class EditUserAct : Activity(), View.OnClickListener {
     /** Người dùng đang được sửa, giữ nguyên bản gốc nhận từ ViewUserAct. */
     private lateinit var user: User
 
+    /** Những username đã có sẵn, nhận từ ViewUserAct để chặn trùng. */
+    private var usernames = ArrayList<String>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.edituser)
@@ -26,6 +29,7 @@ class EditUserAct : Activity(), View.OnClickListener {
         btnCancel = findViewById(R.id.btnCancel)
 
         user = getUserExtra() ?: User()
+        usernames = intent.getStringArrayListExtra("usernames") ?: ArrayList()
         // Điền sẵn thông tin cũ vào 3 ô của component
         formUser.user = user
 
@@ -41,7 +45,16 @@ class EditUserAct : Activity(), View.OnClickListener {
                     return
                 }
 
-                user = formUser.user
+                val edited = formUser.user
+                // Giữ nguyên username cũ thì hợp lệ; chỉ chặn khi đổi sang tên của người khác
+                if (!edited.username.equals(user.username, ignoreCase = true) &&
+                    usernames.any { it.equals(edited.username, ignoreCase = true) }
+                ) {
+                    Toast.makeText(this, "Username \"" + edited.username + "\" đã tồn tại", Toast.LENGTH_SHORT).show()
+                    return
+                }
+
+                user = edited
                 val result = Intent().putExtra("user", user)
                 setResult(RESULT_OK, result)
                 finish()
