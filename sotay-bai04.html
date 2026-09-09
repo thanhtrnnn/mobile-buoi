@@ -1,0 +1,1238 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sổ Tay Bai04</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #F2F6F5;
+    --surface: #FFFFFF;
+    --surface-2: #EAF1EF;
+    --border: #D9E3E0;
+    --text: #16231F;
+    --text-2: #52625D;
+    --text-3: #7C8B86;
+    --accent: #0E8C7C;
+    --accent-strong: #0A6E62;
+    --accent-soft: #DCF3EE;
+    --danger: #B23A2E;
+    --danger-soft: #FBE6E3;
+    --code-bg: #101B19;
+    --code-text: #DCEFEA;
+    --code-text-dim: #8FADA5;
+    --code-accent: #6FE0C6;
+    --code-string: #E8C08A;
+    --code-border: #22322D;
+    --chip-bg: #FFFFFF;
+    --shadow: 0 1px 2px rgba(16, 30, 26, 0.06), 0 6px 20px rgba(16, 30, 26, 0.05);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0D1513;
+      --surface: #15201D;
+      --surface-2: #182420;
+      --border: #253430;
+      --text: #E7F2EF;
+      --text-2: #9AB0AA;
+      --text-3: #718882;
+      --accent: #3FD1B8;
+      --accent-strong: #6FE9D3;
+      --accent-soft: #16302B;
+      --danger: #E4685A;
+      --danger-soft: #2E1917;
+      --code-bg: #0A1211;
+      --code-text: #DCEFEA;
+      --code-text-dim: #7E9691;
+      --code-accent: #6FE0C6;
+      --code-string: #E8C08A;
+      --code-border: #21302B;
+      --chip-bg: #15201D;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0D1513;
+    --surface: #15201D;
+    --surface-2: #182420;
+    --border: #253430;
+    --text: #E7F2EF;
+    --text-2: #9AB0AA;
+    --text-3: #718882;
+    --accent: #3FD1B8;
+    --accent-strong: #6FE9D3;
+    --accent-soft: #16302B;
+    --danger: #E4685A;
+    --danger-soft: #2E1917;
+    --code-bg: #0A1211;
+    --code-text: #DCEFEA;
+    --code-text-dim: #7E9691;
+    --code-accent: #6FE0C6;
+    --code-string: #E8C08A;
+    --code-border: #21302B;
+    --chip-bg: #15201D;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "IBM Plex Sans", -apple-system, "Segoe UI", sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 { font-family: "IBM Plex Sans", sans-serif; font-weight: 600; text-wrap: balance; color: var(--text); }
+  code, pre, .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+  a { color: var(--accent-strong); }
+  p { color: var(--text-2); max-width: 68ch; }
+
+  .shell {
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr);
+    max-width: 1240px;
+    margin: 0 auto;
+  }
+
+  /* ---------- Sidebar ---------- */
+  .sidebar {
+    position: sticky;
+    top: 0;
+    align-self: start;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 28px 18px 40px 24px;
+    border-right: 1px solid var(--border);
+  }
+  .sidebar-brand {
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    margin-bottom: 4px;
+  }
+  .sidebar-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 22px;
+  }
+  .sidebar nav { display: flex; flex-direction: column; gap: 2px; }
+  .sidebar nav a {
+    display: block;
+    text-decoration: none;
+    color: var(--text-2);
+    font-size: 13.5px;
+    padding: 7px 10px;
+    border-radius: 7px;
+    border-left: 2px solid transparent;
+  }
+  .sidebar nav a:hover { background: var(--surface-2); color: var(--text); }
+  .sidebar nav a.active {
+    background: var(--accent-soft);
+    color: var(--accent-strong);
+    border-left-color: var(--accent);
+    font-weight: 500;
+  }
+  .sidebar nav .group-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-3);
+    margin: 16px 0 6px 10px;
+  }
+  .sidebar nav .group-label:first-child { margin-top: 0; }
+  .mobile-toc { display: none; }
+
+  /* ---------- Main ---------- */
+  main { padding: 40px 40px 100px; min-width: 0; }
+  .content-col { max-width: 780px; }
+
+  header.hero {
+    margin-bottom: 40px;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent-strong);
+    background: var(--accent-soft);
+    padding: 5px 10px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+  }
+  h1.page-title { font-size: 34px; margin: 0 0 10px; letter-spacing: -0.01em; }
+  .lede { font-size: 15.5px; color: var(--text-2); max-width: 62ch; }
+
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    margin-top: 26px;
+    max-width: 780px;
+  }
+  .stat-tile {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    box-shadow: var(--shadow);
+  }
+  .stat-tile .label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-3); margin-bottom: 4px; }
+  .stat-tile .value { font-size: 14px; font-weight: 600; color: var(--text); font-family: "IBM Plex Mono", monospace; }
+
+  section.block { margin: 56px 0; scroll-margin-top: 24px; }
+  section.block h2 {
+    font-size: 22px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 20px;
+  }
+  section.block h2 .num { color: var(--text-3); font-weight: 500; margin-right: 8px; }
+  h3.sub { font-size: 16px; margin: 28px 0 10px; }
+  h4.tiny { font-size: 13px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-3); margin: 20px 0 8px; }
+
+  /* ---------- Code blocks ---------- */
+  .code-block {
+    background: var(--code-bg);
+    border: 1px solid var(--code-border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 14px 0;
+    max-width: 780px;
+  }
+  .code-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 14px;
+    font-size: 11.5px;
+    color: var(--code-text-dim);
+    border-bottom: 1px solid var(--code-border);
+    font-family: "IBM Plex Mono", monospace;
+    letter-spacing: 0.02em;
+  }
+  .code-head .tag {
+    color: var(--code-accent);
+    font-weight: 600;
+  }
+  pre.code {
+    margin: 0;
+    padding: 14px 16px;
+    overflow-x: auto;
+    font-size: 12.8px;
+    line-height: 1.65;
+    color: var(--code-text);
+  }
+  pre.code .kw { color: var(--code-accent); }
+  pre.code .str { color: var(--code-string); }
+  pre.code .cm { color: var(--code-text-dim); font-style: italic; }
+  pre.code .attr { color: #9FD1F5; }
+
+  .code-pair { display: grid; grid-template-columns: 1fr; gap: 10px; }
+  @media (min-width: 720px) {
+    .code-pair.two { grid-template-columns: 1fr 1fr; }
+  }
+  .code-pair .code-block { margin: 0; }
+
+  /* ---------- Tables ---------- */
+  .table-wrap { overflow-x: auto; max-width: 780px; border: 1px solid var(--border); border-radius: 10px; }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; min-width: 560px; }
+  thead th {
+    text-align: left;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-3);
+    background: var(--surface-2);
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  tbody td {
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-2);
+    vertical-align: top;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  td code, th code { font-family: "IBM Plex Mono", monospace; font-size: 12px; background: var(--surface-2); padding: 1px 5px; border-radius: 4px; color: var(--text); }
+
+  /* ---------- Flow diagram ---------- */
+  .flow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 18px 0 26px;
+  }
+  .flow-node {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: var(--shadow);
+    text-align: center;
+  }
+  .flow-node .file { display: block; font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--text-3); font-weight: 400; margin-top: 2px; }
+  .flow-arrow { color: var(--text-3); font-size: 15px; }
+  .flow-branch { display: flex; flex-direction: column; gap: 8px; }
+
+  /* ---------- Callouts ---------- */
+  .callout {
+    max-width: 780px;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    background: var(--surface);
+    border-radius: 0 10px 10px 0;
+    padding: 12px 16px;
+    margin: 18px 0;
+    font-size: 13.5px;
+    color: var(--text-2);
+  }
+  .callout strong { color: var(--text); }
+  .callout.warn { border-left-color: var(--danger); }
+  .callout.warn strong { color: var(--danger); }
+
+  /* ---------- Scenario cards ---------- */
+  .scenario {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+    margin-bottom: 14px;
+    max-width: 780px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .scenario summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 16px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    font-size: 14.5px;
+  }
+  .scenario summary::-webkit-details-marker { display: none; }
+  .scenario summary .chev {
+    margin-left: auto;
+    color: var(--text-3);
+    transition: transform 0.15s ease;
+    font-size: 12px;
+  }
+  .scenario[open] summary .chev { transform: rotate(90deg); }
+  .scenario summary .idx {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    color: var(--accent-strong);
+    background: var(--accent-soft);
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-weight: 600;
+  }
+  .scenario-body { padding: 0 18px 20px; }
+  .scenario-goal { font-size: 13.5px; color: var(--text-2); margin-bottom: 10px; }
+  .file-list { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .file-chip {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11.5px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    padding: 3px 8px;
+    border-radius: 6px;
+    color: var(--text-2);
+  }
+  .step-label { font-size: 12px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.04em; margin: 14px 0 6px; }
+
+  /* ---------- misc ---------- */
+  .kbd {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11.5px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-bottom-width: 2px;
+    padding: 1px 6px;
+    border-radius: 5px;
+  }
+  ul.tight { margin: 8px 0; padding-left: 20px; color: var(--text-2); font-size: 13.5px; }
+  ul.tight li { margin-bottom: 4px; }
+  footer { max-width: 780px; padding: 30px 0 10px; color: var(--text-3); font-size: 12px; border-top: 1px solid var(--border); margin-top: 60px; }
+
+  @media (max-width: 900px) {
+    .shell { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    .mobile-toc {
+      display: block;
+      margin: 16px 40px 0;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface);
+    }
+    .mobile-toc summary { padding: 12px 16px; font-weight: 600; font-size: 13.5px; cursor: pointer; }
+    .mobile-toc nav { padding: 0 16px 14px; display: flex; flex-direction: column; gap: 2px; }
+    .mobile-toc nav a { color: var(--text-2); text-decoration: none; font-size: 13px; padding: 5px 0; }
+    main { padding: 24px 20px 80px; }
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="sidebar-brand">PTIT · Lập trình mobile</div>
+    <div class="sidebar-title">Sổ tay Bai04</div>
+    <nav id="navlinks">
+      <div class="group-label">Tổng quan</div>
+      <a href="#tong-quan">Bài 4 làm gì</a>
+      <a href="#khac-bai03">Khác bài 3 chỗ nào</a>
+      <a href="#kien-truc">Kiến trúc thư mục</a>
+      <a href="#luong">Luồng màn hình &amp; dữ liệu</a>
+      <div class="group-label">Chi tiết</div>
+      <a href="#tra-cuu-id">Tra cứu id từng màn hình</a>
+      <a href="#custom-view">Hai custom View</a>
+      <a href="#ngay-thang">Ngày sinh &amp; DatePicker</a>
+      <a href="#listview">ListView &amp; Adapter</a>
+      <a href="#uml">Đối chiếu UML slide 7</a>
+      <div class="group-label">Thực hành</div>
+      <a href="#kich-ban">Kịch bản sửa UI</a>
+      <a href="#build">Build &amp; chạy</a>
+      <a href="#su-co">Sự cố thực tế</a>
+      <div class="group-label">Bảo vệ bài</div>
+      <a href="#hoi-dap">Bộ câu hỏi &amp; trả lời</a>
+      <a href="#demo">Kịch bản demo</a>
+    </nav>
+  </aside>
+
+  <main>
+    <details class="mobile-toc">
+      <summary>Mục lục</summary>
+      <nav>
+        <a href="#tong-quan">Bài 4 làm gì</a>
+        <a href="#khac-bai03">Khác bài 3 chỗ nào</a>
+        <a href="#kien-truc">Kiến trúc thư mục</a>
+        <a href="#luong">Luồng màn hình &amp; dữ liệu</a>
+        <a href="#tra-cuu-id">Tra cứu id từng màn hình</a>
+        <a href="#custom-view">Hai custom View</a>
+        <a href="#ngay-thang">Ngày sinh &amp; DatePicker</a>
+        <a href="#listview">ListView &amp; Adapter</a>
+        <a href="#uml">Đối chiếu UML slide 7</a>
+        <a href="#kich-ban">Kịch bản sửa UI</a>
+        <a href="#build">Build &amp; chạy</a>
+        <a href="#su-co">Sự cố thực tế</a>
+        <a href="#hoi-dap">Bộ câu hỏi &amp; trả lời</a>
+        <a href="#demo">Kịch bản demo</a>
+      </nav>
+    </details>
+
+    <div class="content-col">
+      <header class="hero" id="tong-quan">
+        <div class="eyebrow">Bai04 · Menu và Spinner</div>
+        <h1 class="page-title">Sổ tay bài 4 — đọc, sửa, và bảo vệ</h1>
+        <p class="lede">
+          Ứng dụng Android viết bằng Kotlin với View system cổ điển (không Jetpack Compose, không AppCompat).
+          Bài 4 giữ nguyên bài toán quản lý người dùng của bài 3 nhưng thay màn "Xem người dùng" bằng
+          <strong>menu xổ ra ngay trên từng dòng</strong>, và thêm trường <strong>ngày sinh chọn bằng lịch</strong>.
+          Trang này viết để đọc xong là biết mọi thành phần giao diện nằm ở đâu, sinh ra thế nào, sửa ở đâu,
+          và trả lời được câu hỏi vấn đáp.
+        </p>
+        <div class="stat-row">
+          <div class="stat-tile"><div class="label">Package Kotlin</div><div class="value">ptit.cnpm1.tranxuanthanh.bai04</div></div>
+          <div class="stat-tile"><div class="label">Tên hiện trên máy</div><div class="value">Bai04 - Menu, Spinner</div></div>
+          <div class="stat-tile"><div class="label">Số Activity</div><div class="value">4 (không Fragment thật)</div></div>
+          <div class="stat-tile"><div class="label">Dữ liệu</div><div class="value">ArrayList&lt;User&gt; trong RAM</div></div>
+          <div class="stat-tile"><div class="label">Build</div><div class="value">./build_and_run.sh bai04</div></div>
+          <div class="stat-tile"><div class="label">Đăng nhập</div><div class="value">B23DCAT280 / 20082005</div></div>
+        </div>
+      </header>
+
+      <section class="block" id="khac-bai03">
+        <h2><span class="num">01</span>Bài 4 khác bài 3 chỗ nào</h2>
+        <p>Bốn thay đổi, tất cả đều nhìn thấy được khi demo.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Việc</th><th>Bài 3</th><th>Bài 4</th></tr></thead>
+            <tbody>
+              <tr><td>Sửa / xóa một người</td><td>Bấm vào dòng → mở màn <code>ViewUserAct</code> có 2 nút</td><td>Bấm dấu <code>•••</code> ở cuối dòng → menu xổ ngay tại chỗ</td></tr>
+              <tr><td>Số Activity</td><td>5</td><td>4 — <code>ViewUserAct</code> bị bỏ</td></tr>
+              <tr><td>Thông tin người dùng</td><td>username, password, fullname</td><td>thêm <code>dob</code> (ngày sinh), chọn bằng <code>DatePickerDialog</code></td></tr>
+              <tr><td>Một dòng danh sách</td><td><code>ArrayAdapter</code> mặc định, 1 dòng chữ</td><td><code>ShowUserFrag</code> — View tự viết, 2 dòng chữ + dấu <code>•••</code></td></tr>
+              <tr><td>Cài đặt</td><td><code>ptit.cnpm1.tranxuanthanh.bai03</code></td><td><code>...bai04</code>, cài song song được với bài 3</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout">
+          <strong>Câu chốt khi bị hỏi "menu là gì":</strong> menu ở đây là một <code>PopupWindow</code> tự dựng,
+          neo dưới dấu <code>•••</code> của đúng dòng vừa bấm — không phải <code>OptionsMenu</code> trên thanh
+          ActionBar, cũng không phải <code>ContextMenu</code> giữ lâu. Slide gọi nó là "drop menu".
+        </div>
+      </section>
+
+      <section class="block" id="kien-truc">
+        <h2><span class="num">02</span>Kiến trúc thư mục</h2>
+        <p>Mỗi bài là một app riêng: package Kotlin riêng, thư mục tài nguyên riêng, manifest riêng. Lý do phải tách <code>res</code>: layout của bài 3 và bài 4 trùng tên (<code>login.xml</code>, <code>userhome.xml</code>…) mà nội dung khác nhau, để chung một thư mục thì đè nhau.</p>
+        <div class="code-block">
+          <div class="code-head"><span class="tag">tree</span><span>app/src/main</span></div>
+          <pre class="code"><span class="cm">app/src/main/</span>
+├── AndroidManifest-bai03.xml      <span class="cm">← applicationId = ...bai03, 5 Activity</span>
+├── AndroidManifest-bai04.xml      <span class="cm">← applicationId = ...bai04, 4 Activity</span>
+├── java/ptit/cnpm1/tranxuanthanh/
+│   ├── bai02/                     <span class="cm">← bài cũ, giữ lại, không build</span>
+│   ├── bai03/                     <span class="cm">← bản bài 3 nguyên vẹn</span>
+│   └── bai04/
+│       ├── User.kt                <span class="cm">← model: username, password, fullname, dob</span>
+│       ├── LoginAct.kt            <span class="cm">← đăng nhập hardcode</span>
+│       ├── UserhomeAct.kt         <span class="cm">← danh sách + điều phối kết quả trả về</span>
+│       ├── AddAct.kt              <span class="cm">← màn thêm</span>
+│       ├── EditAct.kt             <span class="cm">← màn sửa</span>
+│       ├── ShowUserFrag.kt        <span class="cm">← MỘT dòng trong danh sách</span>
+│       └── MenuItemFrag.kt        <span class="cm">← menu Sửa / Xóa xổ ra</span>
+├── res-bai02/  res-bai03/
+└── res-bai04/
+    ├── layout/
+    │   ├── login.xml
+    │   ├── userhome.xml
+    │   ├── add.xml                <span class="cm">← 11 view, đúng tên UML</span>
+    │   ├── edit.xml
+    │   ├── showuser.xml           <span class="cm">← &lt;merge&gt;, thân của ShowUserFrag</span>
+    │   └── menuitem.xml           <span class="cm">← thân của MenuItemFrag</span>
+    ├── drawable/
+    │   ├── bg_input.xml           <span class="cm">← nền trắng + viền đen cho EditText</span>
+    │   ├── bg_list_item.xml       <span class="cm">← khung mỗi dòng danh sách</span>
+    │   ├── bg_menu.xml            <span class="cm">← nền #DAE8FC cho menu</span>
+    │   └── ic_dropdown.xml        <span class="cm">← tam giác rỗng ở ô ngày sinh</span>
+    └── values/  (colors, strings, themes)</pre>
+        </div>
+        <h3 class="sub">Hai file ngoài <code>app/</code> cần biết</h3>
+        <ul class="tight">
+          <li><code>build_and_run.sh bai03|bai04</code> — dựng và cài, chọn bài bằng tham số.</li>
+          <li><code>vendor/constraintlayout/</code> — thư viện ConstraintLayout đã giải nén sẵn từ file <code>.aar</code>, vì bản build này không dùng Gradle nên phải tự cung cấp.</li>
+        </ul>
+      </section>
+
+      <section class="block" id="luong">
+        <h2><span class="num">03</span>Luồng màn hình &amp; luồng dữ liệu</h2>
+        <div class="flow">
+          <div class="flow-node">LoginAct<span class="file">login.xml</span></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node">UserhomeAct<span class="file">userhome.xml</span></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-branch">
+            <div class="flow-node">AddAct<span class="file">add.xml</span></div>
+            <div class="flow-node">EditAct<span class="file">edit.xml</span></div>
+          </div>
+        </div>
+        <p>Đăng nhập xong <code>LoginAct.finish()</code> nên bấm Back ở màn Home là thoát app, không quay lại màn đăng nhập.</p>
+
+        <h3 class="sub">Cách hai màn con trả dữ liệu về</h3>
+        <p>Dùng bộ ba cổ điển: <code>startActivityForResult</code> → <code>setResult</code> → <code>onActivityResult</code>. Con số <code>requestCode</code> chính là thứ giúp màn Home biết kết quả vừa nhận là của Thêm hay của Sửa.</p>
+        <div class="code-block">
+          <div class="code-head"><span class="tag">Kotlin</span><span>UserhomeAct.kt</span></div>
+          <pre class="code"><span class="kw">companion object</span> {
+    <span class="kw">private const val</span> REQ_ADD = <span class="str">1</span>
+    <span class="kw">private const val</span> REQ_EDIT = <span class="str">2</span>
+}
+
+<span class="cm">// đi</span>
+startActivityForResult(Intent(<span class="kw">this</span>, AddAct::<span class="kw">class</span>.java), REQ_ADD)
+
+<span class="cm">// về</span>
+<span class="kw">override fun</span> onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    <span class="kw">if</span> (resultCode != Activity.RESULT_OK || data == <span class="kw">null</span>) <span class="kw">return</span>
+    <span class="kw">val</span> returned = data.getSerializableExtra(<span class="str">"user"</span>, User::<span class="kw">class</span>.java) ?: <span class="kw">return</span>
+    <span class="kw">when</span> (requestCode) {
+        REQ_ADD  -> { <span class="cm">/* chặn trùng rồi listUser.add(returned) */</span> }
+        REQ_EDIT -> { <span class="cm">/* chặn trùng rồi listUser[editingPosition] = returned */</span> }
+    }
+    adapter.notifyDataSetChanged()
+}</pre>
+        </div>
+        <div class="callout">
+          <strong>Vì sao <code>editingPosition</code> tồn tại:</strong> <code>EditAct</code> chỉ trả về đối tượng
+          <code>User</code>, không trả về vị trí. Không thể dò lại theo username vì người dùng có quyền đổi
+          chính username đó. Nên Home ghi nhớ vị trí ngay lúc mở màn sửa.
+        </div>
+
+        <h3 class="sub">Dữ liệu đi qua Intent bằng cách nào</h3>
+        <p><code>User</code> hiện thực <code>Serializable</code> nên đặt thẳng vào Intent bằng <code>putExtra("user", user)</code>. Lấy ra phải tách hai nhánh vì bản API 33 trở lên đổi chữ ký hàm:</p>
+        <div class="code-block">
+          <div class="code-head"><span class="tag">Kotlin</span><span>đọc extra an toàn</span></div>
+          <pre class="code"><span class="kw">val</span> received = <span class="kw">if</span> (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+    intent.getSerializableExtra(<span class="str">"user"</span>, User::<span class="kw">class</span>.java)   <span class="cm">// API 33+, có kiểm kiểu</span>
+} <span class="kw">else</span> {
+    intent.getSerializableExtra(<span class="str">"user"</span>) <span class="kw">as</span>? User          <span class="cm">// bản cũ, đã deprecated</span>
+}</pre>
+        </div>
+      </section>
+
+      <section class="block" id="tra-cuu-id">
+        <h2><span class="num">04</span>Tra cứu id từng màn hình</h2>
+        <p>Bảng này để tìm nhanh: muốn sửa chỗ nào trên màn hình thì mở file nào, sửa id nào.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Layout</th><th>Id</th><th>Kiểu</th><th>Vai trò</th></tr></thead>
+            <tbody>
+              <tr><td rowspan="6"><code>login.xml</code></td><td><code>lblLogin</code></td><td>TextView</td><td>Tiêu đề "Login"</td></tr>
+              <tr><td><code>lblUN</code> / <code>lblPW</code></td><td>TextView</td><td>Nhãn Username / Password</td></tr>
+              <tr><td><code>txtUN</code></td><td>EditText</td><td>Ô nhập mã sinh viên</td></tr>
+              <tr><td><code>txtPW</code></td><td>EditText</td><td><code>inputType="textPassword"</code></td></tr>
+              <tr><td><code>btnLogin</code></td><td>Button</td><td>Nút Login</td></tr>
+              <tr><td colspan="3" class="mono">— nền trong suốt, chỉ còn chữ, đúng như wireframe</td></tr>
+              <tr><td rowspan="4"><code>userhome.xml</code></td><td><code>lblWelcome</code></td><td>TextView</td><td>"Xin chào &lt;fullname&gt;"</td></tr>
+              <tr><td><code>lblTitle</code></td><td>TextView</td><td>"Quản lí người dùng"</td></tr>
+              <tr><td><code>btnAdd</code></td><td>Button</td><td>"Thêm mới"</td></tr>
+              <tr><td><code>lwUsers</code></td><td>ListView</td><td>Danh sách người dùng</td></tr>
+              <tr><td rowspan="4"><code>add.xml</code> / <code>edit.xml</code></td><td><code>lblTitle</code></td><td>TextView</td><td>"Thêm người dùng" / "Sửa người dùng"</td></tr>
+              <tr><td><code>lblUN lblPW lblName lblDob</code></td><td>TextView</td><td>4 nhãn, rộng cố định 140dp để 4 ô thẳng hàng</td></tr>
+              <tr><td><code>txtUN txtPW txtName txtDob</code></td><td>EditText</td><td>4 ô nhập; <code>txtDob</code> không gõ tay được</td></tr>
+              <tr><td><code>btnAdd</code>/<code>btnSave</code>, <code>btnCancel</code></td><td>Button</td><td>Hai nút cuối màn</td></tr>
+              <tr><td rowspan="2"><code>showuser.xml</code></td><td><code>lblUser</code></td><td>TextView</td><td>Khung viền chứa <code>username\nfullname</code></td></tr>
+              <tr><td><code>lblMenu</code></td><td>TextView</td><td>Dấu <code>•••</code>, nằm ngoài khung, bấm được</td></tr>
+              <tr><td rowspan="2"><code>menuitem.xml</code></td><td><code>lblEdit</code></td><td>Button</td><td>"Sửa"</td></tr>
+              <tr><td><code>lblDel</code></td><td>Button</td><td>"Xóa"</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout warn">
+          <strong>Bẫy đặt tên:</strong> id trong <code>menuitem.xml</code> là <code>lblEdit</code>/<code>lblDel</code>
+          nhưng biến Kotlin là <code>btnEdit</code>/<code>btnDel</code>. Không phải nhầm — UML slide vẽ ô XML
+          bằng <code>lbl…</code> còn ô lớp bằng <code>btn…</code>, code chiều được cả hai vì
+          <code>Button</code> vốn kế thừa <code>TextView</code>.
+        </div>
+      </section>
+
+      <section class="block" id="custom-view">
+        <h2><span class="num">05</span>Hai custom View: ShowUserFrag và MenuItemFrag</h2>
+        <p>Đây là phần "mới" nhất của bài 4. Cả hai đều là lớp con của <code>View</code> (không phải Fragment thật, dù slide đặt tên là …Frag), tự thổi layout của mình vào trong constructor.</p>
+
+        <h3 class="sub">ShowUserFrag — một dòng của danh sách</h3>
+        <div class="code-block">
+          <div class="code-head"><span class="tag">Kotlin</span><span>ShowUserFrag.kt</span></div>
+          <pre class="code"><span class="kw">class</span> ShowUserFrag @JvmOverloads <span class="kw">constructor</span>(
+    context: Context, attrs: AttributeSet? = <span class="kw">null</span>, defStyleAttr: Int = <span class="str">0</span>
+) : ConstraintLayout(context, attrs, defStyleAttr) {
+
+    <span class="kw">private val</span> txtUser: TextView
+    <span class="kw">private val</span> lblMenu: TextView
+
+    <span class="kw">init</span> {
+        LayoutInflater.from(context).inflate(R.layout.showuser, <span class="kw">this</span>, <span class="kw">true</span>)
+        txtUser = findViewById(R.id.lblUser)
+        lblMenu = findViewById(R.id.lblMenu)
+    }
+
+    <span class="kw">fun</span> bind(user: User) { txtUser.text = user.username + <span class="str">"\n"</span> + user.fullname }
+
+    <span class="kw">fun</span> setOnMenuClickListener(action: (View) -> Unit) {
+        lblMenu.setOnClickListener { action(lblMenu) }
+    }
+}</pre>
+        </div>
+        <ul class="tight">
+          <li><code>inflate(layout, this, true)</code> — tham số thứ ba <code>true</code> nghĩa là gắn luôn con vào chính nó, nên không cần <code>addView</code>.</li>
+          <li><code>showuser.xml</code> mở đầu bằng <code>&lt;merge&gt;</code> + <code>tools:parentTag</code>: <code>merge</code> để tránh sinh thêm một ViewGroup lồng vô ích (lớp này đã là ConstraintLayout rồi), còn <code>tools:parentTag</code> chỉ để Android Studio biết mà vẽ preview, không ảnh hưởng lúc chạy.</li>
+          <li><code>@JvmOverloads</code> sinh đủ 3 constructor mà hệ thống inflate cần khi View được đặt trong XML.</li>
+          <li><code>setOnMenuClickListener</code> truyền lại chính <code>lblMenu</code> ra ngoài — vì bên ngoài cần đúng View đó làm mốc neo popup.</li>
+        </ul>
+
+        <h3 class="sub">MenuItemFrag — menu xổ ra</h3>
+        <div class="code-block">
+          <div class="code-head"><span class="tag">Kotlin</span><span>MenuItemFrag.kt</span></div>
+          <pre class="code"><span class="kw">fun</span> showAt(anchor: View, onEdit: () -> Unit, onDelete: () -> Unit) {
+    <span class="kw">this</span>.onEdit = onEdit
+    <span class="kw">this</span>.onDelete = onDelete
+    popup = PopupWindow(<span class="kw">this</span>,
+        ViewGroup.LayoutParams.WRAP_CONTENT,
+        ViewGroup.LayoutParams.WRAP_CONTENT,
+        <span class="kw">true</span>)                       <span class="cm">// focusable = true → chạm ra ngoài là tự đóng</span>
+        .apply { showAsDropDown(anchor) }  <span class="cm">// neo ngay dưới dấu ••• vừa bấm</span>
+}
+
+<span class="kw">override fun</span> onClick(v: View?) {
+    popup?.dismiss()                       <span class="cm">// đóng TRƯỚC rồi mới chạy hành động</span>
+    <span class="kw">when</span> (v?.id) {
+        R.id.lblEdit -> onEdit?.invoke()
+        R.id.lblDel  -> onDelete?.invoke()
+    }
+}</pre>
+        </div>
+        <div class="callout">
+          <strong>Vì sao <code>dismiss()</code> phải chạy trước:</strong> nếu gọi hành động trước, hộp thoại
+          xác nhận xóa hiện lên trong khi popup vẫn còn, popup nằm đè lên và người dùng không bấm được nút
+          "Có". Đảo thứ tự là hết.
+        </div>
+        <div class="callout warn">
+          <strong>Điểm còn tối ưu được:</strong> <code>menuitem.xml</code> có gốc là
+          <code>&lt;LinearLayout&gt;</code> chứ chưa dùng <code>&lt;merge&gt;</code>, nên khi thổi vào
+          <code>MenuItemFrag</code> (bản thân đã là LinearLayout) sẽ có một LinearLayout lồng trong
+          LinearLayout. Chạy vẫn đúng, chỉ thừa một cấp. Nếu thầy hỏi "chỗ nào cải tiến được" thì đây là câu trả lời sẵn.
+        </div>
+      </section>
+
+      <section class="block" id="ngay-thang">
+        <h2><span class="num">06</span>Ngày sinh &amp; DatePicker</h2>
+        <p>Ô ngày sinh cố tình không cho gõ tay để khỏi phải kiểm tra chuỗi ngày sai định dạng.</p>
+        <div class="code-block">
+          <div class="code-head"><span class="tag">XML</span><span>add.xml — txtDob</span></div>
+          <pre class="code">&lt;<span class="kw">EditText</span>
+    <span class="attr">android:id</span>=<span class="str">"@+id/txtDob"</span>
+    <span class="attr">android:clickable</span>=<span class="str">"true"</span>       <span class="cm">← vẫn nhận cú chạm</span>
+    <span class="attr">android:focusable</span>=<span class="str">"false"</span>      <span class="cm">← không nhận con trỏ, không bật bàn phím</span>
+    <span class="attr">android:inputType</span>=<span class="str">"none"</span>
+    <span class="attr">android:hint</span>=<span class="str">"dd/mm/yyyy"</span>
+    <span class="attr">android:drawableEnd</span>=<span class="str">"@drawable/ic_dropdown"</span> /&gt;</pre>
+        </div>
+        <div class="code-block">
+          <div class="code-head"><span class="tag">Kotlin</span><span>AddAct.kt — mở lịch</span></div>
+          <pre class="code">txtDob.setOnClickListener {
+    <span class="kw">val</span> format = SimpleDateFormat(<span class="str">"dd/MM/yyyy"</span>, Locale.getDefault())
+    <span class="kw">val</span> calendar = Calendar.getInstance()
+    <span class="kw">val</span> typed = txtDob.text.toString().trim()
+    <span class="kw">if</span> (typed.isNotEmpty()) format.parse(typed)?.let { calendar.time = it }
+
+    DatePickerDialog(<span class="kw">this</span>,
+        { _, year, month, dayOfMonth ->
+            <span class="kw">val</span> picked = Calendar.getInstance()
+            picked.set(year, month, dayOfMonth, <span class="str">0</span>, <span class="str">0</span>, <span class="str">0</span>)
+            picked.set(Calendar.MILLISECOND, <span class="str">0</span>)
+            txtDob.setText(format.format(picked.time))
+        },
+        calendar.get(Calendar.YEAR),
+        calendar.get(Calendar.MONTH),
+        calendar.get(Calendar.DAY_OF_MONTH)).show()
+}</pre>
+        </div>
+        <ul class="tight">
+          <li><strong>Tháng đếm từ 0.</strong> <code>Calendar.JANUARY == 0</code>. Callback của DatePicker trả về <code>month</code> đã theo hệ 0 nên truyền thẳng vào <code>picked.set(...)</code> là đúng. Chỗ duy nhất phải trừ 1 là khi tự gõ tay dữ liệu mẫu: <code>set(year, month - 1, day, …)</code>.</li>
+          <li><strong>Xóa giờ phút giây.</strong> <code>Calendar.getInstance()</code> mang theo thời điểm hiện tại; không đặt lại về 0 thì hai ngày sinh "giống nhau" vẫn khác nhau ở phần mili giây.</li>
+          <li><strong>Ngày chỉ sống dưới dạng chữ</strong> trong ô <code>txtDob</code>, đến lúc bấm Lưu mới <code>parse</code> ra <code>Date</code>. Nhờ vậy <code>AddAct</code>/<code>EditAct</code> không phải mang thêm biến nào ngoài UML.</li>
+          <li><code>Locale.getDefault()</code> — dùng cùng một locale cho cả <code>format</code> lẫn <code>parse</code>, tránh cảnh máy đặt tiếng khác thì đọc lại không ra.</li>
+        </ul>
+      </section>
+
+      <section class="block" id="listview">
+        <h2><span class="num">07</span>ListView &amp; Adapter</h2>
+        <div class="code-block">
+          <div class="code-head"><span class="tag">Kotlin</span><span>UserhomeAct.kt — adapter</span></div>
+          <pre class="code">adapter = <span class="kw">object</span> : ArrayAdapter&lt;User&gt;(<span class="kw">this</span>, <span class="str">0</span>, listUser) {
+    <span class="kw">override fun</span> getView(position: Int, convertView: View?, parent: ViewGroup): View {
+        <span class="kw">val</span> row = convertView <span class="kw">as</span>? ShowUserFrag ?: ShowUserFrag(<span class="kw">this</span>@UserhomeAct)
+        row.bind(listUser[position])
+        row.setOnMenuClickListener { anchor -> <span class="cm">/* mở menu cho dòng này */</span> }
+        <span class="kw">return</span> row
+    }
+}
+lwUsers.adapter = adapter</pre>
+        </div>
+        <ul class="tight">
+          <li><strong>Tham số <code>0</code></strong> ở chỗ layout id: vì <code>getView</code> đã bị ghi đè hoàn toàn nên adapter không cần layout mặc định nào cả.</li>
+          <li><strong><code>convertView</code> là View cũ được tái sử dụng.</strong> ListView chỉ giữ đủ số dòng nhìn thấy; cuộn xuống thì dòng vừa trôi khỏi màn hình được giao lại cho dòng mới. Hệ quả: <em>mọi</em> thứ phụ thuộc <code>position</code> phải gán lại mỗi lần — cả nội dung (<code>bind</code>) lẫn listener. Gán một lần lúc tạo là sai, vì dòng đó sau này mang dữ liệu người khác.</li>
+          <li><strong><code>notifyDataSetChanged()</code></strong> báo cho ListView rằng nguồn dữ liệu đã đổi để nó vẽ lại. Sửa <code>listUser</code> mà quên gọi thì màn hình vẫn hiện dữ liệu cũ.</li>
+          <li><code>listUser</code> phải được sửa <em>tại chỗ</em> (<code>add</code>, <code>removeAt</code>, gán theo chỉ số). Gán một danh sách mới cho biến khác thì adapter vẫn trỏ vào danh sách cũ.</li>
+        </ul>
+      </section>
+
+      <section class="block" id="uml">
+        <h2><span class="num">08</span>Đối chiếu UML slide 7</h2>
+        <p>Code đã chỉnh để khớp sơ đồ lớp: <code>add.xml</code>, <code>edit.xml</code>, <code>AddAct</code>, <code>EditAct</code>, biến <code>txtWelcome</code>, id <code>lblEdit</code>/<code>lblDel</code>, 4 ô nhập nằm thẳng trong màn Thêm/Sửa (bản trước gom vào component <code>UserFormView</code>, nay đã bỏ). Chi tiết đầy đủ nằm trong <code>uml-bai04.md</code>.</p>
+        <h3 class="sub">Bốn chỗ không thể theo slide — thuộc lòng để trả lời</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Slide viết</th><th>Code viết</th><th>Vì sao</th></tr></thead>
+            <tbody>
+              <tr><td><code>ShowUser.xml</code>, <code>MenuItem.xml</code></td><td><code>showuser.xml</code>, <code>menuitem.xml</code></td><td>aapt2 từ chối tên file tài nguyên có chữ hoa</td></tr>
+              <tr><td><code>UsernomeAct</code></td><td><code>UserhomeAct</code></td><td>slide gõ nhầm — chính slide viết <code>userhome.xml</code> đúng</td></tr>
+              <tr><td><code>ShowUserFrag.onCreate()</code>, <code>MenuItemFrag.onCreate()</code></td><td>khối <code>init</code></td><td>hai lớp này kế thừa <code>View</code>; <code>onCreate()</code> là của <code>Activity</code></td></tr>
+              <tr><td><code>MenuItem.xml</code> vẽ TextView, <code>MenuItemFrag</code> vẽ Button</td><td><code>&lt;Button android:id="@+id/lblEdit"&gt;</code></td><td>slide tự mâu thuẫn; Button kế thừa TextView nên khai báo này đúng cho cả hai ô</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Ngoài ra <code>UserhomeAct</code> có thêm <code>lwUsers</code>, <code>adapter</code>, <code>editingPosition</code>, <code>onActivityResult</code> — UML thiếu, nhưng bỏ đi thì ListView không có dữ liệu và không nhận được kết quả trả về.</p>
+      </section>
+
+      <section class="block" id="kich-ban">
+        <h2><span class="num">09</span>Kịch bản sửa UI</h2>
+        <p>Mỗi thẻ là một yêu cầu kiểu "đổi cái này đi" — mở ra là thấy đụng file nào, sửa dòng nào.</p>
+
+        <details class="scenario">
+          <summary><span class="idx">KB 1</span>Đổi màu nền của menu Sửa / Xóa<span class="chev">▶</span></summary>
+          <div class="scenario-body">
+            <div class="scenario-goal">Đây chính là thay đổi vừa làm: nền menu chuyển sang <code>#DAE8FC</code>.</div>
+            <div class="file-list"><span class="file-chip">res-bai04/drawable/bg_menu.xml</span><span class="file-chip">res-bai04/layout/menuitem.xml</span></div>
+            <div class="step-label">Bước 1 — tạo drawable</div>
+            <div class="code-block"><div class="code-head"><span class="tag">XML</span><span>bg_menu.xml</span></div><pre class="code">&lt;<span class="kw">shape</span> <span class="attr">android:shape</span>=<span class="str">"rectangle"</span>&gt;
+    &lt;<span class="kw">solid</span> <span class="attr">android:color</span>=<span class="str">"#DAE8FC"</span> /&gt;
+    &lt;<span class="kw">corners</span> <span class="attr">android:radius</span>=<span class="str">"2dp"</span> /&gt;
+    &lt;<span class="kw">stroke</span> <span class="attr">android:width</span>=<span class="str">"1dp"</span> <span class="attr">android:color</span>=<span class="str">"@color/black"</span> /&gt;
+&lt;/<span class="kw">shape</span>&gt;</pre></div>
+            <div class="step-label">Bước 2 — trỏ layout vào nó</div>
+            <p>Trong <code>menuitem.xml</code>, thẻ <code>LinearLayout</code> gốc đổi <code>android:background</code> từ <code>@drawable/bg_input</code> sang <code>@drawable/bg_menu</code>. Hai nút con vẫn để nền trong suốt nên chữ nằm trên nền xanh.</p>
+            <div class="step-label">Bước 3</div>
+            <p><code>./build_and_run.sh bai04</code>. Chỉ đổi tài nguyên nên không cần đụng Kotlin.</p>
+          </div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">KB 2</span>Thêm một trường mới, ví dụ Email<span class="chev">▶</span></summary>
+          <div class="scenario-body">
+            <div class="scenario-goal">Đây là kịch bản hay bị hỏi nhất, vì nó chạm đủ 4 tầng.</div>
+            <div class="file-list"><span class="file-chip">User.kt</span><span class="file-chip">add.xml</span><span class="file-chip">edit.xml</span><span class="file-chip">AddAct.kt</span><span class="file-chip">EditAct.kt</span></div>
+            <ul class="tight">
+              <li><strong>Model:</strong> thêm <code>var email: String = ""</code> vào <code>User</code>.</li>
+              <li><strong>Layout:</strong> trong <code>add.xml</code> chép cặp <code>lblName</code>/<code>txtName</code> thành <code>lblEmail</code>/<code>txtEmail</code>, rồi nối lại chuỗi ràng buộc: <code>txtEmail</code> đặt <code>layout_constraintTop_toBottomOf="@+id/txtDob"</code>, và <code>btnAdd</code> đổi mốc trên thành <code>@+id/txtEmail</code>. Làm y hệt cho <code>edit.xml</code>.</li>
+              <li><strong>Activity:</strong> khai báo <code>txtEmail</code>, <code>findViewById</code>, đọc vào lúc bấm Thêm/Lưu, và <code>EditAct</code> thì <code>setText</code> lúc điền sẵn.</li>
+              <li><strong>Hiển thị:</strong> nếu muốn hiện trên danh sách thì sửa <code>ShowUserFrag.bind()</code>.</li>
+            </ul>
+            <div class="callout warn"><strong>Quên nối lại ràng buộc</strong> là lỗi hay gặp: view mới chèn vào giữa nhưng <code>btnAdd</code> vẫn neo vào <code>txtDob</code> nên hai view đè lên nhau.</div>
+          </div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">KB 3</span>Đổi định dạng ngày sang <code>yyyy-MM-dd</code><span class="chev">▶</span></summary>
+          <div class="scenario-body">
+            <div class="file-list"><span class="file-chip">AddAct.kt</span><span class="file-chip">EditAct.kt</span><span class="file-chip">add.xml</span><span class="file-chip">edit.xml</span></div>
+            <p>Chuỗi <code>"dd/MM/yyyy"</code> xuất hiện 2 lần trong <code>AddAct</code> và 3 lần trong <code>EditAct</code>. Đổi hết, đồng thời sửa <code>android:hint</code> trong hai layout cho khớp.</p>
+            <div class="callout"><strong>Muốn gọn hơn</strong> thì đưa chuỗi vào <code>companion object</code> — nhưng như thế là thêm thành viên không có trong UML, cân nhắc nếu đang chấm theo sơ đồ.</div>
+          </div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">KB 4</span>Đổi dấu <code>•••</code> sang chữ hoặc đổi vị trí<span class="chev">▶</span></summary>
+          <div class="scenario-body">
+            <div class="file-list"><span class="file-chip">res-bai04/layout/showuser.xml</span></div>
+            <ul class="tight">
+              <li><strong>Đổi ký hiệu:</strong> sửa <code>android:text="•••"</code> của <code>lblMenu</code>. Muốn dùng hình thì thay bằng <code>android:drawableStart</code> hoặc đổi sang <code>ImageView</code> — nhớ <code>ShowUserFrag</code> đang ép kiểu <code>TextView</code>.</li>
+              <li><strong>Đưa sang trái:</strong> đổi ràng buộc — <code>lblMenu</code> lấy <code>layout_constraintStart_toStartOf="parent"</code>, còn <code>lblUser</code> đổi thành <code>layout_constraintStart_toEndOf="@+id/lblMenu"</code> và <code>layout_constraintEnd_toEndOf="parent"</code>.</li>
+              <li><strong>Bấm khó trúng?</strong> tăng <code>paddingStart/End</code> của <code>lblMenu</code> — vùng chạm chính là vùng padding, không phải cỡ chữ.</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">KB 5</span>Thêm mục thứ ba vào menu (ví dụ "Xem")<span class="chev">▶</span></summary>
+          <div class="scenario-body">
+            <div class="file-list"><span class="file-chip">menuitem.xml</span><span class="file-chip">MenuItemFrag.kt</span><span class="file-chip">UserhomeAct.kt</span></div>
+            <ul class="tight">
+              <li><code>menuitem.xml</code>: chép một <code>Button</code> nữa, id <code>lblView</code>.</li>
+              <li><code>MenuItemFrag</code>: thêm biến <code>btnView</code>, <code>findViewById</code>, <code>setOnClickListener(this)</code>, thêm tham số <code>onView: () -> Unit</code> vào <code>showAt</code>, thêm nhánh trong <code>onClick</code>.</li>
+              <li><code>UserhomeAct</code>: truyền thêm <code>onView = { … }</code> ở chỗ gọi <code>showAt</code>.</li>
+            </ul>
+          </div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">KB 6</span>Đổi cỡ chữ / căn giữa tiêu đề toàn app<span class="chev">▶</span></summary>
+          <div class="scenario-body">
+            <div class="file-list"><span class="file-chip">res-bai04/layout/*.xml</span></div>
+            <p>Quy ước đang dùng: tiêu đề màn <code>44sp</code> đậm màu <code>#040404</code> có <code>gravity="center"</code>; nhãn và ô nhập <code>26sp</code> màu <code>#000000</code>; chữ trong dòng danh sách <code>24sp</code>; dấu <code>•••</code> <code>30sp</code>. Sửa cỡ nào thì sửa đồng loạt cả 4 layout để các màn không lệch nhau.</p>
+            <div class="callout"><strong>Vì sao <code>sp</code> chứ không <code>dp</code> cho chữ:</strong> <code>sp</code> co giãn theo cỡ chữ người dùng đặt trong Cài đặt, <code>dp</code> thì không.</div>
+          </div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">KB 7</span>Đổi thứ tự các ô trong màn Thêm<span class="chev">▶</span></summary>
+          <div class="scenario-body">
+            <div class="file-list"><span class="file-chip">add.xml</span></div>
+            <p>Trong ConstraintLayout, thứ tự khai báo trong file <em>không</em> quyết định thứ tự hiển thị — ràng buộc mới quyết định. Bốn ô đang xâu chuỗi bằng <code>layout_constraintTop_toBottomOf</code>. Muốn đưa DoB lên trên Fullname thì đổi hai mốc: <code>txtDob</code> neo dưới <code>txtPW</code>, <code>txtName</code> neo dưới <code>txtDob</code>, và nút <code>btnAdd</code> neo dưới <code>txtName</code>. Nhãn đi theo ô nhờ <code>layout_constraintBaseline_toBaselineOf</code> nên không phải sửa.</p>
+          </div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">KB 8</span>Đổi màu / kiểu khung ô nhập<span class="chev">▶</span></summary>
+          <div class="scenario-body">
+            <div class="file-list"><span class="file-chip">res-bai04/drawable/bg_input.xml</span></div>
+            <p>Một file duy nhất, mọi <code>EditText</code> đều trỏ vào. <code>solid</code> là màu nền, <code>stroke</code> là viền, <code>corners</code> là độ bo. Sửa xong là cả login lẫn add/edit đổi theo.</p>
+          </div>
+        </details>
+      </section>
+
+      <section class="block" id="build">
+        <h2><span class="num">10</span>Build &amp; chạy</h2>
+        <div class="code-block">
+          <div class="code-head"><span class="tag">bash</span><span>lệnh thường dùng</span></div>
+          <pre class="code">./build_and_run.sh bai04     <span class="cm"># dựng + cài + mở bài 4</span>
+./build_and_run.sh bai03     <span class="cm"># dựng + cài + mở bài 3 (cài song song được)</span>
+adb logcat -d -b crash       <span class="cm"># xem app có văng không</span>
+adb shell uiautomator dump /sdcard/d.xml   <span class="cm"># đổ cây view thật đang hiển thị</span></pre>
+        </div>
+        <h3 class="sub">Mười bước bên trong script</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>#</th><th>Công cụ</th><th>Làm gì</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>—</td><td>Dọn thư mục <code>build/bai04</code></td></tr>
+              <tr><td>2</td><td><code>aapt2 compile</code></td><td>Nén XML thành dạng nhị phân</td></tr>
+              <tr><td>3</td><td><code>aapt2 link</code></td><td>Gộp tài nguyên, sinh <code>R.java</code>, tạo APK rỗng</td></tr>
+              <tr><td>4a</td><td><code>javac</code></td><td>Biên dịch <code>R.java</code> — <strong>bắt buộc</strong>, xem ghi chú dưới</td></tr>
+              <tr><td>4b</td><td><code>kotlinc</code></td><td>Biên dịch toàn bộ <code>.kt</code> của bài đó</td></tr>
+              <tr><td>5</td><td><code>d8</code></td><td>Đổi bytecode Java sang DEX của Android</td></tr>
+              <tr><td>6</td><td><code>zip</code></td><td>Nhét <code>classes.dex</code> vào APK</td></tr>
+              <tr><td>7</td><td><code>zipalign</code></td><td>Căn biên 4 byte để đọc nhanh hơn</td></tr>
+              <tr><td>8</td><td><code>apksigner</code></td><td>Ký bằng khóa debug — không ký thì máy từ chối cài</td></tr>
+              <tr><td>9-10</td><td><code>adb</code></td><td>Cài rồi mở <code>LoginAct</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout">
+          <strong>Vì sao phải có bước <code>javac</code>:</strong> Kotlin nội tuyến được các hằng <code>int</code>
+          như <code>R.layout.add</code> nên bình thường không cần lớp <code>R</code> lúc chạy. Nhưng
+          ConstraintLayout là thư viện dựng sẵn, nó đọc <code>R.styleable.…</code> — vốn là mảng
+          <code>int[]</code>, không nội tuyến được — nên trong APK phải có lớp <code>R</code> thật.
+          Thiếu bước này app sẽ văng <code>NoClassDefFoundError</code> ngay khi thổi layout.
+        </div>
+      </section>
+
+      <section class="block" id="su-co">
+        <h2><span class="num">11</span>Sự cố thực tế đã gặp</h2>
+
+        <h3 class="sub">1. Nửa trên màn Home biến mất</h3>
+        <p><strong>Hiện tượng:</strong> lời chào, tiêu đề và nút "Thêm mới" không thấy đâu, chỉ còn danh sách.</p>
+        <p><strong>Chẩn đoán:</strong> đọc XML mãi không ra. Đổ cây view thật bằng <code>adb shell uiautomator dump</code> thì thấy <code>action_bar_container</code> chiếm <code>[0,0][1344,327]</code> đè lên nội dung cũng bắt đầu từ <code>[0,0]</code>.</p>
+        <p><strong>Nguyên nhân:</strong> Android 15 với <code>targetSdk 35</code> ép chế độ tràn viền (edge-to-edge).</p>
+        <p><strong>Cách sửa:</strong> theme riêng, không ActionBar và tắt ép tràn viền:</p>
+        <div class="code-block"><div class="code-head"><span class="tag">XML</span><span>values/themes.xml</span></div><pre class="code">&lt;<span class="kw">style</span> <span class="attr">name</span>=<span class="str">"Theme.LoginApp"</span>
+       <span class="attr">parent</span>=<span class="str">"@android:style/Theme.DeviceDefault.Light.NoActionBar"</span>&gt;
+    &lt;<span class="kw">item</span> <span class="attr">name</span>=<span class="str">"android:windowOptOutEdgeToEdgeEnforcement"</span>&gt;true&lt;/<span class="kw">item</span>&gt;
+&lt;/<span class="kw">style</span>&gt;</pre></div>
+        <div class="callout"><strong>Bài học rút ra:</strong> khi giao diện "biến mất" mà XML trông đúng, hãy đổ cây view thật đang chạy thay vì đọc lại file.</div>
+
+        <h3 class="sub">2. <code>attribute layout_constraint… not found</code></h3>
+        <p>ConstraintLayout là thư viện ngoài, script build thủ công không tự biết. Cách sửa: giải nén file <code>.aar</code> vào <code>vendor/</code>, đưa <code>res</code> của nó vào bước compile/link và đưa jar vào kotlinc + d8.</p>
+
+        <h3 class="sub">3. Tách bài ra thì layout đè nhau</h3>
+        <p>Bài 3 và bài 4 cùng có <code>login.xml</code>, <code>userhome.xml</code>… nội dung khác nhau. Một thư mục <code>res</code> chung thì file này đè file kia. Cách sửa: mỗi bài một thư mục <code>res-baiXX</code> và một manifest riêng, script chọn theo tham số.</p>
+
+        <h3 class="sub">4. Bốn ô nhập lệch nhau vài pixel</h3>
+        <p>Nhãn để <code>wrap_content</code> nên "Username:" dài hơn "DoB:", kéo theo điểm bắt đầu của ô nhập lệch. Cách sửa: cho cả 4 nhãn bề rộng cố định <code>140dp</code>.</p>
+      </section>
+
+      <section class="block" id="hoi-dap">
+        <h2><span class="num">12</span>Bộ câu hỏi &amp; trả lời</h2>
+        <p>Bấm vào câu hỏi để mở đáp án. Nhóm A–D là phần chắc chắn bị hỏi.</p>
+
+        <h3 class="sub">A · Vòng đời và điều hướng</h3>
+
+        <details class="scenario">
+          <summary><span class="idx">A1</span>Vì sao sau khi đăng nhập lại gọi <code>finish()</code>?<span class="chev">▶</span></summary>
+          <div class="scenario-body"><p><code>finish()</code> gỡ <code>LoginAct</code> khỏi ngăn xếp. Nếu không gỡ, người dùng ở màn Home bấm Back sẽ quay lại màn đăng nhập — mà lúc đó họ đã đăng nhập rồi, quay lại là vô nghĩa và còn cho phép đăng nhập chồng lên. Bỏ <code>finish()</code> thì Back phải bấm hai lần mới thoát.</p></div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">A2</span><code>onCreate</code>, <code>onResume</code>, <code>onActivityResult</code> chạy theo thứ tự nào khi quay về từ màn Thêm?<span class="chev">▶</span></summary>
+          <div class="scenario-body">
+            <p><code>onActivityResult</code> chạy <strong>trước</strong> <code>onResume</code>. Cụ thể: màn Thêm gọi <code>finish()</code> → hệ thống gọi <code>onActivityResult</code> của màn Home → rồi mới <code>onRestart</code> → <code>onStart</code> → <code>onResume</code>.</p>
+            <p>Hệ quả thực tế: dữ liệu đã được ghi vào <code>listUser</code> xong xuôi trước khi màn hình hiện lại, nên không bao giờ thấy cảnh nhấp nháy dữ liệu cũ. <code>onResume</code> trong bài này gọi thêm <code>notifyDataSetChanged()</code> chỉ là lớp bảo hiểm.</p>
+          </div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">A3</span>Xoay màn hình thì danh sách có mất không?<span class="chev">▶</span></summary>
+          <div class="scenario-body"><p>Có. Xoay làm Activity bị hủy và tạo lại, <code>listUser</code> nằm trong bộ nhớ của Activity nên mất sạch, <code>onCreate</code> chạy lại và nạp lại 4 người mẫu. Muốn giữ thì phải lưu vào <code>onSaveInstanceState</code>, hoặc <code>ViewModel</code>, hoặc chờ bài 5 dùng SQLite. Đây là điểm yếu cố ý của bài "chưa có CSDL".</p></div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">A4</span>Vì sao dùng <code>Activity</code> chứ không phải <code>AppCompatActivity</code>?<span class="chev">▶</span></summary>
+          <div class="scenario-body"><p>Đúng theo slide: dùng View system cổ điển, không kéo thêm thư viện AndroidX ngoài ConstraintLayout. <code>AppCompatActivity</code> đi kèm cả gói appcompat và bắt buộc theme <code>Theme.AppCompat</code>. Đổi lại, ở đây không có <code>supportActionBar</code>, không có tương thích ngược của theme — chấp nhận được vì <code>minSdk 24</code>.</p></div>
+        </details>
+
+        <h3 class="sub">B · Truyền dữ liệu</h3>
+
+        <details class="scenario">
+          <summary><span class="idx">B1</span><code>Serializable</code> và <code>Parcelable</code> khác nhau ra sao? Vì sao chọn <code>Serializable</code>?<span class="chev">▶</span></summary>
+          <div class="scenario-body">
+            <p><code>Serializable</code> là cơ chế của Java, dùng phản chiếu (reflection) nên chậm hơn và sinh rác nhiều hơn, bù lại chỉ cần thêm một chữ vào khai báo lớp. <code>Parcelable</code> là của Android, tự viết cách đọc/ghi nên nhanh hơn đáng kể.</p>
+            <p>Bài này mỗi lần chỉ truyền một đối tượng nhỏ, chênh lệch không đáng kể, và slide cũng vẽ như vậy. Nếu bị hỏi "khi nào phải đổi": khi truyền danh sách lớn hoặc truyền liên tục.</p>
+          </div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">B2</span><code>requestCode</code> để làm gì? Bỏ đi được không?<span class="chev">▶</span></summary>
+          <div class="scenario-body"><p>Một Activity có thể mở nhiều màn con khác nhau, nhưng tất cả kết quả đều rơi vào <em>cùng một</em> hàm <code>onActivityResult</code>. <code>requestCode</code> là nhãn ta tự đặt lúc đi, hệ thống trả nguyên lại lúc về, nhờ đó phân biệt được "cái vừa về là của Thêm hay của Sửa". Bỏ đi thì thêm mới và sửa sẽ lẫn lộn.</p></div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">B3</span><code>resultCode</code> là gì, vì sao phải kiểm tra?<span class="chev">▶</span></summary>
+          <div class="scenario-body"><p>Là kết quả có thành công hay không. Bấm "Thêm" thì màn con gọi <code>setResult(RESULT_OK, intent)</code>; bấm "Hủy" hoặc bấm Back thì kết quả mặc định là <code>RESULT_CANCELED</code> và không kèm dữ liệu. Không kiểm tra thì lúc người dùng bấm Hủy, <code>data</code> là <code>null</code> và app sẽ văng.</p></div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">B4</span><code>startActivityForResult</code> bị đánh dấu lỗi thời, sao vẫn dùng?<span class="chev">▶</span></summary>
+          <div class="scenario-body"><p>Bản thay thế là <code>registerForActivityResult</code> với Activity Result API, nhưng nó nằm trong thư viện AndroidX Activity — thêm phụ thuộc mà bài này cố tình không dùng. Hàm cũ vẫn chạy đúng trên mọi bản Android hiện có. Slide cũng dạy theo cách cũ. Biết cả hai và giải thích được lý do chọn là đủ.</p></div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">B5</span>Vì sao đọc <code>getSerializableExtra</code> phải chia hai nhánh?<span class="chev">▶</span></summary>
+          <div class="scenario-body"><p>Từ API 33 (Tiramisu), Android thêm bản có tham số kiểu — <code>getSerializableExtra("user", User::class.java)</code> — để kiểm tra kiểu ngay lúc đọc, an toàn hơn; bản một tham số bị đánh dấu lỗi thời. Nhưng <code>minSdk</code> của app là 24, máy cũ không có hàm mới. Nên phải hỏi <code>Build.VERSION.SDK_INT</code> rồi chọn nhánh.</p></div>
+        </details>
+
+        <h3 class="sub">C · ListView và Adapter</h3>
+
+        <details class="scenario">
+          <summary><span class="idx">C1</span><code>convertView</code> là gì? Không dùng có sao không?<span class="chev">▶</span></summary>
+          <div class="scenario-body"><p>Là một dòng cũ đã trôi khỏi màn hình, ListView đưa lại để dùng tiếp thay vì tạo View mới. Không dùng (luôn <code>ShowUserFrag(context)</code> mới) thì danh sách dài sẽ giật và tốn bộ nhớ, vì mỗi lần cuộn lại thổi layout lại từ đầu.</p></div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">C2</span>Vì sao <code>setOnMenuClickListener</code> phải gọi lại mỗi lần <code>getView</code> chạy?<span class="chev">▶</span></summary>
+          <div class="scenario-body">
+            <p>Vì listener bắt giữ biến <code>position</code>. Dòng số 0 sau khi cuộn có thể được tái sử dụng cho dòng số 7 — nếu listener cũ còn nguyên, bấm <code>•••</code> ở dòng 7 sẽ đi sửa dòng 0.</p>
+            <p>Nói ngắn gọn: <code>convertView</code> mang theo trạng thái cũ, nên mọi thứ phụ thuộc vị trí đều phải gán lại — cả nội dung lẫn sự kiện.</p>
+          </div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">C3</span><code>notifyDataSetChanged()</code> làm gì? Vì sao xóa xong phải gọi?<span class="chev">▶</span></summary>
+          <div class="scenario-body"><p>Nó báo cho ListView rằng nguồn dữ liệu đã thay đổi, ListView sẽ hỏi lại adapter số dòng và vẽ lại. Xóa khỏi <code>listUser</code> mà không gọi thì danh sách trên màn hình vẫn còn dòng cũ — thậm chí bấm vào dòng đó sẽ gây lỗi vượt chỉ số.</p></div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">C4</span>Vì sao truyền <code>0</code> vào chỗ layout của <code>ArrayAdapter</code>?<span class="chev">▶</span></summary>
+          <div class="scenario-body"><p><code>ArrayAdapter</code> bình thường dùng layout đó để tự vẽ mỗi dòng bằng một TextView. Ở đây <code>getView</code> đã bị ghi đè hoàn toàn, dòng do <code>ShowUserFrag</code> tự dựng, nên tham số ấy không được dùng đến. Truyền <code>0</code> là quy ước cho "không cần".</p></div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">C5</span>ListView và RecyclerView khác nhau thế nào?<span class="chev">▶</span></summary>
+          <div class="scenario-body"><p><code>RecyclerView</code> mới hơn, bắt buộc dùng ViewHolder (ListView chỉ khuyến khích), tách riêng phần bố cục qua <code>LayoutManager</code>, có hoạt ảnh thêm/xóa sẵn, và cập nhật từng dòng thay vì vẽ lại cả danh sách. Đổi lại nó nằm trong AndroidX và viết dài hơn. Bài học dùng ListView cho đúng phạm vi slide.</p></div>
+        </details>
+
+        <h3 class="sub">D · Custom View và menu</h3>
+
+        <details class="scenario">
+          <summary><span class="idx">D1</span><code>ShowUserFrag</code> có phải Fragment không?<span class="chev">▶</span></summary>
+          <div class="scenario-body"><p>Không. Tên có chữ "Frag" theo slide, nhưng nó kế thừa <code>ConstraintLayout</code>, tức là một <code>View</code>. Fragment thật có vòng đời riêng, cần <code>FragmentManager</code> để gắn vào Activity. Ở đây chỉ cần một khối giao diện tái sử dụng nên custom View là đúng và nhẹ hơn.</p></div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">D2</span><code>&lt;merge&gt;</code> dùng để làm gì?<span class="chev">▶</span></summary>
+          <div class="scenario-body">
+            <p>Khi thổi một layout vào bên trong một ViewGroup đã có sẵn, nếu layout đó có gốc là <code>ConstraintLayout</code> nữa thì kết quả là ConstraintLayout lồng ConstraintLayout — thừa một cấp, vẽ chậm hơn. <code>&lt;merge&gt;</code> nói "đừng tạo gốc, đổ thẳng các con vào cha".</p>
+            <p><code>tools:parentTag</code> đi kèm chỉ phục vụ khung xem trước trong Android Studio, để nó biết coi các con này nằm trong loại ViewGroup nào mà vẽ. Không ảnh hưởng lúc chạy.</p>
+          </div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">D3</span><code>@JvmOverloads</code> ở constructor để làm gì?<span class="chev">▶</span></summary>
+          <div class="scenario-body"><p>Hệ thống thổi layout gọi constructor <code>(Context, AttributeSet)</code> bằng phản chiếu khi gặp thẻ custom View trong XML. Kotlin viết tham số mặc định thì chỉ sinh ra <em>một</em> constructor đủ tham số. <code>@JvmOverloads</code> bảo trình biên dịch sinh thêm các bản rút gọn, nhờ đó View đặt được trong XML.</p></div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">D4</span>Vì sao <code>PopupWindow</code> đặt <code>focusable = true</code>?<span class="chev">▶</span></summary>
+          <div class="scenario-body"><p>Để popup nhận sự kiện chạm ngoài vùng của nó và tự đóng. Đặt <code>false</code> thì bấm ra ngoài popup vẫn dính trên màn hình, phải bấm đúng một mục mới đóng — trải nghiệm sai.</p></div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">D5</span><code>showAsDropDown</code> khác <code>showAtLocation</code> chỗ nào?<span class="chev">▶</span></summary>
+          <div class="scenario-body"><p><code>showAsDropDown(anchor)</code> neo popup ngay dưới một View mốc, tự tính tọa độ — đúng nhu cầu "xổ ra ngay dưới dấu <code>•••</code> của dòng đó". <code>showAtLocation</code> đặt theo tọa độ tuyệt đối trong cửa sổ, phải tự tính, thường dùng cho popup giữa màn hình.</p></div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">D6</span>Vì sao <code>dismiss()</code> gọi trước khi chạy hành động?<span class="chev">▶</span></summary>
+          <div class="scenario-body"><p>Vì hành động "Xóa" mở một <code>AlertDialog</code> xác nhận. Nếu popup còn đó, nó nằm trên hộp thoại và che mất nút "Có". Đóng trước rồi mới gọi callback là hết. Đây là lỗi đã thực sự gặp khi làm bài, không phải giả định.</p></div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">D7</span>Vì sao <code>MenuItemFrag</code> nhận hai hàm lambda thay vì tự làm việc?<span class="chev">▶</span></summary>
+          <div class="scenario-body"><p>Để nó chỉ lo phần giao diện — hiện menu, bắt cú bấm — còn việc sửa hay xóa ai thì là chuyện của màn Home vì chỉ Home mới giữ <code>listUser</code>. Nhờ vậy cùng một lớp menu dùng lại cho mọi dòng, chỉ cần truyền vào việc cần làm khác nhau.</p></div>
+        </details>
+
+        <h3 class="sub">E · Layout và tài nguyên</h3>
+
+        <details class="scenario">
+          <summary><span class="idx">E1</span><code>layout_width="0dp"</code> trong ConstraintLayout nghĩa là gì?<span class="chev">▶</span></summary>
+          <div class="scenario-body"><p>Nghĩa là "giãn theo ràng buộc" (match constraints) — chiều rộng được quyết định bởi mốc trái và mốc phải, chứ không phải bởi nội dung. Đây là cách để một ô nhập kéo dài từ sau nhãn tới mép phải. Dùng <code>match_parent</code> trong ConstraintLayout là sai quy ước và có thể cho kết quả bất ngờ.</p></div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">E2</span><code>layout_constraintBaseline_toBaselineOf</code> khác gì với căn theo Top?<span class="chev">▶</span></summary>
+          <div class="scenario-body"><p>Nó căn theo <em>đường chân chữ</em>, nên nhãn "Username:" và chữ trong ô nhập nằm cùng một đường ngang dù hai view cao thấp khác nhau (ô nhập có padding và viền). Căn theo Top thì chữ trong ô nhập sẽ tụt xuống so với nhãn.</p></div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">E3</span><code>dp</code> và <code>sp</code> khác nhau ra sao?<span class="chev">▶</span></summary>
+          <div class="scenario-body"><p><code>dp</code> là đơn vị độc lập mật độ điểm ảnh — 1dp bằng 1 pixel trên màn 160dpi, hệ thống tự nhân lên ở màn dày hơn, giữ cho kích thước vật lý không đổi. <code>sp</code> giống <code>dp</code> nhưng còn nhân thêm hệ số cỡ chữ người dùng chọn trong Cài đặt. Vì thế: kích thước dùng <code>dp</code>, cỡ chữ dùng <code>sp</code>.</p></div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">E4</span>Lớp <code>R</code> là gì, ai sinh ra?<span class="chev">▶</span></summary>
+          <div class="scenario-body"><p><code>aapt2</code> sinh ra khi liên kết tài nguyên. Nó là một lớp Java chứa toàn hằng số nguyên, mỗi tài nguyên một số: <code>R.layout.add</code>, <code>R.id.txtUN</code>, <code>R.drawable.bg_menu</code>. Nhờ đó mã nguồn tham chiếu tài nguyên bằng số chứ không bằng chuỗi, sai tên là báo lỗi ngay lúc biên dịch.</p></div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">E5</span>Vì sao tên file trong <code>res/</code> phải viết thường?<span class="chev">▶</span></summary>
+          <div class="scenario-body"><p>Vì tên file trở thành tên trường trong lớp <code>R</code>, và <code>aapt2</code> chỉ chấp nhận chữ thường, chữ số và gạch dưới. Đó là lý do UML ghi <code>ShowUser.xml</code> nhưng file thật phải là <code>showuser.xml</code>.</p></div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">E6</span><code>drawable</code> dạng XML là gì? Sao không dùng ảnh?<span class="chev">▶</span></summary>
+          <div class="scenario-body"><p><code>&lt;shape&gt;</code> mô tả hình bằng chữ: nền, viền, độ bo. Hệ thống vẽ ra lúc chạy nên sắc nét ở mọi độ phân giải và nhẹ hơn ảnh nhiều. <code>ic_dropdown.xml</code> là <code>&lt;vector&gt;</code> — cũng vẽ bằng đường, cùng ưu điểm.</p></div>
+        </details>
+
+        <h3 class="sub">F · Ngày tháng</h3>
+
+        <details class="scenario">
+          <summary><span class="idx">F1</span>Vì sao trong dữ liệu mẫu lại viết <code>month - 1</code>?<span class="chev">▶</span></summary>
+          <div class="scenario-body"><p>Vì <code>Calendar</code> đếm tháng từ 0: tháng 1 là <code>0</code>, tháng 12 là <code>11</code>. Hàm phụ <code>dateOf(2005, 3, 12)</code> nhận tháng theo cách người đọc hiểu nên bên trong phải trừ 1. Ngược lại, <code>month</code> mà <code>DatePickerDialog</code> trả về đã theo hệ 0 rồi nên truyền thẳng, không trừ.</p></div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">F2</span>Vì sao ô ngày sinh để <code>focusable="false"</code>?<span class="chev">▶</span></summary>
+          <div class="scenario-body"><p>Để bấm vào ô là mở lịch chứ không bật bàn phím. Nếu để mặc định, ô nhận con trỏ, bàn phím hiện lên đè lên hộp lịch và người dùng gõ được chuỗi lung tung — lại phải viết thêm phần kiểm tra định dạng. Chặn ở giao diện rẻ hơn kiểm tra ở mã.</p></div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">F3</span><code>Date</code> đang lưu cả giờ phút giây, có sao không?<span class="chev">▶</span></summary>
+          <div class="scenario-body"><p>Có, nếu không đặt lại. Nên trong cả <code>dateOf</code> lẫn callback của DatePicker đều gọi <code>set(…, 0, 0, 0)</code> và <code>set(Calendar.MILLISECOND, 0)</code>. Không làm thì hai ngày sinh cùng ngày vẫn khác nhau khi so sánh, và hiển thị thì không thấy khác biệt nên rất khó tìm ra lỗi.</p></div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">F4</span>Vì sao <code>User.dob</code> là <code>Date</code> chứ không phải <code>Date?</code>?<span class="chev">▶</span></summary>
+          <div class="scenario-body"><p>Để khớp UML (slide ghi <code>dob : Date</code>) và vì màn Thêm đã bắt buộc chọn ngày trước khi cho lưu, nên không có trạng thái "chưa có ngày sinh" lọt vào danh sách. Việc kiểm tra rỗng làm ở tầng giao diện — ô <code>txtDob</code> còn trống thì không cho bấm Thêm.</p></div>
+        </details>
+
+        <h3 class="sub">G · Kiểm tra dữ liệu &amp; thiết kế</h3>
+
+        <details class="scenario">
+          <summary><span class="idx">G1</span>Chặn trùng username làm ở đâu, vì sao đặt ở đó?<span class="chev">▶</span></summary>
+          <div class="scenario-body">
+            <p>Làm trong <code>UserhomeAct.onActivityResult</code>. Lý do: chỉ màn Home mới giữ <code>listUser</code>, nên đặt ở đó thì hai màn con không phải mang thêm biến nào ngoài sơ đồ lớp.</p>
+            <p>Đánh đổi phải nói rõ nếu bị hỏi: kiểm tra sau khi màn con đã đóng nên dữ liệu vừa gõ bị mất, người dùng phải nhập lại. Muốn giữ lại thì phải truyền danh sách username sang màn con và kiểm tra tại chỗ — đổi lại là thêm một biến không có trong UML.</p>
+          </div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">G2</span>Khi sửa, đổi username thành tên của chính mình có bị chặn không?<span class="chev">▶</span></summary>
+          <div class="scenario-body"><p>Không. Phép kiểm tra bỏ qua chính dòng đang sửa: <code>i != editingPosition</code>. Nếu không bỏ qua thì bấm Lưu mà không đổi gì cũng bị báo trùng.</p></div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">G3</span>Vì sao so sánh username bằng <code>ignoreCase = true</code>?<span class="chev">▶</span></summary>
+          <div class="scenario-body"><p>Để <code>ND1</code> và <code>nd1</code> bị coi là một. Tên đăng nhập phân biệt hoa thường rất dễ gây nhầm khi đăng nhập, nên chuẩn chung là không phân biệt.</p></div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">G4</span>Mật khẩu đang để nguyên văn trong bộ nhớ — có vấn đề gì không?<span class="chev">▶</span></summary>
+          <div class="scenario-body"><p>Có, và cần nói thẳng là bài tập cố tình đơn giản hóa. Ứng dụng thật phải băm mật khẩu (bcrypt/Argon2) và không bao giờ lưu nguyên văn, cũng không truyền qua Intent. Ở đây dữ liệu chỉ sống trong RAM, không ghi ra đâu cả, và tài khoản đăng nhập cũng là hardcode — phạm vi bài học là luồng màn hình, không phải bảo mật.</p></div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">G5</span>Vì sao bỏ component <code>UserFormView</code> đã làm ở bài trước?<span class="chev">▶</span></summary>
+          <div class="scenario-body"><p>Vì UML slide 7 vẽ 4 ô nhập nằm thẳng trong <code>add.xml</code>/<code>edit.xml</code> và trong <code>AddAct</code>/<code>EditAct</code>. Component là thiết kế tốt hơn về mặt tránh lặp, nhưng yêu cầu là khớp sơ đồ. Nếu được hỏi "cách nào hay hơn": component — vì phần thân hai màn giống hệt nhau, gom lại thì sửa một chỗ ăn cả hai.</p></div>
+        </details>
+
+        <h3 class="sub">H · Công cụ và build</h3>
+
+        <details class="scenario">
+          <summary><span class="idx">H1</span>Vì sao không dùng Gradle?<span class="chev">▶</span></summary>
+          <div class="scenario-body"><p>Để thấy rõ từng bước: biên dịch tài nguyên, sinh <code>R</code>, biên dịch mã, chuyển DEX, đóng gói, ký, cài. Gradle làm hết những việc đó nhưng giấu đi. Ngoài ra một module Gradle chỉ nhận một namespace, mà ở đây muốn dựng hai app từ cùng một thư mục. Cấu hình Gradle vẫn còn, đang trỏ vào bài 4.</p></div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">H2</span>Vì sao APK phải ký mới cài được?<span class="chev">▶</span></summary>
+          <div class="scenario-body"><p>Android dùng chữ ký để xác định "cùng một tác giả" — bản cập nhật phải ký cùng khóa với bản đã cài, nếu không hệ thống từ chối. APK không ký thì không cài được kể cả trên máy ảo. Ở đây dùng khóa debug có sẵn (<code>~/.android/debug.keystore</code>), chỉ hợp cho phát triển.</p></div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">H3</span>Hai app cài song song bằng cách nào?<span class="chev">▶</span></summary>
+          <div class="scenario-body"><p>Android phân biệt ứng dụng bằng <code>applicationId</code> ghi trong manifest. Bài 3 là <code>...bai03</code>, bài 4 là <code>...bai04</code>, khác nhau nên hệ thống coi là hai app, mỗi cái một biểu tượng và một vùng dữ liệu riêng. Tên hiện dưới biểu tượng là <code>android:label</code>.</p></div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">H4</span>Làm sao biết một View đang thực sự nằm ở đâu trên màn hình?<span class="chev">▶</span></summary>
+          <div class="scenario-body"><p><code>adb shell uiautomator dump</code> rồi kéo file XML về đọc. File đó liệt kê mọi View đang hiển thị kèm <code>resource-id</code>, <code>text</code> và <code>bounds</code> theo pixel thật. Đây là cách tìm ra lỗi tràn viền ở mục 11 — nhìn XML nguồn thì không bao giờ thấy.</p></div>
+        </details>
+
+        <h3 class="sub">I · Câu hỏi mở</h3>
+
+        <details class="scenario">
+          <summary><span class="idx">I1</span>Ứng dụng này còn thiếu gì so với app thật?<span class="chev">▶</span></summary>
+          <div class="scenario-body"><ul class="tight"><li>Dữ liệu mất khi xoay màn hình hoặc thoát app — bài 5 sẽ thêm SQLite.</li><li>Mật khẩu lưu nguyên văn.</li><li>Không kiểm tra định dạng: username có thể chứa khoảng trắng, mật khẩu không giới hạn độ dài.</li><li>Không có tìm kiếm, không phân trang.</li><li>Chuỗi hiển thị viết thẳng trong code thay vì đưa vào <code>strings.xml</code> — làm đa ngôn ngữ sẽ phải sửa lại.</li></ul></div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">I2</span>Nếu danh sách có 10.000 người thì chỗ nào chết trước?<span class="chev">▶</span></summary>
+          <div class="scenario-body"><p>Phép chặn trùng username đang duyệt tuyến tính cả danh sách mỗi lần thêm — chậm dần. Sửa bằng một <code>HashSet</code> tên đã dùng. Còn ListView thì vẫn ổn nhờ tái sử dụng View, vì nó chỉ dựng đúng số dòng nhìn thấy.</p></div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">I3</span>Vì sao dùng ConstraintLayout mà không phải LinearLayout?<span class="chev">▶</span></summary>
+          <div class="scenario-body"><p>ConstraintLayout dựng được bố cục phẳng — không phải lồng nhiều lớp ViewGroup để căn chỉnh, nên đo đạc nhanh hơn. Nó cũng cho căn theo đường chân chữ, thứ mà LinearLayout không có, và đó chính là cách nhãn với ô nhập nằm thẳng hàng ở đây.</p></div>
+        </details>
+      </section>
+
+      <section class="block" id="demo">
+        <h2><span class="num">13</span>Kịch bản demo</h2>
+        <div class="callout">
+          <strong>Trước khi bắt đầu:</strong> chạy <code>./build_and_run.sh bai04</code> để máy ảo mở sẵn app.
+          Tài khoản: <code>B23DCAT280</code> / <code>20082005</code> (mã sinh viên và ngày sinh 8 số).
+          Bốn người mẫu <code>nd1</code>–<code>nd4</code> có mật khẩu <code>12345678</code> nhưng không đăng nhập được —
+          chúng chỉ là dữ liệu để quản lý.
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>#</th><th>Thao tác</th><th>Câu nói kèm theo</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>Gõ sai mật khẩu, bấm Login</td><td>"Sai thì báo Đăng nhập thất bại, vẫn ở màn cũ."</td></tr>
+              <tr><td>2</td><td>Gõ đúng, bấm Login</td><td>"Đúng thì tạo đối tượng User, đặt vào Intent bằng putExtra rồi mở màn Home. LoginAct gọi finish nên bấm Back là thoát app."</td></tr>
+              <tr><td>3</td><td>Chỉ vào dòng "Xin chào …"</td><td>"Tên này lấy từ đối tượng User vừa nhận qua Intent."</td></tr>
+              <tr><td>4</td><td>Chỉ vào một dòng danh sách</td><td>"Mỗi dòng là một ShowUserFrag — custom View tự viết, gồm khung tên và dấu ba chấm."</td></tr>
+              <tr><td>5</td><td>Bấm <code>•••</code> dòng đầu</td><td>"Menu này là PopupWindow neo ngay dưới dấu ba chấm vừa bấm, đúng slide 6."</td></tr>
+              <tr><td>6</td><td>Bấm ra ngoài menu</td><td>"Đặt focusable true nên chạm ra ngoài là tự đóng."</td></tr>
+              <tr><td>7</td><td>Bấm <code>•••</code> → Sửa</td><td>"Bốn ô đã điền sẵn, kể cả ngày sinh — dữ liệu truyền sang bằng Serializable."</td></tr>
+              <tr><td>8</td><td>Đổi username thành <code>nd2</code>, bấm Lưu</td><td>"Trùng tên thì bị chặn, danh sách không đổi."</td></tr>
+              <tr><td>9</td><td>Vào Sửa lại, đổi Fullname, Lưu</td><td>"setResult trả về, onActivityResult ghi vào đúng vị trí rồi notifyDataSetChanged."</td></tr>
+              <tr><td>10</td><td>Bấm "Thêm mới", bỏ trống một ô, bấm Thêm</td><td>"Thiếu thông tin thì báo và giữ nguyên màn hình."</td></tr>
+              <tr><td>11</td><td>Điền đủ, bấm ô DoB</td><td>"Ô này không gõ tay được, bấm vào mở DatePickerDialog."</td></tr>
+              <tr><td>12</td><td>Chọn ngày, OK, bấm Thêm</td><td>"Người mới xuất hiện cuối danh sách."</td></tr>
+              <tr><td>13</td><td>Bấm <code>•••</code> → Xóa → Có</td><td>"Có hộp thoại xác nhận; menu đóng trước rồi hộp thoại mới hiện, nếu không nó bị che."</td></tr>
+              <tr><td>14</td><td>Mở màn hình chính của máy, chỉ hai biểu tượng</td><td>"Bài 3 và bài 4 cài song song được vì khác applicationId."</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3 class="sub">Ba câu chuẩn bị sẵn cho phần hỏi thêm</h3>
+        <ul class="tight">
+          <li><strong>"Dữ liệu lưu ở đâu?"</strong> — trong <code>ArrayList</code> của màn Home, mất khi thoát app hoặc xoay màn hình. Đúng phạm vi bài "chưa có CSDL", bài 5 mới thêm SQLite.</li>
+          <li><strong>"Sao không giống hệt sơ đồ?"</strong> — bốn chỗ ở mục 08, đọc thuộc: tên file phải viết thường, <code>UsernomeAct</code> là lỗi gõ, View không có <code>onCreate()</code>, và ô MenuItem trong slide tự mâu thuẫn về kiểu.</li>
+          <li><strong>"Cải tiến được gì?"</strong> — <code>menuitem.xml</code> nên dùng <code>&lt;merge&gt;</code>, chuỗi hiển thị nên đưa vào <code>strings.xml</code>, và chặn trùng nên chuyển sang <code>HashSet</code> nếu danh sách lớn.</li>
+        </ul>
+      </section>
+
+      <footer>
+        Sổ tay bài 4 · sinh cùng mã nguồn trong repo · xem thêm <code>uml-bai04.md</code> (đối chiếu sơ đồ lớp) và <code>luong-du-lieu-bai03.md</code> (luồng trả kết quả).
+      </footer>
+    </div>
+  </main>
+</div>
+
+<script>
+(function () {
+  try {
+    var links = Array.prototype.slice.call(document.querySelectorAll('#navlinks a'));
+    var sections = links.map(function (a) {
+      return document.querySelector(a.getAttribute('href'));
+    });
+    if (!('IntersectionObserver' in window)) return;
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        var idx = sections.indexOf(entry.target);
+        if (idx === -1) return;
+        if (entry.isIntersecting) {
+          links.forEach(function (l) { l.classList.remove('active'); });
+          links[idx].classList.add('active');
+        }
+      });
+    }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+    sections.forEach(function (s) { if (s) observer.observe(s); });
+  } catch (e) { /* scrollspy is a non-essential enhancement */ }
+})();
+</script>
+
+</body>
+</html>
