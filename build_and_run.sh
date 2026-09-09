@@ -49,10 +49,11 @@ JAVA_HOME="$JAVA_HOME" \
   -d build/classes \
   app/src/main/java/ptit/cnpm1/tranxuanthanh/bai03/User.kt \
   app/src/main/java/ptit/cnpm1/tranxuanthanh/bai03/UserFormView.kt \
+  app/src/main/java/ptit/cnpm1/tranxuanthanh/bai03/ShowUserFrag.kt \
+  app/src/main/java/ptit/cnpm1/tranxuanthanh/bai03/MenuItemFrag.kt \
   app/src/main/java/ptit/cnpm1/tranxuanthanh/bai03/LoginAct.kt \
   app/src/main/java/ptit/cnpm1/tranxuanthanh/bai03/UserhomeAct.kt \
   app/src/main/java/ptit/cnpm1/tranxuanthanh/bai03/AddUserAct.kt \
-  app/src/main/java/ptit/cnpm1/tranxuanthanh/bai03/ViewUserAct.kt \
   app/src/main/java/ptit/cnpm1/tranxuanthanh/bai03/EditUserAct.kt
 
 echo "=== 5. Chuyển bytecode sang mã máy Android DEX (d8) ==="

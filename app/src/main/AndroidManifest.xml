@@ -31,10 +31,6 @@
             android:exported="false" />
 
         <activity
-            android:name=".ViewUserAct"
-            android:exported="false" />
-
-        <activity
             android:name=".EditUserAct"
             android:exported="false" />
 
