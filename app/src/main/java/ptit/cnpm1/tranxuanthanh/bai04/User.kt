@@ -7,5 +7,5 @@ data class User(
     var username: String = "",
     var password: String = "",
     var fullname: String = "",
-    var dob: Date? = null
+    var dob: Date = Date()
 ) : Serializable

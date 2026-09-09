@@ -3,12 +3,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_input"
+    android:background="@drawable/bg_menu"
     android:orientation="vertical"
     android:padding="8dp">
 
     <Button
-        android:id="@+id/btnEdit"
+        android:id="@+id/lblEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
@@ -18,7 +18,7 @@
         android:textSize="24sp" />
 
     <Button
-        android:id="@+id/btnDel"
+        android:id="@+id/lblDel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"

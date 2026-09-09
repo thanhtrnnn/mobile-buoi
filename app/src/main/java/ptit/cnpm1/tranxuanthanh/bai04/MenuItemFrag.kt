@@ -30,8 +30,8 @@ class MenuItemFrag @JvmOverloads constructor(
 
     init {
         LayoutInflater.from(context).inflate(R.layout.menuitem, this, true)
-        btnEdit = findViewById(R.id.btnEdit)
-        btnDel = findViewById(R.id.btnDel)
+        btnEdit = findViewById(R.id.lblEdit)
+        btnDel = findViewById(R.id.lblDel)
 
         btnEdit.setOnClickListener(this)
         btnDel.setOnClickListener(this)
@@ -55,8 +55,8 @@ class MenuItemFrag @JvmOverloads constructor(
         // không bị menu che mất
         popup?.dismiss()
         when (v?.id) {
-            R.id.btnEdit -> onEdit?.invoke()
-            R.id.btnDel -> onDelete?.invoke()
+            R.id.lblEdit -> onEdit?.invoke()
+            R.id.lblDel -> onDelete?.invoke()
         }
     }
 }

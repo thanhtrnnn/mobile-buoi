@@ -28,11 +28,11 @@
             android:exported="false" />
 
         <activity
-            android:name=".AddUserAct"
+            android:name=".AddAct"
             android:exported="false" />
 
         <activity
-            android:name=".EditUserAct"
+            android:name=".EditAct"
             android:exported="false" />
 
     </application>
