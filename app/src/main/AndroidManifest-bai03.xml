@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Bài 3: quản lý người dùng (thêm / xem / sửa / xóa) -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ptit.cnpm1.tranxuanthanh.bai03">
 
@@ -9,7 +10,7 @@
     <application
         android:allowBackup="true"
         android:icon="@android:drawable/sym_def_app_icon"
-        android:label="LoginApp"
+        android:label="Bai03 - Quan ly ND"
         android:supportsRtl="true"
         android:theme="@style/Theme.LoginApp">
 
@@ -28,6 +29,10 @@
 
         <activity
             android:name=".AddUserAct"
+            android:exported="false" />
+
+        <activity
+            android:name=".ViewUserAct"
             android:exported="false" />
 
         <activity

@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "ptit.cnpm1.tranxuanthanh.bai03"
+    namespace = "ptit.cnpm1.tranxuanthanh.bai04"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "ptit.cnpm1.tranxuanthanh.bai03"
+        applicationId = "ptit.cnpm1.tranxuanthanh.bai04"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
@@ -26,6 +26,17 @@ android {
             )
         }
     }
+    // Mỗi bài nằm trong một package + thư mục res riêng. Gradle chỉ dựng được
+    // một namespace nên ở đây trỏ vào bài 4; muốn dựng bài 3 thì chạy
+    // ./build_and_run.sh bai03
+    sourceSets {
+        getByName("main") {
+            manifest.srcFile("src/main/AndroidManifest-bai04.xml")
+            java.setSrcDirs(listOf("src/main/java/ptit/cnpm1/tranxuanthanh/bai04"))
+            res.setSrcDirs(listOf("src/main/res-bai04"))
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17

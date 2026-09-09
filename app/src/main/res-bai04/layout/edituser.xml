@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
         android:gravity="center"
-        android:text="Thêm người dùng"
+        android:text="Sửa người dùng"
         android:textColor="#040404"
         android:textSize="44sp"
         android:textStyle="bold"
@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ptit.cnpm1.tranxuanthanh.bai03.UserFormView
+    <ptit.cnpm1.tranxuanthanh.bai04.UserFormView
         android:id="@+id/formUser"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -29,12 +29,12 @@
         app:layout_constraintTop_toBottomOf="@+id/lblTitle" />
 
     <Button
-        android:id="@+id/btnAdd"
+        android:id="@+id/btnSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="44dp"
         android:background="@android:color/transparent"
-        android:text="Thêm"
+        android:text="Lưu"
         android:textColor="#000000"
         android:textSize="26sp"
         android:textStyle="bold"
@@ -53,9 +53,9 @@
         android:textColor="#000000"
         android:textSize="26sp"
         android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@+id/btnAdd"
+        app:layout_constraintBaseline_toBaselineOf="@+id/btnSave"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btnAdd" />
+        app:layout_constraintStart_toEndOf="@+id/btnSave" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
