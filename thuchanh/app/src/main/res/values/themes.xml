@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Light cố định để máy ảo bật Dark mode thì Câu 1 vẫn giống hình trong đề -->
+    <style name="Theme.ThucHanh" parent="Theme.Material3.Light.NoActionBar" />
+</resources>

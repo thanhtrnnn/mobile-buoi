@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Nút Mendaftar ở Câu 1: nền xanh, bo góc -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#3498DB" />
+    <corners android:radius="8dp" />
+</shape>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Câu 1: form đăng ký theo hình trong đề.
+     View gốc không đặt padding: code template (insets) sẽ ghi đè padding của nó.
+     Padding đặt ở LinearLayout bên trong. -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingBottom="24dp">
+
+        <ImageView
+            android:id="@+id/imgBanner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/illustration" />
+
+        <EditText
+            android:id="@+id/txtFullname"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="72dp"
+            android:background="@drawable/bg_edittext"
+            android:hint="Nama Lengkap"
+            android:inputType="textPersonName"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:textColorHint="#9E9E9E"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/txtEmail"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="22dp"
+            android:background="@drawable/bg_edittext"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:textColorHint="#9E9E9E"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/txtPhone"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="22dp"
+            android:background="@drawable/bg_edittext"
+            android:hint="Nomor HP"
+            android:inputType="phone"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:textColorHint="#9E9E9E"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/txtPassword"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="22dp"
+            android:background="@drawable/bg_edittext"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:textColorHint="#9E9E9E"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/txtConfirm"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="22dp"
+            android:background="@drawable/bg_edittext"
+            android:hint="Konfirmasi Password"
+            android:inputType="textPassword"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:textColorHint="#9E9E9E"
+            android:textSize="16sp" />
+
+        <!-- Theme Material tô màu primary lên mọi Button, nên phải tắt tint
+             thì nền xanh trong bg_button mới hiện ra -->
+        <Button
+            android:id="@+id/btnRegister"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/bg_button"
+            android:text="Mendaftar"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:backgroundTint="@null" />
+
+    </LinearLayout>
+
+</ScrollView>

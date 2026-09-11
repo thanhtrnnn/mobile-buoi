@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Câu 2: đặt vé. Khối kết quả ẩn (gone) cho tới khi bấm Đặt vé. -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đặt vé"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/txtName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Họ tên"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/txtPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Số điện thoại"
+            android:inputType="phone" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Loại vé"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/rgType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/rbFirst"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="First Class - 1,500K" />
+
+            <RadioButton
+                android:id="@+id/rbBusiness"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Business Class - 1,300K" />
+
+            <RadioButton
+                android:id="@+id/rbEconomy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Economy Class - 1,000K" />
+
+        </RadioGroup>
+
+        <EditText
+            android:id="@+id/txtQty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Số vé"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/txtDiscount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Giảm giá (%)"
+            android:inputType="numberDecimal" />
+
+        <Button
+            android:id="@+id/btnBook"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Đặt vé" />
+
+        <LinearLayout
+            android:id="@+id/layoutResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/lblName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/lblPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/lblTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <!-- wrap_content: để match_parent thì RatingBar bị kéo giãn, méo sao -->
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:numStars="5"
+                android:stepSize="1" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>
