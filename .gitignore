@@ -16,3 +16,6 @@ local.properties
 
 # macOS
 .DS_Store
+
+# Impeccable: cấu hình riêng máy này
+.impeccable/config.local.json
