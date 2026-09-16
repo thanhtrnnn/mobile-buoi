@@ -1,0 +1,1320 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sổ Tay Bai05</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #F2F6F5;
+    --surface: #FFFFFF;
+    --surface-2: #EAF1EF;
+    --border: #D9E3E0;
+    --text: #16231F;
+    --text-2: #52625D;
+    --text-3: #7C8B86;
+    --accent: #0E8C7C;
+    --accent-strong: #0A6E62;
+    --accent-soft: #DCF3EE;
+    --danger: #B23A2E;
+    --danger-soft: #FBE6E3;
+    --code-bg: #101B19;
+    --code-text: #DCEFEA;
+    --code-text-dim: #8FADA5;
+    --code-accent: #6FE0C6;
+    --code-string: #E8C08A;
+    --code-border: #22322D;
+    --chip-bg: #FFFFFF;
+    --shadow: 0 1px 2px rgba(16, 30, 26, 0.06), 0 6px 20px rgba(16, 30, 26, 0.05);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0D1513;
+      --surface: #15201D;
+      --surface-2: #182420;
+      --border: #253430;
+      --text: #E7F2EF;
+      --text-2: #9AB0AA;
+      --text-3: #718882;
+      --accent: #3FD1B8;
+      --accent-strong: #6FE9D3;
+      --accent-soft: #16302B;
+      --danger: #E4685A;
+      --danger-soft: #2E1917;
+      --code-bg: #0A1211;
+      --code-text: #DCEFEA;
+      --code-text-dim: #7E9691;
+      --code-accent: #6FE0C6;
+      --code-string: #E8C08A;
+      --code-border: #21302B;
+      --chip-bg: #15201D;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0D1513;
+    --surface: #15201D;
+    --surface-2: #182420;
+    --border: #253430;
+    --text: #E7F2EF;
+    --text-2: #9AB0AA;
+    --text-3: #718882;
+    --accent: #3FD1B8;
+    --accent-strong: #6FE9D3;
+    --accent-soft: #16302B;
+    --danger: #E4685A;
+    --danger-soft: #2E1917;
+    --code-bg: #0A1211;
+    --code-text: #DCEFEA;
+    --code-text-dim: #7E9691;
+    --code-accent: #6FE0C6;
+    --code-string: #E8C08A;
+    --code-border: #21302B;
+    --chip-bg: #15201D;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "IBM Plex Sans", -apple-system, "Segoe UI", sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 { font-family: "IBM Plex Sans", sans-serif; font-weight: 600; text-wrap: balance; color: var(--text); }
+  code, pre, .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+  a { color: var(--accent-strong); }
+  p { color: var(--text-2); max-width: 68ch; }
+
+  .shell {
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr);
+    max-width: 1240px;
+    margin: 0 auto;
+  }
+
+  /* ---------- Sidebar ---------- */
+  .sidebar {
+    position: sticky;
+    top: 0;
+    align-self: start;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 28px 18px 40px 24px;
+    border-right: 1px solid var(--border);
+  }
+  .sidebar-brand {
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    margin-bottom: 4px;
+  }
+  .sidebar-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 22px;
+  }
+  .sidebar nav { display: flex; flex-direction: column; gap: 2px; }
+  .sidebar nav a {
+    display: block;
+    text-decoration: none;
+    color: var(--text-2);
+    font-size: 13.5px;
+    padding: 7px 10px;
+    border-radius: 7px;
+    border-left: 2px solid transparent;
+  }
+  .sidebar nav a:hover { background: var(--surface-2); color: var(--text); }
+  .sidebar nav a.active {
+    background: var(--accent-soft);
+    color: var(--accent-strong);
+    border-left-color: var(--accent);
+    font-weight: 500;
+  }
+  .sidebar nav .group-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-3);
+    margin: 16px 0 6px 10px;
+  }
+  .sidebar nav .group-label:first-child { margin-top: 0; }
+  .mobile-toc { display: none; }
+
+  /* ---------- Main ---------- */
+  main { padding: 40px 40px 100px; min-width: 0; }
+  .content-col { max-width: 780px; }
+
+  header.hero {
+    margin-bottom: 40px;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent-strong);
+    background: var(--accent-soft);
+    padding: 5px 10px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+  }
+  h1.page-title { font-size: 34px; margin: 0 0 10px; letter-spacing: -0.01em; }
+  .lede { font-size: 15.5px; color: var(--text-2); max-width: 62ch; }
+
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    margin-top: 26px;
+    max-width: 780px;
+  }
+  .stat-tile {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    box-shadow: var(--shadow);
+  }
+  .stat-tile .label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-3); margin-bottom: 4px; }
+  .stat-tile .value { font-size: 14px; font-weight: 600; color: var(--text); font-family: "IBM Plex Mono", monospace; overflow-wrap: anywhere; }
+
+  section.block { margin: 56px 0; scroll-margin-top: 24px; }
+  section.block h2 {
+    font-size: 22px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 20px;
+  }
+  section.block h2 .num { color: var(--text-3); font-weight: 500; margin-right: 8px; }
+  h3.sub { font-size: 16px; margin: 28px 0 10px; }
+  h4.tiny { font-size: 13px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-3); margin: 20px 0 8px; }
+
+  /* ---------- Code blocks ---------- */
+  .code-block {
+    background: var(--code-bg);
+    border: 1px solid var(--code-border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 14px 0;
+    max-width: 780px;
+  }
+  .code-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 14px;
+    font-size: 11.5px;
+    color: var(--code-text-dim);
+    border-bottom: 1px solid var(--code-border);
+    font-family: "IBM Plex Mono", monospace;
+    letter-spacing: 0.02em;
+  }
+  .code-head .tag {
+    color: var(--code-accent);
+    font-weight: 600;
+  }
+  pre.code {
+    margin: 0;
+    padding: 14px 16px;
+    overflow-x: auto;
+    font-size: 12.8px;
+    line-height: 1.65;
+    color: var(--code-text);
+  }
+  pre.code .kw { color: var(--code-accent); }
+  pre.code .str { color: var(--code-string); }
+  pre.code .cm { color: var(--code-text-dim); font-style: italic; }
+  pre.code .attr { color: #9FD1F5; }
+
+  .code-pair { display: grid; grid-template-columns: 1fr; gap: 10px; }
+  @media (min-width: 720px) {
+    .code-pair.two { grid-template-columns: 1fr 1fr; }
+  }
+  .code-pair .code-block { margin: 0; }
+
+  /* ---------- Tables ---------- */
+  .table-wrap { overflow-x: auto; max-width: 780px; border: 1px solid var(--border); border-radius: 10px; }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; min-width: 560px; }
+  thead th {
+    text-align: left;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-3);
+    background: var(--surface-2);
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  tbody td {
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-2);
+    vertical-align: top;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  td code, th code { font-family: "IBM Plex Mono", monospace; font-size: 12px; background: var(--surface-2); padding: 1px 5px; border-radius: 4px; color: var(--text); }
+
+  /* ---------- Flow diagram ---------- */
+  .flow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 18px 0 26px;
+  }
+  .flow-node {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: var(--shadow);
+    text-align: center;
+  }
+  .flow-node .file { display: block; font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--text-3); font-weight: 400; margin-top: 2px; }
+  .flow-arrow { color: var(--text-3); font-size: 15px; }
+  .flow-branch { display: flex; flex-direction: column; gap: 8px; }
+
+  /* ---------- Callouts ---------- */
+  .callout {
+    max-width: 780px;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    background: var(--surface);
+    border-radius: 0 10px 10px 0;
+    padding: 12px 16px;
+    margin: 18px 0;
+    font-size: 13.5px;
+    color: var(--text-2);
+  }
+  .callout strong { color: var(--text); }
+  .callout.warn { border-left-color: var(--danger); }
+  .callout.warn strong { color: var(--danger); }
+
+  /* ---------- Scenario cards ---------- */
+  .scenario {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+    margin-bottom: 14px;
+    max-width: 780px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .scenario summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 16px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    font-size: 14.5px;
+  }
+  .scenario summary::-webkit-details-marker { display: none; }
+  .scenario summary .chev {
+    margin-left: auto;
+    color: var(--text-3);
+    transition: transform 0.15s ease;
+    font-size: 12px;
+  }
+  .scenario[open] summary .chev { transform: rotate(90deg); }
+  .scenario summary .idx {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    color: var(--accent-strong);
+    background: var(--accent-soft);
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-weight: 600;
+  }
+  .scenario-body { padding: 0 18px 20px; }
+  .scenario-goal { font-size: 13.5px; color: var(--text-2); margin-bottom: 10px; }
+  .file-list { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .file-chip {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11.5px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    padding: 3px 8px;
+    border-radius: 6px;
+    color: var(--text-2);
+  }
+  .step-label { font-size: 12px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.04em; margin: 14px 0 6px; }
+
+  /* ---------- misc ---------- */
+  .kbd {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11.5px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-bottom-width: 2px;
+    padding: 1px 6px;
+    border-radius: 5px;
+  }
+  ul.tight { margin: 8px 0; padding-left: 20px; color: var(--text-2); font-size: 13.5px; }
+  ul.tight li { margin-bottom: 4px; }
+  footer { max-width: 780px; padding: 30px 0 10px; color: var(--text-3); font-size: 12px; border-top: 1px solid var(--border); margin-top: 60px; }
+
+  @media (max-width: 900px) {
+    .shell { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    .mobile-toc {
+      display: block;
+      margin: 16px 40px 0;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface);
+    }
+    .mobile-toc summary { padding: 12px 16px; font-weight: 600; font-size: 13.5px; cursor: pointer; }
+    .mobile-toc nav { padding: 0 16px 14px; display: flex; flex-direction: column; gap: 2px; }
+    .mobile-toc nav a { color: var(--text-2); text-decoration: none; font-size: 13px; padding: 5px 0; }
+    main { padding: 24px 20px 80px; }
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="sidebar-brand">PTIT · Lập trình mobile</div>
+    <div class="sidebar-title">Sổ tay Bai05</div>
+    <nav id="navlinks">
+      <div class="group-label">Tổng quan</div>
+      <a href="#tong-quan">Bài 5 làm gì</a>
+      <a href="#khac-bai04">Khác bài 4 chỗ nào</a>
+      <a href="#ba-lop">Ba lớp SQLite phải thuộc</a>
+      <div class="group-label">Hai lớp mới</div>
+      <a href="#dbhelper">DBHelper</a>
+      <a href="#userdao">UserDAO — 6 hàm</a>
+      <a href="#luong">Luồng màn hình &amp; dữ liệu</a>
+      <a href="#ngay-thang">Ngày sinh: Date ↔ TEXT</a>
+      <div class="group-label">Đối chiếu</div>
+      <a href="#uml">UML slide 7</a>
+      <a href="#tra-cuu">Tra cứu nhanh</a>
+      <div class="group-label">Thực hành</div>
+      <a href="#kich-ban">Kịch bản sửa</a>
+      <a href="#build">Build, chạy, xem CSDL</a>
+      <a href="#su-co">Sự cố thực tế</a>
+      <div class="group-label">Bảo vệ bài</div>
+      <a href="#hoi-dap">Bộ câu hỏi &amp; trả lời</a>
+      <a href="#demo">Kịch bản demo</a>
+    </nav>
+  </aside>
+
+  <main>
+    <details class="mobile-toc">
+      <summary>Mục lục</summary>
+      <nav>
+        <a href="#tong-quan">Bài 5 làm gì</a>
+        <a href="#khac-bai04">Khác bài 4 chỗ nào</a>
+        <a href="#ba-lop">Ba lớp SQLite phải thuộc</a>
+        <a href="#dbhelper">DBHelper</a>
+        <a href="#userdao">UserDAO — 6 hàm</a>
+        <a href="#luong">Luồng màn hình &amp; dữ liệu</a>
+        <a href="#ngay-thang">Ngày sinh: Date ↔ TEXT</a>
+        <a href="#uml">UML slide 7</a>
+        <a href="#tra-cuu">Tra cứu nhanh</a>
+        <a href="#kich-ban">Kịch bản sửa</a>
+        <a href="#build">Build, chạy, xem CSDL</a>
+        <a href="#su-co">Sự cố thực tế</a>
+        <a href="#hoi-dap">Bộ câu hỏi &amp; trả lời</a>
+        <a href="#demo">Kịch bản demo</a>
+      </nav>
+    </details>
+
+    <div class="content-col">
+      <header class="hero" id="tong-quan">
+        <div class="eyebrow">Bai05 · SQLite và DBHelper</div>
+        <h1 class="page-title">Sổ tay bài 5 — dữ liệu xuống CSDL</h1>
+        <p class="lede">
+          Giao diện giữ y hệt bài 4. Toàn bộ điểm mới nằm ở chỗ dữ liệu người dùng
+          không còn nằm trong <code>ArrayList</code> của RAM nữa mà nằm trong một file
+          <strong>SQLite</strong> trên máy, truy cập qua hai lớp mới: <strong>DBHelper</strong>
+          (tạo file và bảng) và <strong>UserDAO</strong> (sáu hàm đọc/ghi).
+          Đọc xong trang này là biết dữ liệu đi đường nào, sửa ở đâu, và trả lời được vấn đáp.
+        </p>
+        <div class="stat-row">
+          <div class="stat-tile"><div class="label">Package Kotlin</div><div class="value">ptit.cnpm1.tranxuanthanh.bai05</div></div>
+          <div class="stat-tile"><div class="label">Tên hiện trên máy</div><div class="value">Bai05 - SQLite, DBHelper</div></div>
+          <div class="stat-tile"><div class="label">File CSDL</div><div class="value">quanlind.db</div></div>
+          <div class="stat-tile"><div class="label">Bảng</div><div class="value">user (5 cột)</div></div>
+          <div class="stat-tile"><div class="label">Build</div><div class="value">./build_and_run.sh bai05</div></div>
+          <div class="stat-tile"><div class="label">Đăng nhập</div><div class="value">B23DCAT280 / 20082005</div></div>
+        </div>
+      </header>
+
+      <!-- ============ 01 ============ -->
+      <section class="block" id="khac-bai04">
+        <h2><span class="num">01</span>Bài 5 khác bài 4 chỗ nào</h2>
+        <p>Giao diện không đổi một pixel. Sáu thay đổi đều nằm dưới lớp giao diện.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Việc</th><th>Bài 4</th><th>Bài 5</th></tr></thead>
+            <tbody>
+              <tr><td>Nơi cất dữ liệu</td><td><code>ArrayList&lt;User&gt;</code> trong RAM</td><td>File SQLite <code>quanlind.db</code></td></tr>
+              <tr><td>Tắt app rồi mở lại</td><td>Mất hết, quay về 4 dòng mẫu</td><td>Còn nguyên, đọc lại từ file</td></tr>
+              <tr><td>Đăng nhập</td><td>So với 3 hằng số cắm cứng trong <code>LoginAct</code></td><td><code>UserDAO.checkLogin()</code> truy vấn CSDL</td></tr>
+              <tr><td>Thêm / sửa</td><td>Màn con trả <code>User</code> về bằng <code>setResult</code>, Home tự chèn vào list</td><td>Màn con tự gọi <code>add()</code> / <code>edit()</code>, Home chỉ đọc lại</td></tr>
+              <tr><td>Làm tươi danh sách</td><td><code>onActivityResult</code></td><td><code>onResume()</code> gọi <code>getAll()</code></td></tr>
+              <tr><td>Lớp mới</td><td>—</td><td><code>DBHelper</code>, <code>UserDAO</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout">
+          <strong>Câu chốt khi bị hỏi:</strong> bài 4 là "dữ liệu sống trong màn hình",
+          bài 5 là "dữ liệu sống trong CSDL, màn hình chỉ mượn về để hiển thị".
+        </div>
+      </section>
+
+      <!-- ============ 02 ============ -->
+      <section class="block" id="ba-lop">
+        <h2><span class="num">02</span>Ba lớp SQLite phải thuộc</h2>
+        <p>Android dựng sẵn SQLite trong hệ điều hành, không phải cài thư viện. Chỉ cần nhớ ba lớp và một lớp phụ.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Lớp</th><th>Việc của nó</th><th>Trong bài này</th></tr></thead>
+            <tbody>
+              <tr><td><code>SQLiteOpenHelper</code></td><td>Tạo file db, tạo bảng lần đầu, nâng cấp khi đổi phiên bản</td><td><code>DBHelper</code> kế thừa nó</td></tr>
+              <tr><td><code>SQLiteDatabase</code></td><td>Cái "tay cầm" để chạy SQL: <code>insert</code>, <code>update</code>, <code>delete</code>, <code>rawQuery</code>, <code>execSQL</code></td><td><code>dbHelper.writableDatabase</code> / <code>.readableDatabase</code></td></tr>
+              <tr><td><code>Cursor</code></td><td>Con trỏ chạy trên kết quả SELECT, đọc từng dòng</td><td>Lặp bằng <code>moveToNext()</code>, đọc bằng <code>getString()</code></td></tr>
+              <tr><td><code>ContentValues</code></td><td>Cái túi <code>cột → giá trị</code> để đưa cho <code>insert</code>/<code>update</code></td><td>Hàm <code>valuesOf(u)</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 class="sub">writableDatabase và readableDatabase khác gì nhau</h3>
+        <p>
+          Thực tế cả hai trả về <em>cùng một</em> đối tượng ghi được. Gọi <code>readableDatabase</code>
+          chỉ để nói rõ ý định "chỗ này chỉ đọc thôi". Lần gọi đầu tiên của cả hai sẽ mở file db,
+          và nếu file chưa có thì chính lúc đó <code>onCreate()</code> mới chạy.
+        </p>
+
+        <h3 class="sub">Vì sao phải dùng dấu <code>?</code> chứ không nối chuỗi</h3>
+        <div class="code-pair two">
+          <div class="code-block">
+            <div class="code-head"><span class="tag">SAI</span><span>nối chuỗi</span></div>
+<pre class="code"><span class="cm">// Nếu username chứa dấu ' là câu SQL vỡ,</span>
+<span class="cm">// tệ hơn là bị SQL injection</span>
+rawQuery(<span class="str">"SELECT * FROM user "</span> +
+  <span class="str">"WHERE username = '"</span> + un + <span class="str">"'"</span>, <span class="kw">null</span>)</pre>
+          </div>
+          <div class="code-block">
+            <div class="code-head"><span class="tag">ĐÚNG</span><span>tham số hóa</span></div>
+<pre class="code"><span class="cm">// Giá trị đi riêng, SQLite tự bọc an toàn</span>
+rawQuery(<span class="str">"SELECT * FROM user "</span> +
+  <span class="str">"WHERE username = ?"</span>,
+  <span class="kw">arrayOf</span>(un))</pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 03 ============ -->
+      <section class="block" id="dbhelper">
+        <h2><span class="num">03</span>DBHelper — tạo file và bảng</h2>
+        <p>
+          Nhiệm vụ duy nhất: trả lời câu hỏi <em>"file CSDL tên gì, trong đó có bảng gì"</em>.
+          Không có câu lệnh đọc/ghi dữ liệu nào ở đây — tất cả nằm bên <code>UserDAO</code>.
+        </p>
+
+        <div class="code-block">
+          <div class="code-head"><span class="tag">DBHelper.kt</span><span>khai báo</span></div>
+<pre class="code"><span class="kw">class</span> DBHelper(context: Context) :
+    SQLiteOpenHelper(context, DB_NAME, <span class="kw">null</span>, DB_VERSION) {
+
+    <span class="kw">companion object</span> {
+        <span class="kw">private const val</span> DB_NAME = <span class="str">"quanlind.db"</span>
+        <span class="kw">private const val</span> DB_VERSION = <span class="str">1</span>
+
+        <span class="kw">const val</span> TABLE = <span class="str">"user"</span>
+        <span class="kw">const val</span> COL_ID = <span class="str">"id"</span>
+        <span class="kw">const val</span> COL_USERNAME = <span class="str">"username"</span>
+        <span class="kw">const val</span> COL_PASSWORD = <span class="str">"password"</span>
+        <span class="kw">const val</span> COL_FULLNAME = <span class="str">"fullname"</span>
+        <span class="kw">const val</span> COL_DOB = <span class="str">"dob"</span>
+    }</pre>
+        </div>
+
+        <h4 class="tiny">Bốn tham số của constructor cha</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Tham số</th><th>Giá trị</th><th>Nghĩa</th></tr></thead>
+            <tbody>
+              <tr><td><code>context</code></td><td>Activity hoặc applicationContext</td><td>Để biết thư mục riêng của app</td></tr>
+              <tr><td><code>name</code></td><td><code>"quanlind.db"</code></td><td>Tên file db</td></tr>
+              <tr><td><code>factory</code></td><td><code>null</code></td><td>Không cần Cursor tùy biến</td></tr>
+              <tr><td><code>version</code></td><td><code>1</code></td><td>Tăng số này thì <code>onUpgrade()</code> chạy</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 class="sub">onCreate — chỉ chạy đúng một lần</h3>
+        <p>
+          Chạy vào lần đầu mở CSDL mà file chưa tồn tại. Đã có file rồi thì
+          <strong>không bao giờ chạy lại</strong>, kể cả khi ta sửa code trong đó.
+          Đây là cái bẫy hay dính nhất, xem mục <a href="#su-co">Sự cố thực tế</a>.
+        </p>
+        <div class="code-block">
+          <div class="code-head"><span class="tag">DBHelper.kt</span><span>onCreate</span></div>
+<pre class="code"><span class="kw">override fun</span> onCreate(db: SQLiteDatabase) {
+    <span class="cm">// username là UNIQUE: nhờ vậy insert một username đã có sẽ tự hỏng và</span>
+    <span class="cm">// UserDAO.add() trả về false, không cần tự đi dò danh sách nữa.</span>
+    db.execSQL(
+        <span class="str">"CREATE TABLE $TABLE ("</span> +
+            <span class="str">"$COL_ID INTEGER PRIMARY KEY AUTOINCREMENT, "</span> +
+            <span class="str">"$COL_USERNAME TEXT NOT NULL UNIQUE, "</span> +
+            <span class="str">"$COL_PASSWORD TEXT NOT NULL, "</span> +
+            <span class="str">"$COL_FULLNAME TEXT NOT NULL, "</span> +
+            <span class="str">"$COL_DOB TEXT NOT NULL)"</span>
+    )
+
+    insertSeed(db, <span class="str">"B23DCAT280"</span>, <span class="str">"20082005"</span>, <span class="str">"Trần Xuân Thành"</span>, <span class="str">"20/08/2005"</span>)
+    insertSeed(db, <span class="str">"nd1"</span>, <span class="str">"12345678"</span>, <span class="str">"Nguyễn B"</span>, <span class="str">"12/03/2005"</span>)
+    insertSeed(db, <span class="str">"nd2"</span>, <span class="str">"12345678"</span>, <span class="str">"Trần C"</span>, <span class="str">"02/11/2004"</span>)
+    insertSeed(db, <span class="str">"nd3"</span>, <span class="str">"12345678"</span>, <span class="str">"Lê Thị D"</span>, <span class="str">"25/07/2005"</span>)
+    insertSeed(db, <span class="str">"nd4"</span>, <span class="str">"12345678"</span>, <span class="str">"Hoàng E"</span>, <span class="str">"08/01/2003"</span>)
+}</pre>
+        </div>
+
+        <h4 class="tiny">Năm cột, giải thích từng cái</h4>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Cột</th><th>Kiểu</th><th>Vì sao</th></tr></thead>
+            <tbody>
+              <tr><td><code>id</code></td><td>INTEGER PRIMARY KEY AUTOINCREMENT</td><td>Khóa chính, SQLite tự đánh số. Cần vì UML có <code>delete(id : int)</code></td></tr>
+              <tr><td><code>username</code></td><td>TEXT NOT NULL <strong>UNIQUE</strong></td><td>UNIQUE để CSDL tự chặn trùng, không phải tự dò</td></tr>
+              <tr><td><code>password</code></td><td>TEXT NOT NULL</td><td>Bài tập nên để thô, thực tế phải băm</td></tr>
+              <tr><td><code>fullname</code></td><td>TEXT NOT NULL</td><td>Dùng để chào ở màn Home và hiện trên từng dòng</td></tr>
+              <tr><td><code>dob</code></td><td>TEXT NOT NULL</td><td>Cất chuỗi <code>"dd/MM/yyyy"</code>, xem mục <a href="#ngay-thang">Ngày sinh</a></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 class="sub">onUpgrade — xóa sạch làm lại</h3>
+        <div class="code-block">
+          <div class="code-head"><span class="tag">DBHelper.kt</span><span>onUpgrade</span></div>
+<pre class="code"><span class="kw">override fun</span> onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
+    db.execSQL(<span class="str">"DROP TABLE IF EXISTS $TABLE"</span>)
+    onCreate(db)
+}</pre>
+        </div>
+        <div class="callout warn">
+          <strong>Biết mà trả lời:</strong> cách này <em>mất sạch dữ liệu người dùng</em>.
+          Chấp nhận được với bài tập. App thật phải dùng <code>ALTER TABLE</code> để giữ lại dữ liệu cũ.
+        </div>
+      </section>
+
+      <!-- ============ 04 ============ -->
+      <section class="block" id="userdao">
+        <h2><span class="num">04</span>UserDAO — đúng 6 hàm như UML</h2>
+        <p>
+          DAO viết tắt của <em>Data Access Object</em>: lớp trung gian duy nhất được phép viết SQL.
+          Các Activity chỉ gọi hàm và nhận về <code>User</code>, không bao giờ nhìn thấy câu SQL nào.
+          Đổi CSDL sang thứ khác thì chỉ sửa lớp này.
+        </p>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Hàm</th><th>Trả về</th><th>Ai gọi</th><th>SQL bên dưới</th></tr></thead>
+            <tbody>
+              <tr><td><code>add(u)</code></td><td>Boolean</td><td>AddAct</td><td><code>INSERT</code></td></tr>
+              <tr><td><code>edit(u)</code></td><td>Boolean</td><td>EditAct</td><td><code>UPDATE … WHERE id = ?</code></td></tr>
+              <tr><td><code>delete(id)</code></td><td>Boolean</td><td>UserhomeAct</td><td><code>DELETE … WHERE id = ?</code></td></tr>
+              <tr><td><code>search(key)</code></td><td>ArrayList&lt;User&gt;</td><td>LoginAct</td><td><code>SELECT … LIKE ?</code></td></tr>
+              <tr><td><code>getAll()</code></td><td>ArrayList&lt;User&gt;</td><td>UserhomeAct</td><td><code>SELECT *</code></td></tr>
+              <tr><td><code>checkLogin(u)</code></td><td>Boolean</td><td>LoginAct</td><td><code>SELECT id … WHERE un = ? AND pw = ?</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 class="sub">add — dựa vào UNIQUE để chặn trùng</h3>
+        <div class="code-block">
+          <div class="code-head"><span class="tag">UserDAO.kt</span><span>add</span></div>
+<pre class="code"><span class="kw">fun</span> add(u: User): Boolean {
+    <span class="kw">val</span> db = dbHelper.writableDatabase
+    <span class="cm">// insert trả về -1 khi vi phạm ràng buộc UNIQUE</span>
+    <span class="kw">val</span> id = db.insert(DBHelper.TABLE, <span class="kw">null</span>, valuesOf(u))
+    <span class="kw">return</span> id != <span class="str">-1L</span>
+}</pre>
+        </div>
+        <p>
+          <code>insert()</code> trả về id của dòng mới, hoặc <code>-1</code> nếu hỏng.
+          Nó <strong>không ném ngoại lệ</strong> khi trùng UNIQUE — đây là lý do chọn nó
+          thay vì <code>execSQL</code>.
+        </p>
+
+        <h3 class="sub">edit — vì sao phải CONFLICT_IGNORE</h3>
+        <div class="code-block">
+          <div class="code-head"><span class="tag">UserDAO.kt</span><span>edit</span></div>
+<pre class="code"><span class="kw">fun</span> edit(u: User): Boolean {
+    <span class="kw">val</span> db = dbHelper.writableDatabase
+    <span class="kw">val</span> rows = db.updateWithOnConflict(
+        DBHelper.TABLE,
+        valuesOf(u),
+        <span class="str">"${DBHelper.COL_ID} = ?"</span>,
+        <span class="kw">arrayOf</span>(u.id.toString()),
+        SQLiteDatabase.CONFLICT_IGNORE
+    )
+    <span class="kw">return</span> rows &gt; <span class="str">0</span>
+}</pre>
+        </div>
+        <div class="callout">
+          <strong>Khác với insert:</strong> <code>db.update()</code> thường sẽ <em>ném</em>
+          <code>SQLiteConstraintException</code> khi username mới trùng người khác, làm app văng.
+          <code>updateWithOnConflict(… CONFLICT_IGNORE)</code> thì bỏ qua lặng lẽ và trả về
+          <code>0</code> dòng, để mình hiện Toast báo trùng cho đẹp.
+        </div>
+
+        <h3 class="sub">query — chỗ duy nhất đọc Cursor</h3>
+        <p>Cả <code>getAll()</code> lẫn <code>search()</code> đều gọi chung hàm riêng này, nên code đọc Cursor chỉ viết một lần.</p>
+        <div class="code-block">
+          <div class="code-head"><span class="tag">UserDAO.kt</span><span>query + userOf</span></div>
+<pre class="code"><span class="kw">private fun</span> query(sql: String, args: Array&lt;String&gt;?): ArrayList&lt;User&gt; {
+    <span class="kw">val</span> db = dbHelper.readableDatabase
+    <span class="kw">val</span> cursor = db.rawQuery(sql, args)
+    <span class="kw">val</span> list = ArrayList&lt;User&gt;()
+    <span class="kw">while</span> (cursor.moveToNext()) {     <span class="cm">// nhảy sang dòng kế, hết thì false</span>
+        list.add(userOf(cursor))
+    }
+    cursor.close()                     <span class="cm">// KHÔNG quên, nếu không sẽ rò bộ nhớ</span>
+    <span class="kw">return</span> list
+}
+
+<span class="kw">private fun</span> userOf(c: Cursor) = User(
+    id       = c.getInt(c.getColumnIndexOrThrow(DBHelper.COL_ID)),
+    username = c.getString(c.getColumnIndexOrThrow(DBHelper.COL_USERNAME)),
+    password = c.getString(c.getColumnIndexOrThrow(DBHelper.COL_PASSWORD)),
+    fullname = c.getString(c.getColumnIndexOrThrow(DBHelper.COL_FULLNAME)),
+    dob      = toDate(c.getString(c.getColumnIndexOrThrow(DBHelper.COL_DOB)))
+)</pre>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Lệnh Cursor</th><th>Làm gì</th></tr></thead>
+            <tbody>
+              <tr><td><code>moveToNext()</code></td><td>Nhảy sang dòng tiếp theo, trả <code>false</code> khi hết — hợp với vòng <code>while</code></td></tr>
+              <tr><td><code>moveToFirst()</code></td><td>Nhảy về dòng đầu, trả <code>false</code> nếu rỗng — dùng cho <code>checkLogin</code></td></tr>
+              <tr><td><code>getColumnIndexOrThrow("x")</code></td><td>Tên cột → số thứ tự cột; sai tên thì ném lỗi ngay chứ không âm thầm</td></tr>
+              <tr><td><code>getString(i)</code>, <code>getInt(i)</code></td><td>Đọc ô tại cột thứ <code>i</code> của dòng hiện tại</td></tr>
+              <tr><td><code>close()</code></td><td>Trả bộ nhớ. Bắt buộc, kể cả khi kết quả rỗng</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 class="sub">checkLogin — chỉ hỏi "có hay không"</h3>
+        <div class="code-block">
+          <div class="code-head"><span class="tag">UserDAO.kt</span><span>checkLogin</span></div>
+<pre class="code"><span class="kw">fun</span> checkLogin(u: User): Boolean {
+    <span class="kw">val</span> db = dbHelper.readableDatabase
+    <span class="kw">val</span> cursor = db.rawQuery(
+        <span class="str">"SELECT ${DBHelper.COL_ID} FROM ${DBHelper.TABLE} "</span> +
+            <span class="str">"WHERE ${DBHelper.COL_USERNAME} = ? AND ${DBHelper.COL_PASSWORD} = ?"</span>,
+        <span class="kw">arrayOf</span>(u.username, u.password)
+    )
+    <span class="kw">val</span> found = cursor.moveToFirst()
+    cursor.close()
+    <span class="kw">return</span> found
+}</pre>
+        </div>
+        <p>
+          Chỉ <code>SELECT id</code> chứ không <code>SELECT *</code>: chỉ cần biết có dòng nào khớp hay không,
+          kéo thêm cột là phí. Cũng vì thế mà nó không trả về họ tên — xem mục sau.
+        </p>
+      </section>
+
+      <!-- ============ 05 ============ -->
+      <section class="block" id="luong">
+        <h2><span class="num">05</span>Luồng màn hình &amp; luồng dữ liệu</h2>
+
+        <div class="flow">
+          <div class="flow-node">LoginAct<span class="file">login.xml</span></div>
+          <div class="flow-arrow">›</div>
+          <div class="flow-node">UserhomeAct<span class="file">userhome.xml</span></div>
+          <div class="flow-arrow">›</div>
+          <div class="flow-branch">
+            <div class="flow-node">AddAct<span class="file">add.xml</span></div>
+            <div class="flow-node">EditAct<span class="file">edit.xml</span></div>
+          </div>
+        </div>
+
+        <h3 class="sub">Đăng nhập — hai lần hỏi CSDL</h3>
+        <p>
+          UML bắt <code>checkLogin()</code> chỉ trả về <code>Boolean</code>, mà màn Home lại cần
+          <code>fullname</code> để chào. Nên sau khi đúng mật khẩu phải hỏi CSDL thêm lần nữa,
+          dùng chính <code>search()</code> có sẵn trong UML.
+        </p>
+        <div class="code-block">
+          <div class="code-head"><span class="tag">LoginAct.kt</span><span>onClick</span></div>
+<pre class="code"><span class="cm">// Đóng gói UN và PW trên layout thành một đối tượng User</span>
+<span class="kw">val</span> input = User(
+    username = txtUN.text.toString().trim(),
+    password = txtPW.text.toString().trim()
+)
+
+<span class="kw">if</span> (!dao.checkLogin(input)) {
+    Toast.makeText(<span class="kw">this</span>, <span class="str">"Đăng nhập thất bại"</span>, Toast.LENGTH_SHORT).show()
+    <span class="kw">return</span>
+}
+
+<span class="cm">// search() khớp gần đúng nên phải lọc lại cho đúng username vừa nhập</span>
+<span class="kw">val</span> user = dao.search(input.username)
+    .firstOrNull { it.username == input.username } ?: input
+
+startActivity(Intent(<span class="kw">this</span>, UserhomeAct::<span class="kw">class</span>.java).apply {
+    putExtra(<span class="str">"user"</span>, user)
+})
+finish()</pre>
+        </div>
+        <div class="callout warn">
+          <strong>Vì sao phải <code>firstOrNull { }</code>:</strong> <code>search()</code> dùng
+          <code>LIKE '%key%'</code> nên tìm <code>"nd1"</code> cũng ra <code>"nd10"</code>,
+          <code>"and1"</code>… Phải lọc lại cho khớp tuyệt đối.
+        </div>
+
+        <h3 class="sub">Màn Home — onResume là chỗ làm tươi duy nhất</h3>
+        <p>
+          Android gọi <code>onResume()</code> mỗi lần màn hình quay lại tiền cảnh,
+          kể cả ngay sau <code>onCreate()</code>. Nên chỉ cần đặt <code>reload()</code> ở đó
+          là cả ba trường hợp đều đúng: mở lần đầu, quay về từ màn Thêm, quay về từ màn Sửa.
+        </p>
+        <div class="code-block">
+          <div class="code-head"><span class="tag">UserhomeAct.kt</span><span>reload + onResume</span></div>
+<pre class="code"><span class="cm">/** Đọc lại toàn bộ người dùng từ CSDL và vẽ lại ListView. */</span>
+<span class="kw">private fun</span> reload() {
+    listUser.clear()
+    listUser.addAll(dao.getAll())
+    adapter.notifyDataSetChanged()
+}
+
+<span class="kw">override fun</span> onResume() {
+    <span class="kw">super</span>.onResume()
+    reload()
+}</pre>
+        </div>
+        <div class="callout">
+          <strong>Bấm Hủy thì sao?</strong> Vẫn chạy <code>onResume()</code> và vẫn đọc lại CSDL,
+          nhưng vì màn Hủy không ghi gì nên dữ liệu đọc về y hệt, nhìn ra ngoài là "không đổi".
+          Đúng yêu cầu slide 9 và 10.
+        </div>
+
+        <h3 class="sub">Thêm và Sửa tự ghi, không trả dữ liệu về</h3>
+        <p>Slide 9 nói rõ: hàm xử lý nút Thêm <em>gọi add() của UserDAO</em>. Nên việc ghi nằm ở màn con, không phải ở Home.</p>
+        <div class="code-pair two">
+          <div class="code-block">
+            <div class="code-head"><span class="tag">AddAct.kt</span><span>nút Thêm</span></div>
+<pre class="code"><span class="kw">val</span> newUser = User(
+    username = username,
+    password = password,
+    fullname = fullname,
+    dob = UserDAO.toDate(dobText)
+)
+
+<span class="kw">if</span> (!dao.add(newUser)) {
+    Toast.makeText(<span class="kw">this</span>,
+        <span class="str">"Username đã tồn tại"</span>,
+        Toast.LENGTH_SHORT).show()
+    <span class="kw">return</span>
+}
+finish()</pre>
+          </div>
+          <div class="code-block">
+            <div class="code-head"><span class="tag">EditAct.kt</span><span>nút Lưu</span></div>
+<pre class="code"><span class="cm">// Giữ nguyên id để sửa đúng dòng</span>
+user = User(
+    id = user.id,
+    username = username,
+    password = password,
+    fullname = fullname,
+    dob = UserDAO.toDate(dobText)
+)
+
+<span class="kw">if</span> (!dao.edit(user)) { <span class="cm">/* Toast trùng */</span> }
+finish()</pre>
+          </div>
+        </div>
+
+        <h3 class="sub">Xóa — nằm ở Home vì dialog thuộc về Home</h3>
+        <div class="code-block">
+          <div class="code-head"><span class="tag">UserhomeAct.kt</span><span>confirmDelete</span></div>
+<pre class="code">AlertDialog.Builder(<span class="kw">this</span>)
+    .setTitle(<span class="str">"Xác nhận xóa"</span>)
+    .setMessage(<span class="str">"Bạn có chắc chắn muốn xóa người dùng \""</span> + target.fullname + <span class="str">"\" không?"</span>)
+    .setPositiveButton(<span class="str">"Có"</span>) { _, _ -&gt;
+        <span class="kw">if</span> (dao.delete(target.id)) reload()
+        <span class="kw">else</span> Toast.makeText(<span class="kw">this</span>, <span class="str">"Xóa thất bại"</span>, Toast.LENGTH_SHORT).show()
+    }
+    <span class="cm">// Bấm Không thì không làm gì, ở nguyên trang home</span>
+    .setNegativeButton(<span class="str">"Không"</span>, <span class="kw">null</span>)
+    .show()</pre>
+        </div>
+      </section>
+
+      <!-- ============ 06 ============ -->
+      <section class="block" id="ngay-thang">
+        <h2><span class="num">06</span>Ngày sinh: Date trong code, TEXT trong CSDL</h2>
+        <p>
+          SQLite <strong>không có kiểu ngày tháng</strong>. Chỉ có NULL, INTEGER, REAL, TEXT, BLOB.
+          Nên ngày sinh phải quy ước cất thành một trong ba dạng:
+        </p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Cách</th><th>Ưu</th><th>Nhược</th></tr></thead>
+            <tbody>
+              <tr><td>TEXT <code>"dd/MM/yyyy"</code> ← bài này dùng</td><td>Mở file db ra đọc hiểu ngay, đúng định dạng hiện trên giao diện</td><td>Sắp xếp theo ngày bị sai thứ tự</td></tr>
+              <tr><td>TEXT <code>"yyyy-MM-dd"</code></td><td>Sắp xếp chữ cũng đúng thứ tự thời gian</td><td>Phải đổi định dạng khi hiển thị</td></tr>
+              <tr><td>INTEGER (mili giây)</td><td>Gọn, so sánh nhanh</td><td>Nhìn vào file db không đọc được</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="code-block">
+          <div class="code-head"><span class="tag">UserDAO.kt</span><span>companion object</span></div>
+<pre class="code"><span class="kw">companion object</span> {
+    <span class="kw">private fun</span> format() = SimpleDateFormat(<span class="str">"dd/MM/yyyy"</span>, Locale.getDefault())
+
+    <span class="kw">fun</span> toText(date: Date): String = format().format(date)
+
+    <span class="kw">fun</span> toDate(text: String): Date = <span class="kw">try</span> {
+        format().parse(text) ?: Date()
+    } <span class="kw">catch</span> (e: java.text.ParseException) {
+        Date()
+    }
+}</pre>
+        </div>
+        <div class="callout">
+          <strong>Ba câu hỏi hay bị vặn:</strong>
+          <ul class="tight">
+            <li><em>Sao <code>format()</code> là hàm chứ không phải hằng số?</em> <code>SimpleDateFormat</code> không an toàn khi nhiều luồng dùng chung. Tạo mới mỗi lần là chắc chắn đúng.</li>
+            <li><em>Sao phải <code>try/catch</code>?</em> Dữ liệu trong CSDL có thể hỏng hoặc sai định dạng; bắt lỗi rồi trả ngày hôm nay thì app không văng.</li>
+            <li><em>Sao để trong <code>companion object</code>?</em> Để <code>AddAct</code> và <code>EditAct</code> gọi thẳng <code>UserDAO.toDate(...)</code> mà không cần tạo đối tượng DAO.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ============ 07 ============ -->
+      <section class="block" id="uml">
+        <h2><span class="num">07</span>Đối chiếu UML slide 7</h2>
+        <p>Toàn bộ lớp và hàm đều khớp. Ba chỗ lệch dưới đây là cố ý, học thuộc lý do để trả lời.</p>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Lớp trong UML</th><th>Trong code</th><th>Khớp?</th></tr></thead>
+            <tbody>
+              <tr><td><code>UserDAO</code> — 6 hàm</td><td>add, edit, delete, search, getAll, checkLogin</td><td>Đúng 6, không thừa không thiếu</td></tr>
+              <tr><td><code>DBHelper</code> — <code>+onCreate()</code></td><td>onCreate + onUpgrade</td><td>onUpgrade là bắt buộc của lớp cha</td></tr>
+              <tr><td><code>UserhomeAct</code> — onCreate, onClick, onResume</td><td>đủ cả ba</td><td>Khớp</td></tr>
+              <tr><td><code>LoginAct</code>, <code>AddAct</code>, <code>EditAct</code></td><td>onCreate + onClick</td><td>Khớp</td></tr>
+              <tr><td><code>ShowUserFrag</code>, <code>MenuItemFrag</code></td><td>có <code>onCreate()</code></td><td>Khớp tên hàm</td></tr>
+              <tr><td><code>User</code> — 4 thuộc tính</td><td>có thêm <code>id</code></td><td>Lệch, xem bên dưới</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 class="sub">Ba chỗ lệch — thuộc lòng để trả lời</h3>
+        <details class="scenario">
+          <summary><span class="idx">01</span>User có thêm thuộc tính id<span class="chev">›</span></summary>
+          <div class="scenario-body">
+            <p class="scenario-goal">UML vẽ <code>User</code> chỉ có username, password, fullname, dob.</p>
+            <p>
+              Nhưng cũng chính UML đó ghi <code>delete(id : int) : boolean</code> và
+              <code>edit(u : User) : boolean</code>. Muốn xóa hay sửa đúng một dòng thì phải có khóa chính.
+              Nếu không thêm <code>id</code> thì chỉ còn cách lấy <code>username</code> làm khóa,
+              mà như thế thì <em>không sửa được username</em> nữa. Nên thêm <code>id</code> là bắt buộc về mặt kỹ thuật.
+            </p>
+          </div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">02</span>Tên file khác slide 4<span class="chev">›</span></summary>
+          <div class="scenario-body">
+            <p class="scenario-goal">Slide 4 ghi <code>adduser.xml</code>, <code>edituser.xml</code>, <code>AddUserAct</code>, <code>EditUserAct</code>, package <code>.bai03</code>.</p>
+            <p>
+              Đó là chữ chép lại từ bài 3, chưa sửa. UML slide 7 — là hình vẽ chính thức của bài này —
+              ghi <code>add.xml</code>, <code>edit.xml</code>, <code>AddAct</code>, <code>EditAct</code>.
+              Code theo UML slide 7, giống hệt bài 4. Nếu thầy yêu cầu theo slide 4 thì đổi tên rất nhanh.
+            </p>
+          </div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">03</span>ShowUserFrag / MenuItemFrag không phải Fragment<span class="chev">›</span></summary>
+          <div class="scenario-body">
+            <p class="scenario-goal">Tên có chữ "Frag" nhưng là custom View, kế thừa ConstraintLayout và LinearLayout.</p>
+            <ul class="tight">
+              <li><code>ShowUserFrag</code> là <em>một dòng</em> của <code>ListView</code>. Android không cho mỗi dòng danh sách là một Fragment.</li>
+              <li><code>MenuItemFrag</code> nếu làm <code>DialogFragment</code> thì hộp menu nhảy ra giữa màn hình, mất kiểu neo ngay dưới dấu ••• như wireframe slide 5.</li>
+              <li>Cả hai vẫn có hàm <code>onCreate()</code> đúng tên UML vẽ; chỉ khác là do khối <code>init</code> gọi chứ không phải hệ thống gọi.</li>
+            </ul>
+          </div>
+        </details>
+      </section>
+
+      <!-- ============ 08 ============ -->
+      <section class="block" id="tra-cuu">
+        <h2><span class="num">08</span>Tra cứu nhanh</h2>
+
+        <h3 class="sub">Ai gọi hàm nào của DAO</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Màn hình</th><th>Gọi</th><th>Khi nào</th></tr></thead>
+            <tbody>
+              <tr><td>LoginAct</td><td><code>checkLogin()</code> rồi <code>search()</code></td><td>Bấm nút Login</td></tr>
+              <tr><td>UserhomeAct</td><td><code>getAll()</code></td><td>Mỗi lần <code>onResume()</code></td></tr>
+              <tr><td>UserhomeAct</td><td><code>delete(id)</code></td><td>Bấm Có trong dialog xác nhận</td></tr>
+              <tr><td>AddAct</td><td><code>add(u)</code></td><td>Bấm nút Thêm</td></tr>
+              <tr><td>EditAct</td><td><code>edit(u)</code></td><td>Bấm nút Lưu</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 class="sub">Ba hàm phụ bên trong DAO (không có trong UML, là private)</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Hàm</th><th>Việc</th></tr></thead>
+            <tbody>
+              <tr><td><code>query(sql, args)</code></td><td>Chạy SELECT, lặp Cursor, trả <code>ArrayList&lt;User&gt;</code></td></tr>
+              <tr><td><code>valuesOf(u)</code></td><td><code>User</code> → <code>ContentValues</code> (không đưa <code>id</code> vào, để SQLite tự lo)</td></tr>
+              <tr><td><code>userOf(c)</code></td><td>Một dòng Cursor → <code>User</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 class="sub">Đường dẫn file db trên máy</h3>
+        <div class="code-block">
+          <div class="code-head"><span class="tag">shell</span><span>vị trí file</span></div>
+<pre class="code">/data/data/ptit.cnpm1.tranxuanthanh.bai05/databases/quanlind.db</pre>
+        </div>
+      </section>
+
+      <!-- ============ 09 ============ -->
+      <section class="block" id="kich-ban">
+        <h2><span class="num">09</span>Kịch bản sửa</h2>
+
+        <details class="scenario">
+          <summary><span class="idx">01</span>Đổi dữ liệu mẫu ban đầu<span class="chev">›</span></summary>
+          <div class="scenario-body">
+            <p class="scenario-goal">Sửa danh sách 5 người có sẵn lúc chạy lần đầu.</p>
+            <div class="file-list"><span class="file-chip">DBHelper.kt</span></div>
+            <div class="step-label">Bước 1</div>
+            <p>Sửa các dòng <code>insertSeed(...)</code> trong <code>onCreate()</code>.</p>
+            <div class="step-label">Bước 2 — bắt buộc</div>
+            <p>
+              Gỡ app rồi cài lại, vì <code>onCreate()</code> đã chạy xong từ lần trước và
+              <strong>không chạy lại</strong>:
+            </p>
+            <div class="code-block">
+              <div class="code-head"><span class="tag">shell</span></div>
+<pre class="code">adb uninstall ptit.cnpm1.tranxuanthanh.bai05
+./build_and_run.sh bai05</pre>
+            </div>
+            <p>Cách khác: tăng <code>DB_VERSION</code> lên <code>2</code> để <code>onUpgrade()</code> xóa bảng rồi dựng lại.</p>
+          </div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">02</span>Thêm một cột mới, ví dụ email<span class="chev">›</span></summary>
+          <div class="scenario-body">
+            <p class="scenario-goal">Thêm trường email vào người dùng.</p>
+            <div class="file-list"><span class="file-chip">User.kt</span><span class="file-chip">DBHelper.kt</span><span class="file-chip">UserDAO.kt</span><span class="file-chip">add.xml</span><span class="file-chip">edit.xml</span><span class="file-chip">AddAct.kt</span><span class="file-chip">EditAct.kt</span></div>
+            <div class="step-label">Thứ tự sửa</div>
+            <ul class="tight">
+              <li><code>User.kt</code> — thêm <code>var email: String = ""</code></li>
+              <li><code>DBHelper.kt</code> — thêm <code>COL_EMAIL</code>, thêm cột vào câu <code>CREATE TABLE</code>, sửa các <code>insertSeed</code>, <strong>tăng <code>DB_VERSION</code></strong></li>
+              <li><code>UserDAO.kt</code> — thêm dòng vào <code>valuesOf()</code> và <code>userOf()</code></li>
+              <li><code>add.xml</code> / <code>edit.xml</code> — thêm <code>lblEmail</code> + <code>txtEmail</code>, nối lại ràng buộc dọc của các ô bên dưới</li>
+              <li><code>AddAct.kt</code> / <code>EditAct.kt</code> — <code>findViewById</code>, đọc chữ, kiểm tra rỗng, đưa vào <code>User</code></li>
+            </ul>
+            <div class="callout warn"><strong>Quên tăng DB_VERSION</strong> thì bảng cũ vẫn thiếu cột, chạy là dính <code>no such column: email</code>.</div>
+          </div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">03</span>Thêm ô tìm kiếm ở màn Home<span class="chev">›</span></summary>
+          <div class="scenario-body">
+            <p class="scenario-goal">Tận dụng <code>search()</code> hiện đang chỉ dùng cho đăng nhập.</p>
+            <div class="file-list"><span class="file-chip">userhome.xml</span><span class="file-chip">UserhomeAct.kt</span></div>
+            <div class="step-label">Bước 1</div>
+            <p>Thêm <code>EditText</code> id <code>txtSearch</code> vào <code>userhome.xml</code>, đặt trên <code>lwUsers</code>.</p>
+            <div class="step-label">Bước 2</div>
+            <div class="code-block">
+              <div class="code-head"><span class="tag">UserhomeAct.kt</span></div>
+<pre class="code"><span class="kw">private fun</span> reload() {
+    <span class="kw">val</span> key = txtSearch.text.toString().trim()
+    listUser.clear()
+    listUser.addAll(<span class="kw">if</span> (key.isEmpty()) dao.getAll() <span class="kw">else</span> dao.search(key))
+    adapter.notifyDataSetChanged()
+}</pre>
+            </div>
+            <div class="step-label">Bước 3</div>
+            <p>Gắn <code>txtSearch.addTextChangedListener { reload() }</code> trong <code>onCreate()</code>.</p>
+          </div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">04</span>Không cho xóa chính tài khoản đang đăng nhập<span class="chev">›</span></summary>
+          <div class="scenario-body">
+            <p class="scenario-goal">Tránh trường hợp tự xóa mình rồi lần sau không vào được.</p>
+            <div class="file-list"><span class="file-chip">UserhomeAct.kt</span></div>
+            <div class="code-block">
+              <div class="code-head"><span class="tag">UserhomeAct.kt</span><span>đầu confirmDelete</span></div>
+<pre class="code"><span class="kw">if</span> (target.id == user?.id) {
+    Toast.makeText(<span class="kw">this</span>, <span class="str">"Không thể xóa tài khoản đang đăng nhập"</span>, Toast.LENGTH_SHORT).show()
+    <span class="kw">return</span>
+}</pre>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <!-- ============ 10 ============ -->
+      <section class="block" id="build">
+        <h2><span class="num">10</span>Build, chạy, và xem CSDL</h2>
+        <div class="code-block">
+          <div class="code-head"><span class="tag">shell</span><span>chạy app</span></div>
+<pre class="code">./build_and_run.sh bai05        <span class="cm"># mặc định cũng là bai05</span>
+./build_and_run.sh bai04        <span class="cm"># muốn chạy lại bài 4</span></pre>
+        </div>
+        <p>Script làm 10 bước: aapt2 compile → aapt2 link → javac R.java → kotlinc → d8 → đóng gói → zipalign → apksigner → adb install → am start.</p>
+
+        <h3 class="sub">Mở file db ra xem bằng tay</h3>
+        <div class="code-block">
+          <div class="code-head"><span class="tag">shell</span><span>adb</span></div>
+<pre class="code"><span class="cm"># Xem thẳng trên máy ảo (máy ảo có quyền root)</span>
+adb shell "run-as ptit.cnpm1.tranxuanthanh.bai05 \
+  sqlite3 databases/quanlind.db 'SELECT * FROM user;'"
+
+<span class="cm"># Hoặc kéo file db về máy tính rồi mở bằng công cụ đồ họa</span>
+adb exec-out run-as ptit.cnpm1.tranxuanthanh.bai05 \
+  cat databases/quanlind.db &gt; quanlind.db</pre>
+        </div>
+        <div class="callout">
+          <strong>Xóa sạch dữ liệu để demo lại từ đầu:</strong>
+          <code>adb uninstall ptit.cnpm1.tranxuanthanh.bai05</code> rồi cài lại.
+          Cách này chắc chắn hơn là xóa dữ liệu trong Settings.
+        </div>
+      </section>
+
+      <!-- ============ 11 ============ -->
+      <section class="block" id="su-co">
+        <h2><span class="num">11</span>Sự cố thực tế đã gặp</h2>
+
+        <h3 class="sub">1. Sửa dữ liệu mẫu mà chạy lên không thấy đổi</h3>
+        <p>
+          Vì <code>onCreate()</code> của <code>SQLiteOpenHelper</code> <strong>chỉ chạy khi file db chưa tồn tại</strong>.
+          Cài đè lên bản cũ thì file vẫn còn nên nó không chạy. Gỡ app hoặc tăng <code>DB_VERSION</code>.
+        </p>
+
+        <h3 class="sub">2. Sửa username thành trùng người khác thì app văng</h3>
+        <p>
+          <code>db.update()</code> ném <code>SQLiteConstraintException</code> khi vi phạm UNIQUE.
+          Đã đổi sang <code>updateWithOnConflict(… CONFLICT_IGNORE)</code> để nó trả về <code>0</code> dòng,
+          rồi <code>edit()</code> trả <code>false</code> và màn hình hiện Toast.
+        </p>
+
+        <h3 class="sub">3. Dùng onActivityResult thì lệch UML</h3>
+        <p>
+          Bản đầu dùng <code>onActivityResult</code> + <code>startActivityForResult</code>.
+          UML slide 7 không có hàm đó, chỉ có <code>onResume()</code>. Đã đổi sang
+          <code>startActivity()</code> + <code>onResume()</code>, bỏ luôn <code>setResult()</code> ở hai màn con.
+        </p>
+
+        <h3 class="sub">4. Menu ••• ở dòng cuối bị cụt mất nút Xóa</h3>
+        <p>
+          <code>PopupWindow.showAsDropDown()</code> luôn xổ xuống dưới, không tự lật lên khi hết chỗ.
+          Ở màn hình ngang, dòng cuối sát đáy nên nút Xóa nằm ngoài màn hình.
+          Lỗi có sẵn từ bài 4, không phải do bài 5. Muốn sửa thì tự tính chỗ trống rồi gọi
+          <code>showAsDropDown(anchor, 0, -height)</code>.
+        </p>
+
+        <h3 class="sub">5. Cursor quên đóng</h3>
+        <p>
+          Không đóng thì logcat cảnh báo <code>Finalizing a Cursor that has not been deactivated or closed</code>
+          và rò bộ nhớ dần. Trong bài này mọi <code>rawQuery</code> đều có <code>cursor.close()</code> đi kèm.
+        </p>
+      </section>
+
+      <!-- ============ 12 ============ -->
+      <section class="block" id="hoi-dap">
+        <h2><span class="num">12</span>Bộ câu hỏi &amp; trả lời</h2>
+
+        <h3 class="sub">A · SQLite và DBHelper</h3>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>SQLiteOpenHelper để làm gì, sao không tự mở file db?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p>Nó lo hộ ba việc khó: tạo file đúng thư mục riêng của app, gọi <code>onCreate()</code> đúng một lần khi file chưa có, và gọi <code>onUpgrade()</code> khi số phiên bản tăng. Tự làm thì phải tự kiểm tra file tồn tại, tự quản lý phiên bản, dễ sai.</p></div>
+        </details>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>onCreate của DBHelper chạy lúc nào?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p>Lúc gọi <code>writableDatabase</code> hoặc <code>readableDatabase</code> lần đầu tiên mà file db chưa tồn tại. Không phải lúc <code>new DBHelper(...)</code> — constructor không mở file.</p></div>
+        </details>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>onUpgrade chạy khi nào? Code trong đó có vấn đề gì?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p>Khi <code>DB_VERSION</code> trong code lớn hơn số phiên bản ghi trong file db. Code hiện tại <code>DROP TABLE</code> rồi tạo lại nên mất sạch dữ liệu — chấp nhận với bài tập, app thật phải dùng <code>ALTER TABLE ADD COLUMN</code>.</p></div>
+        </details>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>writableDatabase với readableDatabase khác gì?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p>Trên thực tế trả về cùng một đối tượng ghi được. Khác nhau về mặt diễn đạt ý định. Chỉ khi đĩa đầy hoặc file chỉ-đọc thì <code>readableDatabase</code> mới trả về bản chỉ đọc thật.</p></div>
+        </details>
+
+        <h3 class="sub">B · UserDAO</h3>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>Vì sao phải tách UserDAO ra, viết thẳng SQL trong Activity không được à?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p>Được nhưng tệ. Tách ra thì: SQL chỉ nằm một chỗ dễ sửa, Activity không phụ thuộc vào việc dữ liệu lưu ở đâu, muốn đổi sang Room hay server chỉ cần viết lại DAO, và muốn viết test cũng dễ hơn.</p></div>
+        </details>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>add() biết username trùng bằng cách nào?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p>Không tự kiểm tra. Cột <code>username</code> khai báo <code>UNIQUE</code> nên SQLite từ chối, <code>db.insert()</code> trả về <code>-1</code>, hàm trả <code>false</code>. Để CSDL lo là chắc hơn tự dò, vì tự dò có thể bị hai luồng chen nhau.</p></div>
+        </details>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>Sao edit() dùng updateWithOnConflict chứ không dùng update?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p><code>update()</code> ném <code>SQLiteConstraintException</code> khi username mới trùng, app văng. <code>updateWithOnConflict</code> với <code>CONFLICT_IGNORE</code> bỏ qua lặng lẽ, trả 0 dòng, mình bắt được để hiện Toast.</p></div>
+        </details>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>search() có nhược điểm gì?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p>Dùng <code>LIKE '%key%'</code> nên khớp cả chuỗi con: tìm <code>nd1</code> ra luôn <code>nd10</code>. Vì thế <code>LoginAct</code> phải lọc lại bằng <code>firstOrNull { it.username == ... }</code>. Ngoài ra <code>%</code> đứng đầu làm SQLite không dùng được chỉ mục, danh sách lớn sẽ chậm.</p></div>
+        </details>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>checkLogin trả Boolean thì lấy fullname ở đâu ra?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p>Hỏi CSDL lần thứ hai bằng <code>search(username)</code>. Đây là hệ quả của việc UML quy định <code>checkLogin</code> chỉ trả <code>Boolean</code>. Nếu được thiết kế lại, cho nó trả về <code>User?</code> sẽ gọn hơn, chỉ cần một lần truy vấn.</p></div>
+        </details>
+
+        <h3 class="sub">C · Cursor và ContentValues</h3>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>Cursor là gì?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p>Con trỏ trỏ vào kết quả của câu SELECT, ban đầu đứng <em>trước</em> dòng đầu tiên. <code>moveToNext()</code> đẩy nó xuống một dòng và trả <code>false</code> khi hết — nên vòng <code>while (cursor.moveToNext())</code> duyệt đúng mọi dòng.</p></div>
+        </details>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>Không gọi cursor.close() thì sao?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p>Rò bộ nhớ và rò con trỏ file. Logcat sẽ cảnh báo <code>Finalizing a Cursor that has not been deactivated or closed</code>. Nhiều quá thì app chậm rồi lỗi.</p></div>
+        </details>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>Sao dùng getColumnIndexOrThrow chứ không getColumnIndex?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p><code>getColumnIndex</code> trả về <code>-1</code> khi sai tên cột, rồi <code>getString(-1)</code> mới nổ ở chỗ khác, khó tìm. <code>OrThrow</code> nổ ngay tại chỗ với tên cột sai in ra rõ ràng.</p></div>
+        </details>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>ContentValues khác gì so với viết thẳng câu INSERT?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p>Là cái map <code>tên cột → giá trị</code>. Dùng nó thì Android tự sinh câu SQL và tự bọc giá trị an toàn, khỏi lo dấu nháy hay SQL injection. Viết tay <code>execSQL</code> phải tự lo hết.</p></div>
+        </details>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>Sao valuesOf() không đưa id vào?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p>Vì <code>id</code> là <code>AUTOINCREMENT</code>, SQLite tự đánh khi <code>INSERT</code>. Còn khi <code>UPDATE</code> thì <code>id</code> đã nằm ở mệnh đề <code>WHERE</code> rồi, không cần ghi đè.</p></div>
+        </details>
+
+        <h3 class="sub">D · Luồng và vòng đời</h3>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>Vì sao làm tươi danh sách ở onResume mà không phải onCreate?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p><code>onCreate()</code> chỉ chạy một lần lúc dựng màn hình. Quay về từ màn Thêm/Sửa thì Activity vẫn sống, chỉ <code>onResume()</code> chạy lại. Đặt ở <code>onResume()</code> bao trùm cả lần đầu vì <code>onResume()</code> luôn chạy ngay sau <code>onCreate()</code>.</p></div>
+        </details>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>Bấm Hủy thì danh sách có bị đọc lại không?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p>Có, vì <code>onResume()</code> luôn chạy. Nhưng màn Hủy không ghi gì vào CSDL nên dữ liệu đọc về y hệt, người dùng không thấy khác biệt — vẫn đúng tinh thần "không cần cập nhật" của slide.</p></div>
+        </details>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>Vì sao AddAct tự gọi dao.add() chứ không trả User về cho Home?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p>Slide 9 ghi rõ: hàm xử lý nút Thêm đóng gói dữ liệu thành <code>User</code> rồi <em>gọi hàm add() của lớp UserDAO</em>. Làm đúng vậy thì Home chỉ còn một việc là đọc lại, code gọn hơn bài 4.</p></div>
+        </details>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>User vẫn truyền qua Intent, vậy Serializable còn cần không?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p>Còn. <code>LoginAct</code> truyền <code>User</code> đang đăng nhập sang <code>UserhomeAct</code>, và <code>UserhomeAct</code> truyền <code>User</code> cần sửa sang <code>EditAct</code>. Hai chỗ đó vẫn đi qua <code>putExtra</code> nên lớp <code>User</code> phải <code>Serializable</code>.</p></div>
+        </details>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>Vì sao UserDAO nhận applicationContext?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p>DAO giữ <code>DBHelper</code>, mà <code>DBHelper</code> giữ <code>Context</code>. Nếu giữ thẳng Activity thì Activity bị đóng rồi vẫn không được thu hồi — rò bộ nhớ. <code>applicationContext</code> sống cùng app nên an toàn.</p></div>
+        </details>
+
+        <h3 class="sub">E · Câu hỏi mở</h3>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>Mật khẩu lưu thô như vậy có vấn đề gì? Sửa thế nào?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p>Ai mở được file db là đọc được hết mật khẩu. Đúng ra phải băm bằng thuật toán chậm có muối (bcrypt, scrypt, Argon2), CSDL chỉ lưu chuỗi băm; lúc đăng nhập thì băm cái người dùng gõ rồi so hai chuỗi băm. Bài tập để thô cho dễ nhìn.</p></div>
+        </details>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>Truy vấn CSDL trên luồng chính có sao không?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p>Với vài chục dòng thì không thấy gì. Dữ liệu lớn sẽ làm giao diện khựng, quá 5 giây là hệ thống báo ANR. App thật phải đẩy xuống luồng nền (coroutine, <code>AsyncTask</code> cũ, hoặc Room trả về <code>Flow</code>).</p></div>
+        </details>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>Nếu dùng Room thay vì tự viết DAO thì khác gì?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p>Room là lớp bọc trên SQLite do Google làm: mình khai báo <code>@Entity</code>, <code>@Dao</code> với câu SQL trong annotation, Room tự sinh code đọc Cursor. Lợi là được kiểm tra câu SQL ngay lúc biên dịch và không phải tự viết <code>userOf()</code>. Bài này tự viết tay để hiểu phần bên dưới.</p></div>
+        </details>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>Vì sao không dùng username làm khóa chính luôn?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p>Vì màn Sửa cho phép đổi username. Nếu username là khóa chính thì đổi nó đồng nghĩa với xóa dòng cũ và thêm dòng mới. Dùng <code>id</code> tự tăng thì username đổi thoải mái mà vẫn là cùng một người.</p></div>
+        </details>
+      </section>
+
+      <!-- ============ 13 ============ -->
+      <section class="block" id="demo">
+        <h2><span class="num">13</span>Kịch bản demo</h2>
+        <p>Thứ tự này chứng minh được điểm mới của bài 5 chỉ trong khoảng hai phút.</p>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>#</th><th>Thao tác</th><th>Câu nói kèm theo</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>Gỡ app, cài lại, mở lên</td><td>"CSDL chưa có, <code>DBHelper.onCreate()</code> chạy, tạo bảng và nạp 5 dòng mẫu"</td></tr>
+              <tr><td>2</td><td>Đăng nhập <code>B23DCAT280</code> / <code>20082005</code></td><td>"Mật khẩu không cắm cứng nữa, <code>checkLogin()</code> truy vấn CSDL"</td></tr>
+              <tr><td>3</td><td>Chỉ vào dòng chào</td><td>"Họ tên lấy bằng <code>search()</code>, vì <code>checkLogin</code> chỉ trả Boolean theo UML"</td></tr>
+              <tr><td>4</td><td>Thêm mới một người</td><td>"<code>AddAct</code> gọi <code>dao.add()</code>, về Home <code>onResume()</code> gọi <code>getAll()</code>"</td></tr>
+              <tr><td>5</td><td><strong>Tắt hẳn app rồi mở lại, đăng nhập lại</strong></td><td>"Người vừa thêm vẫn còn — đây là điểm khác bài 4"</td></tr>
+              <tr><td>6</td><td>Thêm trùng username</td><td>"Cột UNIQUE nên <code>insert</code> trả -1, <code>add()</code> trả false"</td></tr>
+              <tr><td>7</td><td>Sửa họ tên một người</td><td>"<code>edit()</code> chạy <code>UPDATE … WHERE id = ?</code>"</td></tr>
+              <tr><td>8</td><td>Xóa, bấm Không rồi bấm Có</td><td>"Bấm Không không gọi gì; bấm Có mới gọi <code>delete(id)</code> rồi đọc lại"</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout">
+          <strong>Bước 5 là bước quan trọng nhất.</strong> Nếu chỉ bấm nút Back thì Activity vẫn còn trong bộ nhớ,
+          chưa chứng minh được gì. Phải vuốt tắt hẳn app hoặc chạy
+          <code>adb shell am force-stop ptit.cnpm1.tranxuanthanh.bai05</code>.
+        </div>
+
+        <h3 class="sub">Ba câu chuẩn bị sẵn cho phần hỏi thêm</h3>
+        <ul class="tight">
+          <li><strong>"Dữ liệu nằm ở đâu?"</strong> → <code>/data/data/&lt;package&gt;/databases/quanlind.db</code>, thư mục riêng của app, app khác không đọc được.</li>
+          <li><strong>"Sao User có id mà UML không có?"</strong> → Vì UML có <code>delete(id : int)</code>; muốn xóa và sửa đúng dòng thì phải có khóa chính, và không thể lấy username làm khóa vì username được phép đổi.</li>
+          <li><strong>"Sao không dùng Room?"</strong> → Bài học yêu cầu <code>DBHelper</code> và <code>UserDAO</code> để hiểu tầng bên dưới; Room chỉ là lớp bọc sinh code tự động cho đúng những thứ này.</li>
+        </ul>
+      </section>
+
+      <footer>
+        Sổ tay bài 5 · SQLite và DBHelper · PTIT — Phát triển ứng dụng cho thiết bị di động.
+        Đối chiếu với UML slide 7 và yêu cầu slide 8–10.
+      </footer>
+    </div>
+  </main>
+</div>
+
+<script>
+(function () {
+  try {
+    var links = Array.prototype.slice.call(document.querySelectorAll('#navlinks a'));
+    var sections = links.map(function (a) {
+      return document.querySelector(a.getAttribute('href'));
+    });
+    if (!('IntersectionObserver' in window)) return;
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        var idx = sections.indexOf(entry.target);
+        if (idx === -1) return;
+        if (entry.isIntersecting) {
+          links.forEach(function (l) { l.classList.remove('active'); });
+          links[idx].classList.add('active');
+        }
+      });
+    }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+    sections.forEach(function (s) { if (s) observer.observe(s); });
+  } catch (e) { /* scrollspy is a non-essential enhancement */ }
+})();
+</script>
+
+</body>
+</html>

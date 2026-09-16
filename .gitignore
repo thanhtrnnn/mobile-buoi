@@ -1,6 +1,5 @@
-# Build outputs
-/build/
-app/build/
+# Build outputs (mọi thư mục tên build, ở bất kỳ cấp nào)
+build/
 *.apk
 *.aab
 
@@ -16,3 +15,6 @@ local.properties
 
 # macOS
 .DS_Store
+
+# Impeccable: cấu hình và dữ liệu sinh ra trên máy này
+.impeccable/

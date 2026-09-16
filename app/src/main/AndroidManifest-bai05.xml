@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Bài 5: dữ liệu người dùng lưu trong SQLite qua DBHelper + UserDAO -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="ptit.cnpm1.tranxuanthanh.bai05">
+
+    <uses-sdk
+        android:minSdkVersion="24"
+        android:targetSdkVersion="35" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@android:drawable/sym_def_app_icon"
+        android:label="Bai05 - SQLite, DBHelper"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.LoginApp">
+
+        <activity
+            android:name=".LoginAct"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".UserhomeAct"
+            android:exported="false" />
+
+        <activity
+            android:name=".AddAct"
+            android:exported="false" />
+
+        <activity
+            android:name=".EditAct"
+            android:exported="false" />
+
+    </application>
+
+</manifest>

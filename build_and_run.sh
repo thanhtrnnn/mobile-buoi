@@ -1,12 +1,12 @@
 #!/bin/bash
 set -e
 
-# Dùng: ./build_and_run.sh [bai03|bai04]   (mặc định bai04)
+# Dùng: ./build_and_run.sh [bai03|bai04|bai05]   (mặc định bai05)
 # Mỗi bài là một app riêng: package Kotlin riêng, thư mục res riêng, manifest riêng.
-BAI="${1:-bai04}"
+BAI="${1:-bai05}"
 case "$BAI" in
-  bai03|bai04) ;;
-  *) echo "Chỉ nhận bai03 hoặc bai04, không phải '$BAI'"; exit 1 ;;
+  bai03|bai04|bai05) ;;
+  *) echo "Chỉ nhận bai03, bai04 hoặc bai05, không phải '$BAI'"; exit 1 ;;
 esac
 
 SDK="$HOME/Library/Android/sdk"
@@ -42,6 +42,8 @@ $BT/aapt2 link -I "$PLATFORM" \
   --manifest "$MANIFEST" \
   --min-sdk-version 24 \
   --target-sdk-version 35 \
+  --version-code 1 \
+  --version-name 1.0 \
   --java "$OUT/gen" \
   --extra-packages androidx.constraintlayout.widget \
   -o "$OUT/app-unaligned.apk" \
