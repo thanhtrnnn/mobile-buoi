@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Đăng nhập</string>
+    <string name="title_login">Đăng nhập</string>
+    <string name="hint_username">Tài khoản</string>
+    <string name="hint_password">Mật khẩu</string>
+    <string name="btn_login">Login</string>
+    <string name="hello">Hello, %1$s</string>
+    <string name="desc_avatar">Ảnh cá nhân</string>
+</resources>
