@@ -590,11 +590,12 @@ seed(db)</pre>
             <tbody>
               <tr><td><code>getTypes()</code></td><td><code>ArrayList&lt;CategoryType&gt;</code></td><td>Hai kiểu Thu, Chi</td></tr>
               <tr><td><code>getCategories(idType)</code></td><td><code>ArrayList&lt;Category&gt;</code></td><td>Cây mục của một kiểu, <strong>đã duỗi phẳng và xếp đúng thứ tự slide 12</strong></td></tr>
+              <tr><td><code>isDuplicateCategory(c)</code></td><td><code>Boolean</code></td><td>Đã có mục khác cùng kiểu, cùng cha, trùng tên (bỏ khoảng trắng, không phân biệt hoa thường) chưa; bỏ qua chính <code>c</code> theo id</td></tr>
               <tr><td><code>addCategory(c)</code> / <code>editCategory(c)</code></td><td><code>Boolean</code></td><td>INSERT / UPDATE theo <code>id</code></td></tr>
               <tr><td><code>deleteCategory(id)</code></td><td><code>Boolean</code></td><td>Xóa mục, <strong>cả con cháu và mọi giao dịch</strong> dùng những mục đó</td></tr>
               <tr><td><code>getTransactions(date)</code></td><td><code>ArrayList&lt;Transaction&gt;</code></td><td>Giao dịch của một ngày, theo thứ tự thêm vào (<code>ORDER BY id</code>)</td></tr>
               <tr><td><code>addTransaction</code> / <code>editTransaction</code> / <code>deleteTransaction</code></td><td><code>Boolean</code></td><td>Thêm / sửa / xóa giao dịch</td></tr>
-              <tr><td><code>total(date, idType)</code></td><td><code>Float</code></td><td>Tổng thu hoặc chi của ngày — <strong>hiện không ai gọi</strong>, <code>HomeAct</code> tự cộng</td></tr>
+              <tr><td><code>total(date, idType)</code></td><td><code>Float</code></td><td>Tổng thu hoặc chi của ngày, bằng <code>SUM</code> + <code>JOIN</code> sang <code>tblCategory</code>; <code>HomeAct</code> gọi hai lần (thu, chi)</td></tr>
               <tr><td><code>toText(date)</code> / <code>toDate(text)</code></td><td></td><td>Đổi <code>Date</code> ↔ chuỗi <code>dd/MM/yyyy</code> (hàm tĩnh trong <code>companion</code>)</td></tr>
             </tbody>
           </table>
@@ -778,7 +779,7 @@ roots.sortWith(compareByDescending&lt;Category&gt; { branch[it.id] ?: 0 }.then(b
           <table>
             <thead><tr><th>Màn</th><th>onResume làm gì</th><th>Vì sao</th></tr></thead>
             <tbody>
-              <tr><td><code>HomeAct</code></td><td><code>reload()</code>: đọc giao dịch của ngày, cộng tổng</td><td>Vừa thêm/sửa/xóa giao dịch ở màn con</td></tr>
+              <tr><td><code>HomeAct</code></td><td><code>reload()</code>: đọc giao dịch của ngày, gọi <code>total()</code> cho thu và chi</td><td>Vừa thêm/sửa/xóa giao dịch ở màn con</td></tr>
               <tr><td><code>AddAct</code>, <code>EditAct</code></td><td><code>reloadCategories(...)</code>, giữ mục đang chọn</td><td>Vừa thêm/sửa/xóa mục ở màn mục</td></tr>
               <tr><td><code>AddCategoryAct</code>, <code>EditCategoryAct</code></td><td><code>reloadParents(...)</code></td><td>Vừa thêm mục cha bằng dấu +</td></tr>
             </tbody>
@@ -902,12 +903,11 @@ row.setPadding(((15 + 40 * level) * density).toInt(), ...)</pre>
           <table>
             <thead><tr><th>Màn</th><th>Hàm DAO</th></tr></thead>
             <tbody>
-              <tr><td><code>HomeAct</code></td><td><code>getTransactions(today)</code></td></tr>
+              <tr><td><code>HomeAct</code></td><td><code>getTransactions(today)</code>, <code>total(today, ID_THU)</code>, <code>total(today, ID_CHI)</code></td></tr>
               <tr><td><code>AddAct</code></td><td><code>getCategories</code>, <code>addTransaction</code></td></tr>
               <tr><td><code>EditAct</code></td><td><code>getCategories</code>, <code>editTransaction</code>, <code>deleteTransaction</code></td></tr>
-              <tr><td><code>AddCategoryAct</code></td><td><code>getCategories</code>, <code>getTypes</code>, <code>addCategory</code></td></tr>
-              <tr><td><code>EditCategoryAct</code></td><td><code>getCategories</code>, <code>getTypes</code>, <code>editCategory</code>, <code>deleteCategory</code></td></tr>
-              <tr><td>(không ai)</td><td><code>total(date, idType)</code></td></tr>
+              <tr><td><code>AddCategoryAct</code></td><td><code>getCategories</code>, <code>getTypes</code>, <code>isDuplicateCategory</code>, <code>addCategory</code></td></tr>
+              <tr><td><code>EditCategoryAct</code></td><td><code>getCategories</code>, <code>getTypes</code>, <code>isDuplicateCategory</code>, <code>editCategory</code>, <code>deleteCategory</code></td></tr>
             </tbody>
           </table>
         </div>
@@ -1047,7 +1047,7 @@ lblAmount.text = (<span class="kw">if</span> (isThu) <span class="str">"+"</span
             <p>Bước 1: thêm <code>TextView</code> id <code>lblBalance</code> vào <code>home.xml</code>, đặt dưới đường kẻ <code>lineTotal</code>, và sửa <code>lwTrans</code> để <code>layout_constraintTop_toBottomOf="@+id/lblBalance"</code>. Bước 2: khai báo và <code>findViewById</code>. Bước 3: cuối <code>reload()</code>:</p>
             <div class="code-block">
               <div class="code-head"><span class="tag">HomeAct.kt</span><span>cuối reload()</span></div>
-<pre class="code"><span class="kw">val</span> balance = totalThu - totalChi
+<pre class="code"><span class="kw">val</span> balance = dao.total(today, CategoryType.ID_THU) - dao.total(today, CategoryType.ID_CHI)
 lblBalance.text = <span class="str">"Số dư: "</span> + (<span class="kw">if</span> (balance &lt; 0) <span class="str">"-"</span> <span class="kw">else</span> <span class="str">""</span>) + Money.format(Math.abs(balance))</pre>
             </div>
             <p><code>Money.format</code> chỉ xử lý số dương (so <code>&gt;= 1000</code>), nên số âm phải lấy trị tuyệt đối rồi tự thêm dấu trừ.</p>
@@ -1131,7 +1131,7 @@ lblName.text = path</pre>
     <span class="kw">return</span> list
 }</pre>
             </div>
-            <p>Tìm các ngày có giao dịch trong tháng rồi dùng lại <code>getTransactions</code> cho từng ngày, khỏi viết lại phần đọc Cursor. Ở <code>HomeAct.reload()</code> đổi <code>dao.getTransactions(today)</code> thành <code>dao.getTransactionsOfMonth(tháng, năm)</code>; phần cộng tổng giữ nguyên.</p>
+            <p>Tìm các ngày có giao dịch trong tháng rồi dùng lại <code>getTransactions</code> cho từng ngày, khỏi viết lại phần đọc Cursor. Ở <code>HomeAct.reload()</code> đổi <code>dao.getTransactions(today)</code> thành <code>dao.getTransactionsOfMonth(tháng, năm)</code>. Tổng thì <code>total()</code> đang lọc <code>date = ?</code> theo đúng một ngày, nên thêm hàm <code>totalOfMonth</code> giống hệt nhưng đổi thành <code>date LIKE ?</code> với cùng chuỗi <code>"%/09/2026"</code>.</p>
           </div>
         </details>
 
@@ -1357,21 +1357,41 @@ db.update(
         </details>
 
         <details class="scenario">
-          <summary><span class="idx">K19</span>Không cho trùng tên mục trong cùng một cha<span class="chev">›</span></summary>
+          <summary><span class="idx">K19</span>Chặn mục trùng tên trong cùng một cha (đã có sẵn trong code)<span class="chev">›</span></summary>
           <div class="scenario-body">
-            <div class="file-list"><span class="file-chip">AddCategoryAct.kt</span></div>
-            <p>Kiểm tra bằng Kotlin trên danh sách đã có, trước khi tạo <code>Category</code> trong <code>save()</code>. Không làm bằng SQL cho gọn vì <code>idParent</code> có thể NULL, mà <code>= ?</code> không khớp NULL và <code>rawQuery</code> không nhận tham số null.</p>
+            <p class="scenario-goal">Đã code sẵn: hàm <code>WalletDAO.isDuplicateCategory(c)</code>, gọi ở nút Thêm của <code>AddCategoryAct</code> và nút Lưu của <code>EditCategoryAct</code>. Đã thử trên máy ảo: có "test" rồi, thêm "TEST" cùng cha thì hiện Toast <em>Mục "TEST" đã có trong cùng mục cha</em> và ở nguyên màn.</p>
+            <div class="file-list"><span class="file-chip">WalletDAO.kt</span><span class="file-chip">AddCategoryAct.kt</span><span class="file-chip">EditCategoryAct.kt</span></div>
             <div class="code-block">
-              <div class="code-head"><span class="tag">AddCategoryAct.kt</span><span>save()</span></div>
-<pre class="code"><span class="kw">val</span> parent = selectedParent()
-<span class="kw">val</span> duplicate = dao.getCategories(idType).any {
-    it.name.equals(name, ignoreCase = <span class="kw">true</span>) &amp;&amp; it.parent?.id == parent?.id
-}
-<span class="kw">if</span> (duplicate) {
-    Toast.makeText(<span class="kw">this</span>, <span class="str">"Mục \""</span> + name + <span class="str">"\" đã có"</span>, Toast.LENGTH_SHORT).show()
-    <span class="kw">return</span>
+              <div class="code-head"><span class="tag">WalletDAO.kt</span><span>isDuplicateCategory</span></div>
+<pre class="code"><span class="kw">fun</span> isDuplicateCategory(c: Category): Boolean {
+    <span class="kw">val</span> locale = Locale(<span class="str">"vi"</span>, <span class="str">"VN"</span>)
+    <span class="kw">val</span> key = c.name.trim().lowercase(locale)
+    <span class="kw">return</span> loadCategories(c.type.id).values.any {
+        it.id != c.id &amp;&amp;                       <span class="cm">// bỏ qua chính nó (màn Sửa)</span>
+            it.parent?.id == c.parent?.id &amp;&amp;   <span class="cm">// cùng cha, null == null là cùng gốc</span>
+            it.name.trim().lowercase(locale) == key
+    }
 }</pre>
             </div>
+            <div class="code-block">
+              <div class="code-head"><span class="tag">EditCategoryAct.kt</span><span>save()</span></div>
+<pre class="code"><span class="kw">val</span> updated = Category(id = category.id, name = name, ...)
+
+<span class="cm">// Kiểm tra trước khi gán vào category, để lỡ trùng thì màn vẫn giữ</span>
+<span class="cm">// nguyên mục đang sửa như lúc mở</span>
+<span class="kw">if</span> (dao.isDuplicateCategory(updated)) {
+    Toast.makeText(<span class="kw">this</span>, <span class="str">"Mục \""</span> + name + <span class="str">"\" đã có trong cùng mục cha"</span>, Toast.LENGTH_SHORT).show()
+    <span class="kw">return</span>
+}
+category = updated</pre>
+            </div>
+            <ul class="tight">
+              <li><strong>Vì sao so trong Kotlin, không bằng SQL?</strong> <code>idParent</code> có thể NULL: <code>idParent = ?</code> không khớp NULL, và <code>rawQuery</code> không nhận tham số null. Trong Kotlin <code>null == null</code> là đúng.</li>
+              <li><strong>Vì sao <code>it.id != c.id</code>?</strong> Ở màn Sửa, giữ nguyên tên rồi Lưu thì mục đó vẫn nằm trong danh sách — không bỏ qua sẽ tự báo trùng với chính nó. Mục mới có <code>id = 0</code>, không mục nào có id 0 nên không bỏ qua gì.</li>
+              <li><strong>Cùng tên khác cha thì cho phép</strong>, ví dụ "Khác" dưới "Ăn uống" và "Khác" dưới "Mua sắm". Hai mục "Khác" mẫu cũng không trùng vì khác kiểu (thu/chi).</li>
+              <li><strong>Hay bị hỏi tiếp — muốn chặn trùng trên toàn bộ kiểu, không kể cha?</strong> Bỏ điều kiện <code>it.parent?.id == c.parent?.id</code>.</li>
+              <li><strong>Muốn "Ăn  uống" (hai dấu cách) cũng tính trùng?</strong> Chuẩn hóa thêm: <code>.replace(Regex("\\s+"), " ")</code> trước khi so.</li>
+            </ul>
           </div>
         </details>
 
@@ -1498,16 +1518,13 @@ sqlite3 mywallet.db <span class="str">"SELECT t.date, t.amount, c.name FROM tblT
         <h3 class="sub">5. Để app mở qua nửa đêm, Home vẫn hiện ngày hôm trước</h3>
         <p><code>today</code> được gán một lần lúc tạo <code>HomeAct</code>. Sửa: trong <code>onResume()</code> gán lại <code>today = Date()</code> và <code>lblDate.text</code> trước khi <code>reload()</code> (nếu đã làm K04 thì chỉ làm khi người dùng chưa chọn ngày khác).</p>
 
-        <h3 class="sub">6. WalletDAO.total() không ai gọi</h3>
-        <p><code>HomeAct.reload()</code> tự cộng trên danh sách vừa đọc, khỏi hỏi CSDL thêm hai lần. <code>total()</code> còn lại là hàm thừa; bỏ đi hoặc dùng nó thay cho vòng cộng đều được.</p>
-
-        <h3 class="sub">7. Xóa mục là xóa luôn giao dịch</h3>
+        <h3 class="sub">6. Xóa mục là xóa luôn giao dịch</h3>
         <p>Cố ý, để không còn giao dịch trỏ vào mục không tồn tại; dialog có báo trước. Nhưng dễ mất dữ liệu nếu bấm nhầm. Cách an toàn hơn ở <strong>K17</strong>.</p>
 
-        <h3 class="sub">8. Cách vào màn Sửa mục khó đoán</h3>
+        <h3 class="sub">7. Cách vào màn Sửa mục khó đoán</h3>
         <p>Phải <strong>bấm giữ</strong> Spinner mục ở màn giao dịch. Khi demo phải chỉ rõ. Không dùng bấm thường vì bấm thường là mở danh sách; và <code>Spinner</code> không cho <code>setOnClickListener</code> (ném lỗi <code>Don't call setOnClickListener for an AdapterView</code>).</p>
 
-        <h3 class="sub">9. Tăng DB_VERSION là mất giao dịch</h3>
+        <h3 class="sub">8. Tăng DB_VERSION là mất giao dịch</h3>
         <p><code>onUpgrade</code> xóa ba bảng rồi tạo lại. Lần đổi bộ mục mẫu (lên version 2) đã xóa giao dịch trên máy thử.</p>
       </section>
 
@@ -1529,8 +1546,8 @@ sqlite3 mywallet.db <span class="str">"SELECT t.date, t.amount, c.name FROM tblT
           <div class="scenario-body"><p>Không khai báo. SQLite trên Android mặc định cũng không bật kiểm tra khóa ngoại (phải gọi <code>db.setForeignKeyConstraintsEnabled(true)</code>). Tính đúng do code tự lo: giao dịch chỉ tạo được từ mục chọn trong Spinner, và <code>deleteCategory</code> tự xóa giao dịch của cả nhánh trước khi xóa mục.</p></div>
         </details>
         <details class="scenario">
-          <summary><span class="idx">Q</span>Tổng thu/chi đang tính ở đâu? Sao không dùng SUM trong SQL?<span class="chev">›</span></summary>
-          <div class="scenario-body"><p>Tính trong <code>HomeAct.reload()</code> bằng vòng cộng trên danh sách vừa đọc. Danh sách đã có trong tay nên cộng luôn, khỏi hỏi CSDL thêm. Dùng SQL thì phải <code>JOIN</code> với <code>tblCategory</code> vì kiểu nằm ở bảng mục: <code>SELECT SUM(t.amount) FROM tblTransaction t JOIN tblCategory c ON c.id = t.idCategory WHERE t.date = ? AND c.idType = ?</code>.</p></div>
+          <summary><span class="idx">Q</span>Tổng thu/chi tính ở đâu? Sao cần JOIN, sao có COALESCE?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p>Trong <code>WalletDAO.total(date, idType)</code>, <code>HomeAct.reload()</code> gọi hai lần. Giao dịch không có cột thu/chi — kiểu nằm ở mục — nên phải <code>JOIN</code> sang <code>tblCategory</code> để lọc <code>idType</code>: <code>SELECT COALESCE(SUM(t.amount), 0) FROM tblTransaction t JOIN tblCategory c ON c.id = t.idCategory WHERE t.date = ? AND c.idType = ?</code>. Ngày chưa có giao dịch thì <code>SUM</code> trả <code>NULL</code>; <code>COALESCE</code> đổi thành 0 để Home hiện "0". Cách khác là cộng bằng vòng lặp trên danh sách đã đọc (bản đầu làm vậy) — đỡ hai lần hỏi CSDL, nhưng để SQL cộng thì đúng ý "DAO lo dữ liệu".</p></div>
         </details>
         <details class="scenario">
           <summary><span class="idx">Q</span>Vì sao một WalletDAO chứ không tách TransactionDAO, CategoryDAO?<span class="chev">›</span></summary>

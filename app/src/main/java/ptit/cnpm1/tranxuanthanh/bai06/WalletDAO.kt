@@ -215,12 +215,25 @@ class WalletDAO(context: Context) {
         return list
     }
 
-    /** Tổng thu (hoặc tổng chi) của một ngày, hiện ở đầu trang home. */
+    /**
+     * Tổng thu (hoặc tổng chi) của một ngày, hiện ở đầu trang home.
+     *
+     * Giao dịch không có cột thu/chi; kiểu nằm ở mục của nó, nên phải JOIN
+     * sang tblCategory để lọc theo idType. Ngày không có giao dịch nào thì
+     * SUM trả NULL, COALESCE đổi thành 0.
+     */
     fun total(date: Date, idType: Int): Float {
-        var sum = 0f
-        for (t in getTransactions(date)) {
-            if (t.category.type.id == idType) sum += t.amount
-        }
+        val db = dbHelper.readableDatabase
+        val cursor = db.rawQuery(
+            "SELECT COALESCE(SUM(t.${DBHelper.COL_AMOUNT}), 0) " +
+                "FROM ${DBHelper.TB_TRANSACTION} t " +
+                "JOIN ${DBHelper.TB_CATEGORY} c ON c.${DBHelper.COL_ID} = t.${DBHelper.COL_ID_CATEGORY} " +
+                "WHERE t.${DBHelper.COL_DATE} = ? AND c.${DBHelper.COL_ID_TYPE} = ?",
+            arrayOf(toText(date), idType.toString())
+        )
+        cursor.moveToFirst()
+        val sum = cursor.getFloat(0)
+        cursor.close()
         return sum
     }
 

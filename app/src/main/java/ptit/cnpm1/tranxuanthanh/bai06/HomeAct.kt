@@ -80,14 +80,9 @@ class HomeAct : Activity(), View.OnClickListener {
         listTrans.addAll(dao.getTransactions(today))
         adapter.notifyDataSetChanged()
 
-        var totalThu = 0f
-        var totalChi = 0f
-        for (t in listTrans) {
-            if (t.category.type.id == CategoryType.ID_THU) totalThu += t.amount
-            else totalChi += t.amount
-        }
-        lblTotalThu.text = "Tổng thu: " + Money.format(totalThu)
-        lblTotalChi.text = "Tổng chi: " + Money.format(totalChi)
+        // Tổng thu, tổng chi của ngày do WalletDAO cộng bằng SQL
+        lblTotalThu.text = "Tổng thu: " + Money.format(dao.total(today, CategoryType.ID_THU))
+        lblTotalChi.text = "Tổng chi: " + Money.format(dao.total(today, CategoryType.ID_CHI))
     }
 
     /**
