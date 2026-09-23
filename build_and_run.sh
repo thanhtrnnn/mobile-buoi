@@ -1,12 +1,12 @@
 #!/bin/bash
 set -e
 
-# Dùng: ./build_and_run.sh [bai03|bai04|bai05]   (mặc định bai05)
+# Dùng: ./build_and_run.sh [bai03|bai04|bai05|bai06]   (mặc định bai06)
 # Mỗi bài là một app riêng: package Kotlin riêng, thư mục res riêng, manifest riêng.
-BAI="${1:-bai05}"
+BAI="${1:-bai06}"
 case "$BAI" in
-  bai03|bai04|bai05) ;;
-  *) echo "Chỉ nhận bai03, bai04 hoặc bai05, không phải '$BAI'"; exit 1 ;;
+  bai03|bai04|bai05|bai06) ;;
+  *) echo "Chỉ nhận bai03, bai04, bai05 hoặc bai06, không phải '$BAI'"; exit 1 ;;
 esac
 
 SDK="$HOME/Library/Android/sdk"
@@ -21,6 +21,9 @@ SRC="app/src/main/java/ptit/cnpm1/tranxuanthanh/$BAI"
 RES="app/src/main/res-$BAI"
 MANIFEST="app/src/main/AndroidManifest-$BAI.xml"
 OUT="build/$BAI"
+
+# Màn hình mở đầu của từng bài: bài 3-5 vào từ màn Login, bài 6 vào thẳng home
+if [ "$BAI" = "bai06" ]; then LAUNCH="HomeAct"; else LAUNCH="LoginAct"; fi
 
 # Thư viện ngoài (đã giải nén sẵn từ file .aar trong thư mục vendor/), dùng chung cho mọi bài
 CL_JAR="vendor/constraintlayout/classes.jar"
@@ -91,6 +94,6 @@ $SDK/platform-tools/adb install -r "$OUT/app-signed.apk"
 
 echo "=== 10. Khởi chạy ứng dụng ==="
 $SDK/platform-tools/adb shell am force-stop $PKG
-$SDK/platform-tools/adb shell am start -n $PKG/$PKG.LoginAct
+$SDK/platform-tools/adb shell am start -n $PKG/$PKG.$LAUNCH
 
 echo "=== Hoàn tất! $BAI đã chạy trên máy ảo. ==="

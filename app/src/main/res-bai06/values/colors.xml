@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <!-- Khoản thu hiện màu xanh, khoản chi hiện màu đỏ (slide 11) -->
+    <color name="thu">#FF00AA00</color>
+    <color name="chi">#FFCC0000</color>
+</resources>
