@@ -1,0 +1,1692 @@
+<!doctype html>
+<html lang="vi" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sổ Tay Bai06</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #F2F6F5;
+    --surface: #FFFFFF;
+    --surface-2: #EAF1EF;
+    --border: #D9E3E0;
+    --text: #16231F;
+    --text-2: #52625D;
+    --text-3: #7C8B86;
+    --accent: #0E8C7C;
+    --accent-strong: #0A6E62;
+    --accent-soft: #DCF3EE;
+    --danger: #B23A2E;
+    --danger-soft: #FBE6E3;
+    --code-bg: #101B19;
+    --code-text: #DCEFEA;
+    --code-text-dim: #8FADA5;
+    --code-accent: #6FE0C6;
+    --code-string: #E8C08A;
+    --code-border: #22322D;
+    --chip-bg: #FFFFFF;
+    --shadow: 0 1px 2px rgba(16, 30, 26, 0.06), 0 6px 20px rgba(16, 30, 26, 0.05);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0D1513;
+      --surface: #15201D;
+      --surface-2: #182420;
+      --border: #253430;
+      --text: #E7F2EF;
+      --text-2: #9AB0AA;
+      --text-3: #718882;
+      --accent: #3FD1B8;
+      --accent-strong: #6FE9D3;
+      --accent-soft: #16302B;
+      --danger: #E4685A;
+      --danger-soft: #2E1917;
+      --code-bg: #0A1211;
+      --code-text: #DCEFEA;
+      --code-text-dim: #7E9691;
+      --code-accent: #6FE0C6;
+      --code-string: #E8C08A;
+      --code-border: #21302B;
+      --chip-bg: #15201D;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0D1513;
+    --surface: #15201D;
+    --surface-2: #182420;
+    --border: #253430;
+    --text: #E7F2EF;
+    --text-2: #9AB0AA;
+    --text-3: #718882;
+    --accent: #3FD1B8;
+    --accent-strong: #6FE9D3;
+    --accent-soft: #16302B;
+    --danger: #E4685A;
+    --danger-soft: #2E1917;
+    --code-bg: #0A1211;
+    --code-text: #DCEFEA;
+    --code-text-dim: #7E9691;
+    --code-accent: #6FE0C6;
+    --code-string: #E8C08A;
+    --code-border: #21302B;
+    --chip-bg: #15201D;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "IBM Plex Sans", -apple-system, "Segoe UI", sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 { font-family: "IBM Plex Sans", sans-serif; font-weight: 600; text-wrap: balance; color: var(--text); }
+  code, pre, .mono { font-family: "IBM Plex Mono", ui-monospace, monospace; }
+  a { color: var(--accent-strong); }
+  p { color: var(--text-2); max-width: 68ch; }
+
+  .shell {
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr);
+    max-width: 1240px;
+    margin: 0 auto;
+  }
+
+  /* ---------- Sidebar ---------- */
+  .sidebar {
+    position: sticky;
+    top: 0;
+    align-self: start;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 28px 18px 40px 24px;
+    border-right: 1px solid var(--border);
+  }
+  .sidebar-brand {
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    margin-bottom: 4px;
+  }
+  .sidebar-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 22px;
+  }
+  .sidebar nav { display: flex; flex-direction: column; gap: 2px; }
+  .sidebar nav a {
+    display: block;
+    text-decoration: none;
+    color: var(--text-2);
+    font-size: 13.5px;
+    padding: 7px 10px;
+    border-radius: 7px;
+    border-left: 2px solid transparent;
+  }
+  .sidebar nav a:hover { background: var(--surface-2); color: var(--text); }
+  .sidebar nav a.active {
+    background: var(--accent-soft);
+    color: var(--accent-strong);
+    border-left-color: var(--accent);
+    font-weight: 500;
+  }
+  .sidebar nav .group-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-3);
+    margin: 16px 0 6px 10px;
+  }
+  .sidebar nav .group-label:first-child { margin-top: 0; }
+  .mobile-toc { display: none; }
+
+  /* ---------- Main ---------- */
+  main { padding: 40px 40px 100px; min-width: 0; }
+  .content-col { max-width: 780px; }
+
+  header.hero {
+    margin-bottom: 40px;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent-strong);
+    background: var(--accent-soft);
+    padding: 5px 10px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+  }
+  h1.page-title { font-size: 34px; margin: 0 0 10px; letter-spacing: -0.01em; }
+  .lede { font-size: 15.5px; color: var(--text-2); max-width: 62ch; }
+
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    margin-top: 26px;
+    max-width: 780px;
+  }
+  .stat-tile {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    box-shadow: var(--shadow);
+  }
+  .stat-tile .label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-3); margin-bottom: 4px; }
+  .stat-tile .value { font-size: 14px; font-weight: 600; color: var(--text); font-family: "IBM Plex Mono", monospace; overflow-wrap: anywhere; }
+
+  section.block { margin: 56px 0; scroll-margin-top: 24px; }
+  section.block h2 {
+    font-size: 22px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 20px;
+  }
+  section.block h2 .num { color: var(--text-3); font-weight: 500; margin-right: 8px; }
+  h3.sub { font-size: 16px; margin: 28px 0 10px; }
+  h4.tiny { font-size: 13px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-3); margin: 20px 0 8px; }
+
+  /* ---------- Code blocks ---------- */
+  .code-block {
+    background: var(--code-bg);
+    border: 1px solid var(--code-border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 14px 0;
+    max-width: 780px;
+  }
+  .code-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 14px;
+    font-size: 11.5px;
+    color: var(--code-text-dim);
+    border-bottom: 1px solid var(--code-border);
+    font-family: "IBM Plex Mono", monospace;
+    letter-spacing: 0.02em;
+  }
+  .code-head .tag {
+    color: var(--code-accent);
+    font-weight: 600;
+  }
+  pre.code {
+    margin: 0;
+    padding: 14px 16px;
+    overflow-x: auto;
+    font-size: 12.8px;
+    line-height: 1.65;
+    color: var(--code-text);
+  }
+  pre.code .kw { color: var(--code-accent); }
+  pre.code .str { color: var(--code-string); }
+  pre.code .cm { color: var(--code-text-dim); font-style: italic; }
+  pre.code .attr { color: #9FD1F5; }
+
+  .code-pair { display: grid; grid-template-columns: 1fr; gap: 10px; }
+  @media (min-width: 720px) {
+    .code-pair.two { grid-template-columns: 1fr 1fr; }
+  }
+  .code-pair .code-block { margin: 0; }
+
+  /* ---------- Tables ---------- */
+  .table-wrap { overflow-x: auto; max-width: 780px; border: 1px solid var(--border); border-radius: 10px; }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; min-width: 560px; }
+  thead th {
+    text-align: left;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-3);
+    background: var(--surface-2);
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  tbody td {
+    padding: 9px 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-2);
+    vertical-align: top;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  td code, th code { font-family: "IBM Plex Mono", monospace; font-size: 12px; background: var(--surface-2); padding: 1px 5px; border-radius: 4px; color: var(--text); }
+
+  /* ---------- Flow diagram ---------- */
+  .flow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 18px 0 26px;
+  }
+  .flow-node {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: var(--shadow);
+    text-align: center;
+  }
+  .flow-node .file { display: block; font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--text-3); font-weight: 400; margin-top: 2px; }
+  .flow-arrow { color: var(--text-3); font-size: 15px; }
+  .flow-branch { display: flex; flex-direction: column; gap: 8px; }
+
+  /* ---------- Callouts ---------- */
+  .callout {
+    max-width: 780px;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    background: var(--surface);
+    border-radius: 0 10px 10px 0;
+    padding: 12px 16px;
+    margin: 18px 0;
+    font-size: 13.5px;
+    color: var(--text-2);
+  }
+  .callout strong { color: var(--text); }
+  .callout.warn { border-left-color: var(--danger); }
+  .callout.warn strong { color: var(--danger); }
+
+  /* ---------- Scenario cards ---------- */
+  .scenario {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+    margin-bottom: 14px;
+    max-width: 780px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .scenario summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 16px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    font-size: 14.5px;
+  }
+  .scenario summary::-webkit-details-marker { display: none; }
+  .scenario summary .chev {
+    margin-left: auto;
+    color: var(--text-3);
+    transition: transform 0.15s ease;
+    font-size: 12px;
+  }
+  .scenario[open] summary .chev { transform: rotate(90deg); }
+  .scenario summary .idx {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    color: var(--accent-strong);
+    background: var(--accent-soft);
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-weight: 600;
+  }
+  .scenario-body { padding: 0 18px 20px; }
+  .scenario-goal { font-size: 13.5px; color: var(--text-2); margin-bottom: 10px; }
+  .file-list { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .file-chip {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11.5px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    padding: 3px 8px;
+    border-radius: 6px;
+    color: var(--text-2);
+  }
+  .step-label { font-size: 12px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.04em; margin: 14px 0 6px; }
+
+  /* ---------- misc ---------- */
+  .kbd {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11.5px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-bottom-width: 2px;
+    padding: 1px 6px;
+    border-radius: 5px;
+  }
+  ul.tight { margin: 8px 0; padding-left: 20px; color: var(--text-2); font-size: 13.5px; }
+  ul.tight li { margin-bottom: 4px; }
+  footer { max-width: 780px; padding: 30px 0 10px; color: var(--text-3); font-size: 12px; border-top: 1px solid var(--border); margin-top: 60px; }
+
+  @media (max-width: 900px) {
+    .shell { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    .mobile-toc {
+      display: block;
+      margin: 16px 40px 0;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface);
+    }
+    .mobile-toc summary { padding: 12px 16px; font-weight: 600; font-size: 13.5px; cursor: pointer; }
+    .mobile-toc nav { padding: 0 16px 14px; display: flex; flex-direction: column; gap: 2px; }
+    .mobile-toc nav a { color: var(--text-2); text-decoration: none; font-size: 13px; padding: 5px 0; }
+    main { padding: 24px 20px 80px; }
+  }
+  /* Thêm riêng cho bài 6: bảng ví dụ số tiền và nhóm kịch bản */
+  .group-title { font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-3); margin: 30px 0 10px; }
+  .scenario-body p { font-size: 13.5px; }
+  .ok { color: var(--accent-strong); font-weight: 600; }
+  .bad { color: var(--danger); font-weight: 600; }
+  .theme-toggle {
+    position: fixed; top: 14px; right: 16px; z-index: 10;
+    font: 600 12.5px "IBM Plex Sans", sans-serif;
+    color: var(--text); background: var(--surface);
+    border: 1px solid var(--border); border-radius: 999px;
+    padding: 6px 14px; cursor: pointer; box-shadow: var(--shadow);
+  }
+  .theme-toggle:hover { background: var(--surface-2); }
+</style>
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="sidebar-brand">PTIT · Lập trình mobile</div>
+    <div class="sidebar-title">Sổ tay Bai06</div>
+    <nav id="navlinks">
+      <div class="group-label">Tổng quan</div>
+      <a href="#tong-quan">Bài 6 làm gì</a>
+      <a href="#khac-bai05">Khác bài 5 chỗ nào</a>
+      <div class="group-label">Dữ liệu</div>
+      <a href="#thuc-the">Lớp thực thể &amp; bảng</a>
+      <a href="#dbhelper">DBHelper</a>
+      <a href="#walletdao">WalletDAO</a>
+      <div class="group-label">Logic chính</div>
+      <a href="#xep-muc">Xếp mục thu/chi</a>
+      <a href="#so-tien">Hiện số tiền k/M/B</a>
+      <a href="#luong">Luồng màn hình</a>
+      <a href="#giao-dien">Switch, Spinner, logo</a>
+      <div class="group-label">Đối chiếu</div>
+      <a href="#doi-chieu">Đối chiếu slide 5–13</a>
+      <a href="#tra-cuu">Tra cứu nhanh</a>
+      <div class="group-label">Thực hành</div>
+      <a href="#kich-ban">Kịch bản sửa logic</a>
+      <a href="#build">Build, chạy, xem CSDL</a>
+      <a href="#su-co">Lỗi đã biết</a>
+      <div class="group-label">Bảo vệ bài</div>
+      <a href="#hoi-dap">Bộ câu hỏi &amp; trả lời</a>
+      <a href="#demo">Kịch bản demo</a>
+    </nav>
+  </aside>
+
+  <main>
+    <details class="mobile-toc">
+      <summary>Mục lục</summary>
+      <nav>
+        <a href="#tong-quan">Bài 6 làm gì</a>
+        <a href="#khac-bai05">Khác bài 5 chỗ nào</a>
+        <a href="#thuc-the">Lớp thực thể &amp; bảng</a>
+        <a href="#dbhelper">DBHelper</a>
+        <a href="#walletdao">WalletDAO</a>
+        <a href="#xep-muc">Xếp mục thu/chi</a>
+        <a href="#so-tien">Hiện số tiền k/M/B</a>
+        <a href="#luong">Luồng màn hình</a>
+        <a href="#giao-dien">Switch, Spinner, logo</a>
+        <a href="#doi-chieu">Đối chiếu slide 5–13</a>
+        <a href="#tra-cuu">Tra cứu nhanh</a>
+        <a href="#kich-ban">Kịch bản sửa logic</a>
+        <a href="#build">Build, chạy, xem CSDL</a>
+        <a href="#su-co">Lỗi đã biết</a>
+        <a href="#hoi-dap">Bộ câu hỏi &amp; trả lời</a>
+        <a href="#demo">Kịch bản demo</a>
+      </nav>
+    </details>
+
+    <div class="content-col">
+      <header class="hero" id="tong-quan">
+        <div class="eyebrow">Bai06 · Ví điện tử, phần 1</div>
+        <h1 class="page-title">Sổ tay bài 6 — quản lí giao dịch</h1>
+        <p class="lede">
+          Ứng dụng ví: trang home hiện các khoản thu/chi của <strong>ngày hiện tại</strong>, có tổng thu
+          (xanh) và tổng chi (đỏ). Mỗi giao dịch thuộc một <strong>mục thu/chi</strong>; các mục xếp thành
+          cây cha – con – cháu và được sắp theo <strong>tần suất sử dụng</strong>. Dữ liệu nằm trong SQLite
+          với ba bảng đúng gợi ý slide 10. Trang này đi qua từng lớp, hai thuật toán chính (xếp mục và hiện
+          số tiền), rồi tới phần quan trọng nhất khi bảo vệ: <strong>các kịch bản sửa logic có thể bị hỏi</strong>,
+          mỗi kịch bản có code đã thử biên dịch.
+        </p>
+        <div class="stat-row">
+          <div class="stat-tile"><div class="label">Package Kotlin</div><div class="value">ptit.cnpm1.tranxuanthanh.bai06</div></div>
+          <div class="stat-tile"><div class="label">Tên hiện trên máy</div><div class="value">Bai06 - Ví điện tử</div></div>
+          <div class="stat-tile"><div class="label">File CSDL</div><div class="value">mywallet.db (DB_VERSION 2)</div></div>
+          <div class="stat-tile"><div class="label">Bảng</div><div class="value">tblType, tblCategory, tblTransaction</div></div>
+          <div class="stat-tile"><div class="label">Build</div><div class="value">./build_and_run.sh bai06</div></div>
+          <div class="stat-tile"><div class="label">Màn mở đầu</div><div class="value">HomeAct (không đăng nhập)</div></div>
+        </div>
+      </header>
+
+      <!-- ============ 01 ============ -->
+      <section class="block" id="khac-bai05">
+        <h2><span class="num">01</span>Bài 6 khác bài 5 chỗ nào</h2>
+        <p>Bài 5 là một bảng, một thực thể. Bài 6 là ba bảng có quan hệ, và có hai thứ phải tự nghĩ thuật toán.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Việc</th><th>Bài 5</th><th>Bài 6</th></tr></thead>
+            <tbody>
+              <tr><td>Số bảng</td><td>1 (<code>user</code>)</td><td>3 (<code>tblType</code>, <code>tblCategory</code>, <code>tblTransaction</code>)</td></tr>
+              <tr><td>Quan hệ</td><td>Không có</td><td>Giao dịch → mục (<code>idCategory</code>), mục → kiểu (<code>idType</code>), mục → mục cha (<code>idParent</code>, tự trỏ về chính bảng)</td></tr>
+              <tr><td>Lớp truy cập dữ liệu</td><td><code>UserDAO</code></td><td><code>WalletDAO</code> (một lớp lo cả ba bảng)</td></tr>
+              <tr><td>Màn đầu</td><td><code>LoginAct</code></td><td><code>HomeAct</code> — slide không có đăng nhập</td></tr>
+              <tr><td>Danh sách ở Home</td><td>Mọi người dùng</td><td>Chỉ giao dịch của ngày hiện tại, kèm tổng thu/tổng chi</td></tr>
+              <tr><td>Chỗ phải tự nghĩ</td><td>—</td><td>Xếp cây mục theo tần suất (slide 12), hiện tiền k/M/B (slide 11)</td></tr>
+              <tr><td>Spinner</td><td>Không có</td><td>Chọn mục (có logo, thụt lề theo bậc), chọn mục cha, chọn logo</td></tr>
+              <tr><td>Chọn thu/chi</td><td>—</td><td>Một <code>Switch</code> on/off; gạt là danh sách mục đổi theo</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout">
+          <strong>Câu chốt:</strong> giữ nguyên cách làm của bài 5 (DBHelper tạo bảng, DAO là nơi duy nhất
+          chạy SQL, màn con tự ghi rồi <code>finish()</code>, màn cha đọc lại ở <code>onResume()</code>),
+          chỉ mở rộng ra ba bảng có quan hệ.
+        </div>
+      </section>
+
+      <!-- ============ 02 ============ -->
+      <section class="block" id="thuc-the">
+        <h2><span class="num">02</span>Lớp thực thể &amp; bảng (slide 9, 10)</h2>
+        <p>Ba lớp Kotlin khớp từng thuộc tính với sơ đồ slide 9. Trong CSDL, chỗ nào lớp giữ <em>đối tượng</em> thì bảng giữ <em>id</em>.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Lớp (slide 9)</th><th>Thuộc tính</th><th>Bảng (slide 10)</th><th>Cột tương ứng</th></tr></thead>
+            <tbody>
+              <tr><td><code>CategoryType</code></td><td><code>id, name, note</code></td><td><code>tblType</code></td><td><code>id, name, note</code></td></tr>
+              <tr><td><code>Category</code></td><td><code>id, name, icon, note</code><br><code>type : CategoryType</code><br><code>parent : Category?</code></td><td><code>tblCategory</code></td><td><code>id, name, icon, note</code><br><code>idType</code><br><code>idParent</code> (NULL = mục cha)</td></tr>
+              <tr><td><code>Transaction</code></td><td><code>id, date : Date, amount : Float, note</code><br><code>category : Category</code></td><td><code>tblTransaction</code></td><td><code>id, date TEXT, amount REAL, note</code><br><code>idCategory</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="code-block">
+          <div class="code-head"><span class="tag">Category.kt</span><span>tự trỏ về chính nó</span></div>
+<pre class="code"><span class="kw">data class</span> Category(
+    <span class="kw">var</span> id: Int = 0,
+    <span class="kw">var</span> name: String = <span class="str">""</span>,
+    <span class="kw">var</span> icon: String = Icons.DEFAULT,
+    <span class="kw">var</span> note: String = <span class="str">""</span>,
+    <span class="kw">var</span> type: CategoryType = CategoryType(),
+    <span class="kw">var</span> parent: Category? = <span class="kw">null</span>
+) : Serializable {
+
+    <span class="cm">/** Mục cha ở bậc 0, con bậc 1, cháu bậc 2 — CategoryAdapter dùng để thụt lề. */</span>
+    <span class="kw">fun</span> level(): Int {
+        <span class="kw">var</span> level = 0
+        <span class="kw">var</span> p = parent
+        <span class="kw">while</span> (p != <span class="kw">null</span>) { level++; p = p.parent }
+        <span class="kw">return</span> level
+    }
+}</pre>
+        </div>
+        <ul class="tight">
+          <li><strong>Giao dịch không có cột "thu/chi".</strong> Thu hay chi là do mục của nó quyết định: <code>t.category.type.id</code>. Muốn biết khoản nào xanh, khoản nào đỏ thì nhìn kiểu của mục.</li>
+          <li><strong>Hai kiểu Thu (id 1) và Chi (id 2) là cố định</strong>, gieo sẵn trong <code>DBHelper</code>, có hằng số <code>CategoryType.ID_THU</code> / <code>ID_CHI</code>.</li>
+          <li><strong>Cả ba lớp đều <code>Serializable</code></strong> vì <code>Transaction</code> và <code>Category</code> được gửi qua <code>Intent</code> sang màn Sửa. Gửi <code>Transaction</code> là gửi luôn <code>Category</code> và cả chuỗi cha của nó bên trong.</li>
+          <li><strong>Ngày lưu dạng chuỗi <code>dd/MM/yyyy</code></strong> giống bài 5. Dễ đọc, nhưng không so sánh được bằng SQL — xem <a href="#su-co">lỗi đã biết</a>.</li>
+        </ul>
+      </section>
+
+      <!-- ============ 03 ============ -->
+      <section class="block" id="dbhelper">
+        <h2><span class="num">03</span>DBHelper — ba bảng và dữ liệu mẫu</h2>
+        <div class="code-block">
+          <div class="code-head"><span class="tag">DBHelper.kt</span><span>onCreate</span></div>
+<pre class="code">db.execSQL(<span class="str">"CREATE TABLE tblType (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, note TEXT)"</span>)
+
+<span class="cm">// idParent để trống nghĩa là mục cha ngang hàng các mục cha đã có.</span>
+db.execSQL(<span class="str">"CREATE TABLE tblCategory (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, "</span> +
+    <span class="str">"icon TEXT NOT NULL, note TEXT, idParent INTEGER, idType INTEGER NOT NULL)"</span>)
+
+db.execSQL(<span class="str">"CREATE TABLE tblTransaction (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT NOT NULL, "</span> +
+    <span class="str">"amount REAL NOT NULL, note TEXT, idCategory INTEGER NOT NULL)"</span>)
+
+seed(db)</pre>
+        </div>
+        <p>Trong code thật, tên bảng và tên cột là hằng số (<code>TB_CATEGORY</code>, <code>COL_ID_PARENT</code>…) — ở đây viết thẳng cho dễ đọc.</p>
+
+        <h3 class="sub">Dữ liệu mẫu</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Kiểu</th><th>Mục (logo)</th></tr></thead>
+            <tbody>
+              <tr><td>Chi — 15</td><td>Ăn uống, Chợ &amp; Siêu thị, Mua sắm, Di chuyển, Nhà cửa, Hóa đơn, Giải trí, Sức khỏe, Giáo dục, Làm đẹp, Người thân &amp; Bạn bè, Du lịch, Trả nợ, Dịch vụ định kỳ, Khác</td></tr>
+              <tr><td>Thu — 8</td><td>Lương, Thưởng, Làm thêm / Freelance, Kinh doanh, Đầu tư, Lãi / Tiền gửi, Quà tặng / Được cho, Khác</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Mọi mục mẫu đều là mục cha (<code>idParent</code> = NULL). Cây con/cháu do người dùng tự tạo qua màn Thêm mục thu/chi.</p>
+
+        <h3 class="sub">DB_VERSION = 2 và onUpgrade</h3>
+        <p>
+          Bản đầu gieo bộ mục theo slide 7 (Sinh hoạt › Ăn uống › Ăn nhà hàng…). Khi đổi sang bộ 23 mục hiện tại,
+          <code>DB_VERSION</code> được tăng lên 2 để máy đã cài bản cũ chạy <code>onUpgrade()</code>:
+          xóa ba bảng rồi gọi lại <code>onCreate()</code>. Xóa theo thứ tự giao dịch → mục → kiểu.
+        </p>
+        <div class="callout warn"><strong>onUpgrade xóa sạch giao dịch cũ.</strong> Chấp nhận được với bài tập; app thật phải dùng <code>ALTER TABLE</code> hoặc chép dữ liệu sang bảng mới.</div>
+      </section>
+
+      <!-- ============ 04 ============ -->
+      <section class="block" id="walletdao">
+        <h2><span class="num">04</span>WalletDAO — nơi duy nhất chạy SQL</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Hàm</th><th>Trả về</th><th>Việc</th></tr></thead>
+            <tbody>
+              <tr><td><code>getTypes()</code></td><td><code>ArrayList&lt;CategoryType&gt;</code></td><td>Hai kiểu Thu, Chi</td></tr>
+              <tr><td><code>getCategories(idType)</code></td><td><code>ArrayList&lt;Category&gt;</code></td><td>Cây mục của một kiểu, <strong>đã duỗi phẳng và xếp đúng thứ tự slide 12</strong></td></tr>
+              <tr><td><code>addCategory(c)</code> / <code>editCategory(c)</code></td><td><code>Boolean</code></td><td>INSERT / UPDATE theo <code>id</code></td></tr>
+              <tr><td><code>deleteCategory(id)</code></td><td><code>Boolean</code></td><td>Xóa mục, <strong>cả con cháu và mọi giao dịch</strong> dùng những mục đó</td></tr>
+              <tr><td><code>getTransactions(date)</code></td><td><code>ArrayList&lt;Transaction&gt;</code></td><td>Giao dịch của một ngày, theo thứ tự thêm vào (<code>ORDER BY id</code>)</td></tr>
+              <tr><td><code>addTransaction</code> / <code>editTransaction</code> / <code>deleteTransaction</code></td><td><code>Boolean</code></td><td>Thêm / sửa / xóa giao dịch</td></tr>
+              <tr><td><code>total(date, idType)</code></td><td><code>Float</code></td><td>Tổng thu hoặc chi của ngày — <strong>hiện không ai gọi</strong>, <code>HomeAct</code> tự cộng</td></tr>
+              <tr><td><code>toText(date)</code> / <code>toDate(text)</code></td><td></td><td>Đổi <code>Date</code> ↔ chuỗi <code>dd/MM/yyyy</code> (hàm tĩnh trong <code>companion</code>)</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 class="sub">loadCategories — nối con về đúng đối tượng cha</h3>
+        <p>
+          Đọc bảng xong mới có đủ các đối tượng, nên phải làm hai lượt: lượt 1 tạo mọi <code>Category</code>
+          và nhớ <code>idParent</code> của từng cái; lượt 2 gán <code>parent</code> bằng cách tra id trong map.
+        </p>
+        <div class="code-block">
+          <div class="code-head"><span class="tag">WalletDAO.kt</span><span>loadCategories (rút gọn)</span></div>
+<pre class="code"><span class="kw">val</span> all = LinkedHashMap&lt;Int, Category&gt;()
+<span class="kw">val</span> idParentOf = HashMap&lt;Int, Int&gt;()
+<span class="kw">while</span> (cursor.moveToNext()) {
+    <span class="kw">val</span> category = categoryOf(cursor, type)
+    all[category.id] = category
+    <span class="kw">if</span> (!cursor.isNull(indexParent)) idParentOf[category.id] = cursor.getInt(indexParent)
+}
+cursor.close()
+
+<span class="cm">// Lượt 2: lúc này mọi mục đã có trong map, gán cha được rồi</span>
+<span class="kw">for</span> ((id, idParent) <span class="kw">in</span> idParentOf) all[id]?.parent = all[idParent]</pre>
+        </div>
+        <div class="callout">
+          <strong>Vì sao không gán cha ngay trong vòng while?</strong> Cha có thể nằm ở dòng phía sau con
+          (ví dụ sửa một mục cũ thành con của một mục mới tạo). Lúc đọc tới con thì cha chưa được tạo ra.
+        </div>
+
+        <h3 class="sub">getTransactions — một lần đọc cả cây mục</h3>
+        <p>
+          Nạp mọi mục của cả hai kiểu vào một map rồi mới đọc giao dịch, để mỗi giao dịch cầm được
+          <code>Category</code> đầy đủ (có <code>type</code>, có chuỗi <code>parent</code>). Không dùng JOIN vì
+          JOIN chỉ ra được một bậc cha.
+        </p>
+      </section>
+
+      <!-- ============ 05 ============ -->
+      <section class="block" id="xep-muc">
+        <h2><span class="num">05</span>Xếp mục thu/chi (slide 12)</h2>
+        <p>Ba luật của slide 12, và chỗ code làm từng luật:</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Luật</th><th>Code</th></tr></thead>
+            <tbody>
+              <tr><td>Mục xếp theo nhóm cha → con → cháu</td><td><code>appendBranch()</code> đệ quy: thêm cha rồi tới các con của nó</td></tr>
+              <tr><td>Mục cha xếp giảm dần theo tổng lần dùng <em>của cả nhánh</em>; lần đầu (chưa dùng) thì theo abc</td><td><code>roots.sortWith(compareByDescending { branch[it.id] }.then(byName))</code></td></tr>
+              <tr><td>Con/cháu cùng một cha luôn theo abc</td><td><code>children.sortWith(byName)</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 class="sub">Bốn bước trong getCategories</h3>
+        <div class="code-block">
+          <div class="code-head"><span class="tag">WalletDAO.kt</span><span>getCategories</span></div>
+<pre class="code"><span class="kw">val</span> all = loadCategories(idType)      <span class="cm">// 1. mọi mục của kiểu, đã nối cha</span>
+<span class="kw">val</span> usage = countUsage()             <span class="cm">// 2. idCategory -&gt; số giao dịch (GROUP BY)</span>
+
+<span class="cm">// 3. cộng dồn lên cha: mỗi mục đi ngược lên hết đường cha, cộng số lần dùng của nó vào từng bậc</span>
+<span class="kw">val</span> branch = HashMap&lt;Int, Int&gt;()
+<span class="kw">for</span> (category <span class="kw">in</span> all.values) {
+    <span class="kw">val</span> own = usage[category.id] ?: 0
+    <span class="kw">if</span> (own == 0) <span class="kw">continue</span>
+    <span class="kw">var</span> node: Category? = category
+    <span class="kw">while</span> (node != <span class="kw">null</span>) {
+        branch[node.id] = (branch[node.id] ?: 0) + own
+        node = node.parent
+    }
+}
+
+<span class="cm">// 4. tách gốc và con, sắp xếp, rồi duỗi cây thành danh sách</span>
+<span class="kw">val</span> collator = Collator.getInstance(Locale(<span class="str">"vi"</span>, <span class="str">"VN"</span>))
+<span class="kw">val</span> byName = Comparator&lt;Category&gt; { a, b -&gt; collator.compare(a.name, b.name) }
+roots.sortWith(compareByDescending&lt;Category&gt; { branch[it.id] ?: 0 }.then(byName))
+<span class="kw">for</span> (children <span class="kw">in</span> childrenOf.values) children.sortWith(byName)
+<span class="kw">for</span> (root <span class="kw">in</span> roots) appendBranch(root, childrenOf, ordered)</pre>
+        </div>
+
+        <h3 class="sub">Ví dụ tính tay</h3>
+        <p>Giả sử có cây: Ăn uống › Ăn nhà hàng, và các giao dịch: Ăn nhà hàng ×2, Giải trí ×1, Ăn uống ×1.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Mục</th><th>Tự dùng (usage)</th><th>Cả nhánh (branch)</th></tr></thead>
+            <tbody>
+              <tr><td>Ăn uống</td><td>1</td><td>1 + 2 = <strong>3</strong></td></tr>
+              <tr><td>&nbsp;&nbsp;Ăn nhà hàng</td><td>2</td><td>2</td></tr>
+              <tr><td>Giải trí</td><td>1</td><td><strong>1</strong></td></tr>
+              <tr><td>Các mục khác</td><td>0</td><td>0 → xếp abc với nhau</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Kết quả: <strong>Ăn uống</strong> (3), Ăn nhà hàng ngay dưới, rồi <strong>Giải trí</strong> (1), rồi các mục còn lại theo abc.</p>
+
+        <div class="callout">
+          <strong>Vì sao cần Collator?</strong> So chuỗi thô là so mã Unicode: chữ <code>Ă</code> (U+0102) lớn hơn
+          <code>T</code> nên "Ăn uống" bị xếp sau "Thuê nhà". Collator tiếng Việt xếp đúng
+          A → Ă → Â → B … D → Đ → E. Vì thế trong danh sách thu, "Đầu tư" đứng trước "Khác".
+        </div>
+      </section>
+
+      <!-- ============ 06 ============ -->
+      <section class="block" id="so-tien">
+        <h2><span class="num">06</span>Hiện số tiền k / M / B (slide 11)</h2>
+        <div class="code-block">
+          <div class="code-head"><span class="tag">Money.kt</span></div>
+<pre class="code"><span class="kw">private val</span> UNITS = listOf(<span class="str">""</span>, <span class="str">"k"</span>, <span class="str">"M"</span>, <span class="str">"B"</span>)
+
+<span class="kw">fun</span> format(amount: Float): String {
+    <span class="kw">var</span> value = amount
+    <span class="kw">var</span> unit = 0
+    <span class="kw">while</span> (value &gt;= 1000f &amp;&amp; unit &lt; UNITS.size - 1) {   <span class="cm">// chia 1000 tới khi dưới 1000</span>
+        value /= 1000f
+        unit++
+    }
+    <span class="cm">// Làm tròn mà chạm 1000 thì phải lên đơn vị kế: 999999 hiện "1M"</span>
+    <span class="kw">if</span> (unit <span class="kw">in</span> 1 until UNITS.size - 1 &amp;&amp; Math.round(value * 100) &gt;= 100_000) {
+        value /= 1000f
+        unit++
+    }
+    <span class="kw">return</span> short(value) + UNITS[unit]
+}
+
+<span class="cm">/** Làm tròn 2 chữ số, dùng dấu phẩy thập phân và bỏ phần ",00" thừa. */</span>
+<span class="kw">private fun</span> short(value: Float): String {
+    <span class="kw">val</span> text = String.format(Locale.US, <span class="str">"%.2f"</span>, value)
+        .trimEnd(<span class="str">'0'</span>)
+        .trimEnd(<span class="str">'.'</span>)
+    <span class="kw">return</span> text.replace(<span class="str">'.'</span>, <span class="str">','</span>)
+}</pre>
+        </div>
+        <ul class="tight">
+          <li><strong>Vì sao không dùng <code>when</code> so 1.000 / 1.000.000 như cách nghĩ đầu tiên?</strong> Vì phải chọn đơn vị <em>sau</em> khi làm tròn. So trước thì 999999 &lt; 1.000.000 nên chọn k, chia ra 999,999, làm tròn thành "1000k".</li>
+          <li><strong><code>unit in 1 until 3</code>:</strong> số dưới 1000 không bị đẩy lên k (999 vẫn là 999), và B là đơn vị cuối, không có gì để lên nữa.</li>
+        </ul>
+        <p>Kết quả chạy thật (chạy <code>Money.format</code> bằng kotlinc trên máy tính):</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Số tiền</th><th>Hiện</th><th>Ghi chú</th></tr></thead>
+            <tbody>
+              <tr><td><code>500</code></td><td><code>500</code></td><td>Dưới 1.000 không có đơn vị</td></tr>
+              <tr><td><code>1000</code></td><td><code>1k</code></td><td>"1,00" bị cắt thành "1"</td></tr>
+              <tr><td><code>1500</code></td><td><code>1,5k</code></td><td>"1,50" bị cắt số 0 cuối</td></tr>
+              <tr><td><code>999499</code></td><td><code>999,5k</code></td><td></td></tr>
+              <tr><td><code>1537000</code></td><td><code>1,54M</code></td><td>Đúng ví dụ slide 11</td></tr>
+              <tr><td><code>999999</code></td><td><code>1M</code></td><td>999,999k làm tròn chạm 1000 nên lên M. Bản đầu hiện nhầm <code>1000k</code> — xem <a href="#su-co">lỗi đã sửa</a></td></tr>
+              <tr><td><code>1000000000</code></td><td><code>1B</code></td><td></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <ul class="tight">
+          <li><strong>Vì sao <code>Locale.US</code> rồi mới đổi dấu?</strong> Để chắc chắn <code>%.2f</code> ra dấu chấm, rồi mới tự thay bằng dấu phẩy. Nếu để máy tự chọn locale thì có máy ra phẩy sẵn, có máy ra chấm, và <code>trimEnd('.')</code> sẽ không cắt được.</li>
+          <li><strong>Vì sao cắt số 0?</strong> Để "1,00k" thành "1k", "1,50k" thành "1,5k" cho gọn. Nếu thầy muốn luôn đủ 2 chữ số thì bỏ hai dòng <code>trimEnd</code>.</li>
+          <li><strong>Tổng thu/chi ở đầu trang dùng cùng hàm này</strong>, nên cũng ra k/M/B.</li>
+        </ul>
+      </section>
+
+      <!-- ============ 07 ============ -->
+      <section class="block" id="luong">
+        <h2><span class="num">07</span>Luồng màn hình &amp; dữ liệu</h2>
+        <div class="flow">
+          <div class="flow-node">HomeAct<span class="file">home.xml</span></div>
+          <div class="flow-arrow">›</div>
+          <div class="flow-branch">
+            <div class="flow-node">AddAct<span class="file">add.xml · bấm +</span></div>
+            <div class="flow-node">EditAct<span class="file">edit.xml · bấm một dòng</span></div>
+          </div>
+          <div class="flow-arrow">›</div>
+          <div class="flow-branch">
+            <div class="flow-node">AddCategoryAct<span class="file">addcategory.xml · bấm + cạnh mục</span></div>
+            <div class="flow-node">EditCategoryAct<span class="file">editcategory.xml · bấm giữ Spinner mục</span></div>
+          </div>
+        </div>
+        <p>
+          <code>AddCategoryAct</code> còn có dấu + cạnh ô mục cha, bấm vào là mở thêm một <code>AddCategoryAct</code>
+          nữa chồng lên (thêm mục để làm cha). Mọi màn con đều theo đúng nếp bài 5:
+          <strong>tự ghi vào CSDL rồi <code>finish()</code></strong>, không trả dữ liệu về.
+        </p>
+
+        <h3 class="sub">Ai đọc lại ở onResume</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Màn</th><th>onResume làm gì</th><th>Vì sao</th></tr></thead>
+            <tbody>
+              <tr><td><code>HomeAct</code></td><td><code>reload()</code>: đọc giao dịch của ngày, cộng tổng</td><td>Vừa thêm/sửa/xóa giao dịch ở màn con</td></tr>
+              <tr><td><code>AddAct</code>, <code>EditAct</code></td><td><code>reloadCategories(...)</code>, giữ mục đang chọn</td><td>Vừa thêm/sửa/xóa mục ở màn mục</td></tr>
+              <tr><td><code>AddCategoryAct</code>, <code>EditCategoryAct</code></td><td><code>reloadParents(...)</code></td><td>Vừa thêm mục cha bằng dấu +</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 class="sub">EditAct — lần đầu chọn mục cũ, các lần sau giữ mục đang chọn</h3>
+        <div class="code-block">
+          <div class="code-head"><span class="tag">EditAct.kt</span><span>onResume</span></div>
+<pre class="code"><span class="kw">override fun</span> onResume() {
+    <span class="kw">super</span>.onResume()
+    <span class="cm">// Lần đầu Spinner còn rỗng nên selectedCategory() là null -&gt; lấy mục của giao dịch</span>
+    reloadCategories(selectedCategory()?.id ?: trans.category.id)
+}</pre>
+        </div>
+
+        <h3 class="sub">Nút Xóa giao dịch nằm ở màn Sửa</h3>
+        <p>Khác bài 5 (xóa ở Home bằng menu •••), slide 6 đặt nút Xóa ngay trong màn Sửa giao dịch. <code>AlertDialog</code> hỏi lại, bấm Có thì <code>deleteTransaction(id)</code> rồi <code>finish()</code>, Home tự đọc lại.</p>
+
+        <h3 class="sub">Xóa mục thì xóa lan</h3>
+        <p>
+          <code>deleteCategory(id)</code> gom id của cả nhánh (chính nó, con, cháu…) theo từng đời bằng vòng
+          <code>while</code>, rồi xóa mọi giao dịch có <code>idCategory IN (...)</code> trước, xóa các mục sau.
+          Nếu không xóa giao dịch thì sẽ còn giao dịch trỏ vào mục không tồn tại. Dialog xác nhận nói rõ điều này.
+        </p>
+      </section>
+
+      <!-- ============ 08 ============ -->
+      <section class="block" id="giao-dien">
+        <h2><span class="num">08</span>Switch, Spinner và logo</h2>
+
+        <h3 class="sub">Nút on/off thu/chi</h3>
+        <p>Slide ghi "thu/chi - làm nút on/off". Dùng <code>Switch</code> đặt giữa hai chữ <strong style="color:var(--danger)">Chi</strong> và <strong style="color:var(--accent-strong)">Thu</strong>: tắt = Chi, bật = Thu.</p>
+        <div class="code-block">
+          <div class="code-head"><span class="tag">AddAct.kt</span><span>cuối onCreate</span></div>
+<pre class="code"><span class="cm">// Gán trạng thái đầu TRƯỚC khi gắn listener, để lần gán đó không</span>
+<span class="cm">// làm mất mục đang chọn sẵn.</span>
+swType.isChecked = idType == CategoryType.ID_THU
+swType.setOnCheckedChangeListener { _, isChecked -&gt;
+    idType = <span class="kw">if</span> (isChecked) CategoryType.ID_THU <span class="kw">else</span> CategoryType.ID_CHI
+    reloadCategories(0)   <span class="cm">// 0 = chọn mục đầu tiên của kiểu mới</span>
+}</pre>
+        </div>
+        <div class="callout warn">
+          <strong>Đảo thứ tự hai dòng đó ở EditAct</strong> thì khi mở một giao dịch thu, dòng
+          <code>isChecked = true</code> kích hoạt listener, danh sách bị nạp lại với <code>0</code>,
+          và mục cũ của giao dịch bị mất.
+        </div>
+
+        <h3 class="sub">Spinner có tam giác và rộng bằng các ô khác</h3>
+        <ul class="tight">
+          <li>Nền Spinner là <code>bg_spinner.xml</code>: một <code>layer-list</code> gồm khung <code>bg_input</code> + tam giác <code>ic_dropdown</code> neo mép phải (<code>gravity="end|center_vertical"</code>). <code>paddingEnd="50dp"</code> để chữ không đè lên tam giác.</li>
+          <li>Mọi ô (Spinner, Số tiền, Ghi chú, Thời gian) đều <code>layout_width="0dp"</code>, đầu trái nối vào nhãn, <strong>đầu phải nối vào cạnh trái của nút +</strong>. Nhờ vậy tất cả dài bằng nhau và dấu + nằm ngoài như wireframe.</li>
+        </ul>
+
+        <h3 class="sub">CategoryAdapter — logo + thụt lề</h3>
+        <div class="code-block">
+          <div class="code-head"><span class="tag">CategoryAdapter.kt</span></div>
+<pre class="code"><span class="kw">override fun</span> getView(...)         = bind(items[position], ..., indent = <span class="kw">false</span>)  <span class="cm">// ô đang chọn</span>
+<span class="kw">override fun</span> getDropDownView(...) = bind(items[position], ..., indent = <span class="kw">true</span>)   <span class="cm">// danh sách xổ ra</span>
+
+<span class="cm">// Mỗi bậc thụt vào 40dp, cộng với 15dp lề sẵn có của dòng</span>
+<span class="kw">val</span> level = <span class="kw">if</span> (indent &amp;&amp; c != <span class="kw">null</span>) c.level() <span class="kw">else</span> 0
+row.setPadding(((15 + 40 * level) * density).toInt(), ...)</pre>
+        </div>
+        <ul class="tight">
+          <li><strong><code>getView</code> và <code>getDropDownView</code> khác nhau:</strong> cái đầu vẽ ô lúc Spinner đóng, cái sau vẽ từng dòng lúc xổ ra. Chỉ lúc xổ ra mới cần thụt lề.</li>
+          <li><strong>Phần tử <code>null</code></strong> là dòng "--- trống ---" của Spinner mục cha. Logo để <code>INVISIBLE</code> (không phải <code>GONE</code>) để dòng vẫn cao bằng các dòng khác.</li>
+          <li><strong>dp → px:</strong> <code>setPadding</code> nhận pixel, nên nhân với <code>displayMetrics.density</code>.</li>
+        </ul>
+
+        <h3 class="sub">Logo lưu thế nào</h3>
+        <p>
+          Cột <code>icon</code> chỉ lưu một <em>tên</em> ngắn như <code>"anuong"</code>, <code>"xe"</code>.
+          <code>Icons.resOf(name)</code> đổi tên đó sang <code>R.drawable.ic_anuong</code>… Không lưu thẳng
+          <code>R.drawable.xxx</code> vào CSDL vì số đó do aapt2 sinh ra và <strong>có thể đổi mỗi lần build</strong>.
+          <code>LogoAdapter</code> hiện đủ 22 logo, mỗi dòng có hình bên cạnh tên.
+        </p>
+
+        <h3 class="sub">Logo tô xanh / đỏ theo thu / chi</h3>
+        <p>
+          File vector vẽ nét đen; màu được tô lúc chạy bằng <code>imgIcon.setColorFilter(màu)</code>, nên
+          một logo dùng được cho cả hai kiểu. Màu lấy từ <code>Icons.colorOf(context, idType)</code>
+          (<code>R.color.thu</code> / <code>R.color.chi</code>). Tô ở ba chỗ:
+        </p>
+        <ul class="tight">
+          <li><code>ShowTransFrag.bind</code> — dòng ở Home, cùng màu với tên và số tiền.</li>
+          <li><code>CategoryAdapter</code> — theo kiểu của từng mục (<code>c.type.id</code>).</li>
+          <li><code>LogoAdapter</code> — theo kiểu đang gạt trên màn Thêm/Sửa mục. Gạt Switch thì gán <code>logoAdapter.idType</code> rồi <code>notifyDataSetChanged()</code> để vẽ lại.</li>
+        </ul>
+        <div class="callout"><strong>Vì sao colorFilter không tô luôn khung viền?</strong> Khung là <code>background</code> (<code>bg_list_item</code>), còn colorFilter chỉ áp lên ảnh chính (<code>src</code>) của <code>ImageView</code>.</div>
+      </section>
+
+      <!-- ============ 09 ============ -->
+      <section class="block" id="doi-chieu">
+        <h2><span class="num">09</span>Đối chiếu slide 3–13</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Slide</th><th>Yêu cầu</th><th>Làm ở đâu</th><th>Ghi chú</th></tr></thead>
+            <tbody>
+              <tr><td>3</td><td>Package <code>ptit.(lớp).(họ tên).mywallet</code></td><td><code>ptit.cnpm1.tranxuanthanh.bai06</code></td><td><span class="bad">Lệch</span> — theo nếp các bài trong repo (mỗi bài một package <code>baiXX</code>). File CSDL vẫn tên <code>mywallet.db</code>.</td></tr>
+              <tr><td>5</td><td>Home: ngày hiện tại, tổng thu/chi, danh sách logo + tên + số tiền, dấu +</td><td><code>home.xml</code>, <code>showtrans.xml</code>, <code>HomeAct</code>, <code>ShowTransFrag</code></td><td><span class="ok">Đủ</span></td></tr>
+              <tr><td>6</td><td>Thêm/Sửa giao dịch: kiểu on/off, mục + dấu +, số tiền, ghi chú, thời gian; Thêm/Hủy — Lưu/Xóa/Hủy</td><td><code>add.xml</code>, <code>edit.xml</code>, <code>AddAct</code>, <code>EditAct</code></td><td><span class="ok">Đủ</span></td></tr>
+              <tr><td>7</td><td>Danh sách mục có logo, con/cháu thụt vào</td><td><code>CategoryAdapter.getDropDownView</code></td><td><span class="ok">Đủ</span>. Dữ liệu mẫu hiện là mục phẳng; muốn thấy cây thì tự thêm mục con.</td></tr>
+              <tr><td>8</td><td>Thêm/Sửa mục: kiểu, mục cha + dấu +, tên, ghi chú, logo</td><td><code>addcategory.xml</code>, <code>editcategory.xml</code></td><td>Dòng "--chọn---" đổi thành "--- trống ---" vì để trống có nghĩa (thêm mục cha). Nhãn "Tên mục chi" viết thành "Tên mục thu/chi".</td></tr>
+              <tr><td>9</td><td>Lớp Transaction, Category, CategoryType</td><td>3 file <code>.kt</code> cùng tên</td><td><span class="ok">Khớp từng thuộc tính</span>, <code>amount : Float</code> đúng slide</td></tr>
+              <tr><td>10</td><td>tblType, tblCategory, tblTransaction</td><td><code>DBHelper.onCreate</code></td><td><span class="ok">Khớp tên bảng và tên cột</span></td></tr>
+              <tr><td>11</td><td>Home hiện giao dịch ngày hiện tại; thu xanh, chi đỏ; + để thêm; bấm dòng để sửa; tiền k/M/B</td><td><code>HomeAct</code>, <code>ShowTransFrag.bind</code>, <code>Money</code></td><td><span class="ok">Đủ</span>, cả mép <code>999.999 → 1M</code></td></tr>
+              <tr><td>12</td><td>Chọn thu/chi; đổi kiểu thì cập nhật mục; xếp theo nhóm và tần suất; con/cháu abc</td><td><code>swType</code>, <code>WalletDAO.getCategories</code></td><td><span class="ok">Đủ</span></td></tr>
+              <tr><td>13</td><td>Dấu + cạnh mục mở màn thêm mục; chọn cha theo cây, trống = mục cha; sửa mục tương tự</td><td><code>AddCategoryAct</code>, <code>EditCategoryAct</code></td><td>Slide không nói vào màn Sửa mục từ đâu — chọn cách <strong>bấm giữ Spinner mục</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============ 10 ============ -->
+      <section class="block" id="tra-cuu">
+        <h2><span class="num">10</span>Tra cứu nhanh</h2>
+        <h3 class="sub">Ai gọi hàm nào của WalletDAO</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Màn</th><th>Hàm DAO</th></tr></thead>
+            <tbody>
+              <tr><td><code>HomeAct</code></td><td><code>getTransactions(today)</code></td></tr>
+              <tr><td><code>AddAct</code></td><td><code>getCategories</code>, <code>addTransaction</code></td></tr>
+              <tr><td><code>EditAct</code></td><td><code>getCategories</code>, <code>editTransaction</code>, <code>deleteTransaction</code></td></tr>
+              <tr><td><code>AddCategoryAct</code></td><td><code>getCategories</code>, <code>getTypes</code>, <code>addCategory</code></td></tr>
+              <tr><td><code>EditCategoryAct</code></td><td><code>getCategories</code>, <code>getTypes</code>, <code>editCategory</code>, <code>deleteCategory</code></td></tr>
+              <tr><td>(không ai)</td><td><code>total(date, idType)</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 class="sub">Các file</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Loại</th><th>File</th></tr></thead>
+            <tbody>
+              <tr><td>Thực thể</td><td><code>CategoryType.kt</code>, <code>Category.kt</code>, <code>Transaction.kt</code></td></tr>
+              <tr><td>CSDL</td><td><code>DBHelper.kt</code>, <code>WalletDAO.kt</code></td></tr>
+              <tr><td>Tiện ích</td><td><code>Money.kt</code> (k/M/B), <code>Icons.kt</code> (tên logo ↔ drawable, màu thu/chi)</td></tr>
+              <tr><td>Màn hình</td><td><code>HomeAct</code>, <code>AddAct</code>, <code>EditAct</code>, <code>AddCategoryAct</code>, <code>EditCategoryAct</code></td></tr>
+              <tr><td>View / Adapter</td><td><code>ShowTransFrag</code> (một dòng ở Home), <code>CategoryAdapter</code>, <code>LogoAdapter</code></td></tr>
+              <tr><td>Layout</td><td><code>home</code>, <code>showtrans</code>, <code>add</code>, <code>edit</code>, <code>addcategory</code>, <code>editcategory</code>, <code>spinnerrow</code></td></tr>
+              <tr><td>Drawable</td><td><code>bg_input</code>, <code>bg_list_item</code>, <code>bg_spinner</code>, <code>ic_dropdown</code>, 22 logo <code>ic_*</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3 class="sub">id của view hay bị hỏi</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Màn</th><th>id</th></tr></thead>
+            <tbody>
+              <tr><td>Home</td><td><code>lblDate</code>, <code>lblTotalThu</code>, <code>lblTotalChi</code>, <code>lwTrans</code>, <code>btnAdd</code></td></tr>
+              <tr><td>Dòng giao dịch</td><td><code>imgIcon</code>, <code>lblName</code>, <code>lblAmount</code></td></tr>
+              <tr><td>Thêm/Sửa giao dịch</td><td><code>swType</code>, <code>spCategory</code>, <code>btnNewCategory</code>, <code>txtAmount</code>, <code>txtNote</code>, <code>txtDate</code>, <code>btnSave</code>, <code>btnDelete</code>, <code>btnCancel</code></td></tr>
+              <tr><td>Thêm/Sửa mục</td><td><code>swType</code>, <code>spParent</code>, <code>btnNewParent</code>, <code>txtName</code>, <code>txtNote</code>, <code>spIcon</code>, <code>btnSave</code>, <code>btnDelete</code>, <code>btnCancel</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============ 11 ============ -->
+      <section class="block" id="kich-ban">
+        <h2><span class="num">11</span>Kịch bản sửa logic có thể bị hỏi</h2>
+        <p>
+          Mỗi kịch bản: yêu cầu, file phải sửa, code thay vào. Code các kịch bản chính đã được áp thử lên một bản
+          sao của bài và <strong>biên dịch qua kotlinc</strong>; K01 còn được chạy thử với số thật.
+          Khi bị hỏi, nói theo thứ tự: <em>sửa ở lớp nào → vì sao ở đó → đoạn code</em>.
+        </p>
+
+        <div class="group-title">A · Hiện số tiền</div>
+
+        <details class="scenario">
+          <summary><span class="idx">K01</span>Vì sao 999.999 từng hiện "1000k", sửa thế nào (đã sửa)<span class="chev">›</span></summary>
+          <div class="scenario-body">
+            <p class="scenario-goal">Code hiện đã đúng (xem mục 06). Kịch bản này là để giải thích lỗi của bản đầu và cách nghĩ khi sửa: bản đầu chọn đơn vị <em>trước</em> khi làm tròn, 999999 &lt; 1.000.000 nên chọn k, chia ra 999,999, làm tròn 2 số thành 1000 → "1000k". Phải chọn lại đơn vị <em>sau</em> khi làm tròn — đoạn dưới chính là code đang chạy.</p>
+            <div class="file-list"><span class="file-chip">Money.kt</span></div>
+            <div class="code-block">
+              <div class="code-head"><span class="tag">Money.kt</span><span>thay hàm format</span></div>
+<pre class="code"><span class="kw">private val</span> UNITS = listOf(<span class="str">""</span>, <span class="str">"k"</span>, <span class="str">"M"</span>, <span class="str">"B"</span>)
+
+<span class="kw">fun</span> format(amount: Float): String {
+    <span class="kw">var</span> value = amount
+    <span class="kw">var</span> unit = 0
+    <span class="kw">while</span> (value &gt;= 1000f &amp;&amp; unit &lt; UNITS.size - 1) {
+        value /= 1000f
+        unit++
+    }
+    <span class="cm">// 999999 chia 1000 được 999,999; làm tròn 2 số thành 1000 -&gt; lên đơn vị kế</span>
+    <span class="kw">if</span> (unit <span class="kw">in</span> 1 until UNITS.size - 1 &amp;&amp; Math.round(value * 100) &gt;= 100_000) {
+        value /= 1000f
+        unit++
+    }
+    <span class="kw">return</span> short(value) + UNITS[unit]
+}</pre>
+            </div>
+            <p>Đã chạy thử: <code>999 → 999</code>, <code>1000 → 1k</code>, <code>999499 → 999,5k</code>, <code>999999 → 1M</code>, <code>1537000 → 1,54M</code>. Điều kiện <code>unit in 1 until 3</code> để số dưới 1000 không bị đẩy lên k, và B là đơn vị cuối không có gì để lên nữa.</p>
+          </div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">K02</span>Luôn hiện đủ 2 chữ số sau dấu phẩy (1,50k thay vì 1,5k)<span class="chev">›</span></summary>
+          <div class="scenario-body">
+            <div class="file-list"><span class="file-chip">Money.kt</span></div>
+            <p>Bỏ hai lần <code>trimEnd</code>. Nhưng khi đó số dưới 1000 cũng thành "500,00", nên nhánh không có đơn vị phải in số nguyên riêng.</p>
+            <div class="code-block">
+              <div class="code-head"><span class="tag">Money.kt</span></div>
+<pre class="code"><span class="kw">fun</span> format(amount: Float): String = <span class="kw">when</span> {
+    amount &gt;= 1_000_000_000f -&gt; short(amount / 1_000_000_000f) + <span class="str">"B"</span>
+    amount &gt;= 1_000_000f -&gt; short(amount / 1_000_000f) + <span class="str">"M"</span>
+    amount &gt;= 1_000f -&gt; short(amount / 1_000f) + <span class="str">"k"</span>
+    <span class="kw">else</span> -&gt; String.format(Locale.US, <span class="str">"%.0f"</span>, amount)
+}
+
+<span class="kw">private fun</span> short(value: Float): String =
+    String.format(Locale.US, <span class="str">"%.2f"</span>, value).replace(<span class="str">'.'</span>, <span class="str">','</span>)</pre>
+            </div>
+          </div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">K03</span>Khoản chi có dấu trừ, khoản thu có dấu cộng<span class="chev">›</span></summary>
+          <div class="scenario-body">
+            <div class="file-list"><span class="file-chip">ShowTransFrag.kt</span></div>
+            <p>Chỉ đổi chỗ hiển thị, không đổi dữ liệu: trong CSDL số tiền vẫn luôn dương, thu hay chi do kiểu của mục quyết định.</p>
+            <div class="code-block">
+              <div class="code-head"><span class="tag">ShowTransFrag.kt</span><span>trong bind()</span></div>
+<pre class="code"><span class="kw">val</span> isThu = t.category.type.id == CategoryType.ID_THU
+lblAmount.text = (<span class="kw">if</span> (isThu) <span class="str">"+"</span> <span class="kw">else</span> <span class="str">"-"</span>) + Money.format(t.amount)</pre>
+            </div>
+          </div>
+        </details>
+
+        <div class="group-title">B · Trang home</div>
+
+        <details class="scenario">
+          <summary><span class="idx">K04</span>Bấm vào ngày để xem giao dịch ngày khác<span class="chev">›</span></summary>
+          <div class="scenario-body">
+            <div class="file-list"><span class="file-chip">HomeAct.kt</span></div>
+            <p>Đổi <code>private val today = Date()</code> thành <code>private var today = Date()</code>, rồi trong <code>onCreate</code>:</p>
+            <div class="code-block">
+              <div class="code-head"><span class="tag">HomeAct.kt</span><span>onCreate</span></div>
+<pre class="code">lblDate.setOnClickListener {
+    <span class="kw">val</span> c = Calendar.getInstance()
+    c.time = today
+    DatePickerDialog(<span class="kw">this</span>, { _, y, m, d -&gt;
+        <span class="kw">val</span> picked = Calendar.getInstance()
+        picked.set(y, m, d, 0, 0, 0)
+        today = picked.time
+        lblDate.text = WalletDAO.toText(today)
+        reload()
+    }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show()
+}</pre>
+            </div>
+            <p><code>reload()</code> đã dùng <code>today</code> sẵn nên không phải sửa. Muốn có nút ‹ › thì mỗi nút làm <code>c.add(Calendar.DAY_OF_MONTH, -1)</code> hoặc <code>+1</code> rồi gán lại <code>today</code> và gọi <code>reload()</code>.</p>
+            <div class="callout"><strong>Lưu ý:</strong> nên để <code>AddAct</code> mở ra với sẵn ngày đang xem: gửi <code>putExtra("date", today)</code> rồi ở <code>AddAct</code> đọc ra điền vào <code>txtDate</code>.</div>
+          </div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">K05</span>Hiện số dư trong ngày (thu − chi)<span class="chev">›</span></summary>
+          <div class="scenario-body">
+            <div class="file-list"><span class="file-chip">home.xml</span><span class="file-chip">HomeAct.kt</span></div>
+            <p>Bước 1: thêm <code>TextView</code> id <code>lblBalance</code> vào <code>home.xml</code>, đặt dưới đường kẻ <code>lineTotal</code>, và sửa <code>lwTrans</code> để <code>layout_constraintTop_toBottomOf="@+id/lblBalance"</code>. Bước 2: khai báo và <code>findViewById</code>. Bước 3: cuối <code>reload()</code>:</p>
+            <div class="code-block">
+              <div class="code-head"><span class="tag">HomeAct.kt</span><span>cuối reload()</span></div>
+<pre class="code"><span class="kw">val</span> balance = totalThu - totalChi
+lblBalance.text = <span class="str">"Số dư: "</span> + (<span class="kw">if</span> (balance &lt; 0) <span class="str">"-"</span> <span class="kw">else</span> <span class="str">""</span>) + Money.format(Math.abs(balance))</pre>
+            </div>
+            <p><code>Money.format</code> chỉ xử lý số dương (so <code>&gt;= 1000</code>), nên số âm phải lấy trị tuyệt đối rồi tự thêm dấu trừ.</p>
+          </div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">K06</span>Giao dịch mới nhất lên đầu, hoặc xếp theo số tiền<span class="chev">›</span></summary>
+          <div class="scenario-body">
+            <div class="file-list"><span class="file-chip">WalletDAO.kt</span></div>
+            <p>Chỉ sửa mệnh đề <code>ORDER BY</code> trong <code>getTransactions</code>:</p>
+            <div class="code-block">
+              <div class="code-head"><span class="tag">WalletDAO.kt</span><span>getTransactions</span></div>
+<pre class="code"><span class="str">"ORDER BY ${DBHelper.COL_ID} DESC"</span>       <span class="cm">// mới thêm lên đầu</span>
+<span class="str">"ORDER BY ${DBHelper.COL_AMOUNT} DESC"</span>   <span class="cm">// khoản lớn lên đầu</span></pre>
+            </div>
+            <p>Muốn "thu lên trước, chi xuống sau" thì không làm được bằng SQL ở câu này (kiểu nằm ở bảng mục), sắp trong Kotlin: <code>list.sortBy { it.category.type.id }</code> trước khi <code>return</code> (Thu id 1 nhỏ hơn Chi id 2).</p>
+          </div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">K07</span>Dòng giao dịch hiện đủ đường cha: "Sinh hoạt › Ăn uống"<span class="chev">›</span></summary>
+          <div class="scenario-body">
+            <div class="file-list"><span class="file-chip">ShowTransFrag.kt</span></div>
+            <p>Làm được vì <code>getTransactions</code> đã nối sẵn chuỗi <code>parent</code> cho từng mục.</p>
+            <div class="code-block">
+              <div class="code-head"><span class="tag">ShowTransFrag.kt</span><span>thay dòng lblName.text</span></div>
+<pre class="code"><span class="kw">var</span> path = t.category.name
+<span class="kw">var</span> p = t.category.parent
+<span class="kw">while</span> (p != <span class="kw">null</span>) {
+    path = p.name + <span class="str">" › "</span> + path
+    p = p.parent
+}
+lblName.text = path</pre>
+            </div>
+          </div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">K08</span>Bấm giữ một dòng ở home để xóa nhanh<span class="chev">›</span></summary>
+          <div class="scenario-body">
+            <div class="file-list"><span class="file-chip">HomeAct.kt</span></div>
+            <div class="code-block">
+              <div class="code-head"><span class="tag">HomeAct.kt</span><span>onCreate</span></div>
+<pre class="code">lwTrans.setOnItemLongClickListener { _, _, position, _ -&gt;
+    <span class="kw">val</span> t = listTrans[position]
+    AlertDialog.Builder(<span class="kw">this</span>)
+        .setTitle(<span class="str">"Xác nhận xóa"</span>)
+        .setMessage(<span class="str">"Xóa giao dịch "</span> + t.category.name + <span class="str">" "</span> + Money.format(t.amount) + <span class="str">"?"</span>)
+        .setPositiveButton(<span class="str">"Có"</span>) { _, _ -&gt;
+            dao.deleteTransaction(t.id)
+            reload()
+        }
+        .setNegativeButton(<span class="str">"Không"</span>, <span class="kw">null</span>)
+        .show()
+    <span class="kw">true</span>   <span class="cm">// đã xử lý, để không kích hoạt thêm click thường</span>
+}</pre>
+            </div>
+            <p>Ở đây phải tự gọi <code>reload()</code>, vì dialog không làm màn Home rời tiền cảnh nên <code>onResume()</code> không chạy lại.</p>
+          </div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">K09</span>Hiện giao dịch cả tháng thay vì một ngày<span class="chev">›</span></summary>
+          <div class="scenario-body">
+            <div class="file-list"><span class="file-chip">WalletDAO.kt</span><span class="file-chip">HomeAct.kt</span></div>
+            <p>Ngày lưu dạng <code>dd/MM/yyyy</code> luôn đủ 10 ký tự, nên "mọi ngày của tháng 9/2026" là mọi chuỗi kết thúc bằng <code>/09/2026</code> — lọc được bằng <code>LIKE</code>.</p>
+            <div class="code-block">
+              <div class="code-head"><span class="tag">WalletDAO.kt</span><span>hàm mới</span></div>
+<pre class="code"><span class="kw">fun</span> getTransactionsOfMonth(month: Int, year: Int): ArrayList&lt;Transaction&gt; {
+    <span class="kw">val</span> suffix = String.format(Locale.US, <span class="str">"%%/%02d/%04d"</span>, month, year)   <span class="cm">// "%/09/2026"</span>
+    <span class="kw">val</span> db = dbHelper.readableDatabase
+    <span class="kw">val</span> cursor = db.rawQuery(
+        <span class="str">"SELECT ${DBHelper.COL_DATE} FROM ${DBHelper.TB_TRANSACTION} "</span> +
+            <span class="str">"WHERE ${DBHelper.COL_DATE} LIKE ? GROUP BY ${DBHelper.COL_DATE}"</span>,
+        arrayOf(suffix)
+    )
+    <span class="kw">val</span> list = ArrayList&lt;Transaction&gt;()
+    <span class="kw">while</span> (cursor.moveToNext()) list.addAll(getTransactions(toDate(cursor.getString(0))))
+    cursor.close()
+    <span class="kw">return</span> list
+}</pre>
+            </div>
+            <p>Tìm các ngày có giao dịch trong tháng rồi dùng lại <code>getTransactions</code> cho từng ngày, khỏi viết lại phần đọc Cursor. Ở <code>HomeAct.reload()</code> đổi <code>dao.getTransactions(today)</code> thành <code>dao.getTransactionsOfMonth(tháng, năm)</code>; phần cộng tổng giữ nguyên.</p>
+          </div>
+        </details>
+
+        <div class="group-title">C · Thêm / sửa giao dịch</div>
+
+        <details class="scenario">
+          <summary><span class="idx">K10</span>Không cho lưu số tiền bằng 0<span class="chev">›</span></summary>
+          <div class="scenario-body">
+            <div class="file-list"><span class="file-chip">AddAct.kt</span><span class="file-chip">EditAct.kt</span></div>
+            <p>Hiện chỉ kiểm tra rỗng. <code>inputType="number"</code> đã chặn dấu trừ và dấu chấm nên <code>toFloat()</code> không bao giờ ném lỗi, nhưng "0" vẫn qua. Thêm vào <code>save()</code>, ngay sau đoạn kiểm tra rỗng:</p>
+            <div class="code-block">
+              <div class="code-head"><span class="tag">AddAct.kt</span><span>save()</span></div>
+<pre class="code"><span class="kw">if</span> (amountText.toFloat() &lt;= 0f) {
+    Toast.makeText(<span class="kw">this</span>, <span class="str">"Số tiền phải lớn hơn 0"</span>, Toast.LENGTH_SHORT).show()
+    <span class="kw">return</span>
+}</pre>
+            </div>
+          </div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">K11</span>Thêm mục bằng dấu + xong thì tự chọn mục vừa thêm<span class="chev">›</span></summary>
+          <div class="scenario-body">
+            <div class="file-list"><span class="file-chip">AddAct.kt</span></div>
+            <p>Hiện quay về vẫn giữ mục đang chọn cũ. Ý tưởng: nhớ id lớn nhất <em>trước khi</em> sang màn thêm mục; lúc về, nếu có mục id lớn hơn thì đó là mục mới (id tự tăng). Bấm Hủy thì không có id mới nên giữ nguyên.</p>
+            <div class="code-block">
+              <div class="code-head"><span class="tag">AddAct.kt</span></div>
+<pre class="code"><span class="cm">/** id lớn nhất trước khi sang màn thêm mục, -1 là không chờ mục mới. */</span>
+<span class="kw">private var</span> maxIdBefore = -1
+
+<span class="cm">// trong onClick, nhánh R.id.btnNewCategory, trước startActivity:</span>
+maxIdBefore = categories.maxOfOrNull { it?.id ?: 0 } ?: 0
+
+<span class="kw">override fun</span> onResume() {
+    <span class="kw">super</span>.onResume()
+    <span class="kw">var</span> keep = selectedCategory()?.id ?: 0
+    <span class="kw">if</span> (maxIdBefore &gt;= 0) {
+        <span class="kw">val</span> newest = dao.getCategories(idType).maxOfOrNull { it.id } ?: 0
+        <span class="kw">if</span> (newest &gt; maxIdBefore) keep = newest
+        maxIdBefore = -1
+    }
+    reloadCategories(keep)
+}</pre>
+            </div>
+            <p>Cách khác là <code>startActivityForResult</code> + <code>setResult</code> trả id về, nhưng các bài trước đã bỏ cách đó để dùng <code>onResume</code>, nên giữ cho thống nhất.</p>
+          </div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">K12</span>Mở màn Thêm là chọn sẵn kiểu thu/chi dùng lần trước<span class="chev">›</span></summary>
+          <div class="scenario-body">
+            <div class="file-list"><span class="file-chip">AddAct.kt</span></div>
+            <p>Lưu một số nguyên nhỏ, không đáng một bảng CSDL, dùng <code>SharedPreferences</code>.</p>
+            <div class="code-block">
+              <div class="code-head"><span class="tag">AddAct.kt</span></div>
+<pre class="code"><span class="cm">// onCreate, ngay sau dao = WalletDAO(this) — phải trước đoạn gán swType.isChecked</span>
+idType = getSharedPreferences(<span class="str">"mywallet"</span>, MODE_PRIVATE)
+    .getInt(<span class="str">"lastType"</span>, CategoryType.ID_CHI)
+
+<span class="cm">// save(), sau khi addTransaction thành công</span>
+getSharedPreferences(<span class="str">"mywallet"</span>, MODE_PRIVATE).edit().putInt(<span class="str">"lastType"</span>, idType).apply()</pre>
+            </div>
+          </div>
+        </details>
+
+        <div class="group-title">D · Xếp mục theo tần suất</div>
+
+        <details class="scenario">
+          <summary><span class="idx">K13</span>Tần suất chỉ tính giao dịch trong 30 ngày gần nhất<span class="chev">›</span></summary>
+          <div class="scenario-body">
+            <div class="file-list"><span class="file-chip">WalletDAO.kt</span></div>
+            <p>Chỉ sửa <code>countUsage()</code>; <code>getCategories</code> giữ nguyên vì nó chỉ cần map "id → số lần".</p>
+            <div class="code-block">
+              <div class="code-head"><span class="tag">WalletDAO.kt</span><span>countUsage</span></div>
+<pre class="code"><span class="kw">private fun</span> countUsage(): HashMap&lt;Int, Int&gt; {
+    <span class="cm">// Mốc 30 ngày trước. Không lọc được bằng SQL vì cột date là chuỗi</span>
+    <span class="cm">// "dd/MM/yyyy": so chuỗi thì "05/10/2026" &lt; "20/09/2026" là sai</span>
+    <span class="kw">val</span> from = Calendar.getInstance()
+    from.add(Calendar.DAY_OF_MONTH, -30)
+
+    <span class="kw">val</span> db = dbHelper.readableDatabase
+    <span class="kw">val</span> cursor = db.rawQuery(
+        <span class="str">"SELECT ${DBHelper.COL_ID_CATEGORY}, ${DBHelper.COL_DATE} FROM ${DBHelper.TB_TRANSACTION}"</span>,
+        <span class="kw">null</span>
+    )
+    <span class="kw">val</span> usage = HashMap&lt;Int, Int&gt;()
+    <span class="kw">while</span> (cursor.moveToNext()) {
+        <span class="kw">if</span> (toDate(cursor.getString(1)).before(from.time)) <span class="kw">continue</span>
+        <span class="kw">val</span> id = cursor.getInt(0)
+        usage[id] = (usage[id] ?: 0) + 1
+    }
+    cursor.close()
+    <span class="kw">return</span> usage
+}</pre>
+            </div>
+            <p>Nhớ thêm <code>import java.util.Calendar</code>. Nếu ngày được lưu dạng <code>yyyy-MM-dd</code> (K22) thì lọc thẳng bằng <code>WHERE date &gt;= ?</code> trong SQL được.</p>
+          </div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">K14</span>Xếp theo tổng số tiền đã tiêu thay vì số lần<span class="chev">›</span></summary>
+          <div class="scenario-body">
+            <div class="file-list"><span class="file-chip">WalletDAO.kt</span></div>
+            <p>Đổi <code>COUNT(*)</code> thành <code>SUM(amount)</code> và đổi kiểu số từ <code>Int</code> sang <code>Float</code> ở mọi chỗ liên quan:</p>
+            <div class="code-block">
+              <div class="code-head"><span class="tag">WalletDAO.kt</span></div>
+<pre class="code"><span class="cm">// countUsage</span>
+<span class="str">"SELECT ${DBHelper.COL_ID_CATEGORY}, SUM(${DBHelper.COL_AMOUNT}) FROM ${DBHelper.TB_TRANSACTION} "</span> +
+    <span class="str">"GROUP BY ${DBHelper.COL_ID_CATEGORY}"</span>
+<span class="kw">val</span> usage = HashMap&lt;Int, Float&gt;()
+<span class="kw">while</span> (cursor.moveToNext()) usage[cursor.getInt(0)] = cursor.getFloat(1)
+
+<span class="cm">// getCategories</span>
+<span class="kw">val</span> branch = HashMap&lt;Int, Float&gt;()
+<span class="kw">val</span> own = usage[category.id] ?: 0f
+<span class="kw">if</span> (own == 0f) <span class="kw">continue</span>
+branch[node.id] = (branch[node.id] ?: 0f) + own
+roots.sortWith(compareByDescending&lt;Category&gt; { branch[it.id] ?: 0f }.then(byName))</pre>
+            </div>
+          </div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">K15</span>Mục con/cháu cũng xếp theo tần suất, không theo abc<span class="chev">›</span></summary>
+          <div class="scenario-body">
+            <div class="file-list"><span class="file-chip">WalletDAO.kt</span></div>
+            <p>Một dòng. <code>branch</code> đã có sẵn số lần của cả nhánh cho <em>mọi</em> mục, không riêng mục cha.</p>
+            <div class="code-block">
+              <div class="code-head"><span class="tag">WalletDAO.kt</span><span>getCategories</span></div>
+<pre class="code"><span class="kw">for</span> (children <span class="kw">in</span> childrenOf.values) {
+    children.sortWith(compareByDescending&lt;Category&gt; { branch[it.id] ?: 0 }.then(byName))
+}</pre>
+            </div>
+          </div>
+        </details>
+
+        <div class="group-title">E · Mục thu/chi</div>
+
+        <details class="scenario">
+          <summary><span class="idx">K16</span>Giới hạn cây tối đa 3 bậc (cha – con – cháu)<span class="chev">›</span></summary>
+          <div class="scenario-body">
+            <div class="file-list"><span class="file-chip">AddCategoryAct.kt</span><span class="file-chip">EditCategoryAct.kt</span></div>
+            <p>Không cho chọn cháu (bậc 2) làm cha, thì mục mới sâu nhất là bậc 2. Trong <code>reloadParents</code>:</p>
+            <div class="code-block">
+              <div class="code-head"><span class="tag">AddCategoryAct.kt</span><span>reloadParents</span></div>
+<pre class="code">parents.addAll(dao.getCategories(idType).filter { it.level() &lt; 2 })</pre>
+            </div>
+            <p>Ở <code>EditCategoryAct</code> khó hơn vì mục đang sửa có thể mang theo con cháu: chỉ cho chọn cha <code>p</code> khi <code>p.level() + 1 + (độ sâu nhánh của mục đang sửa) &lt;= 2</code>.</p>
+          </div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">K17</span>Không xóa lan: mục còn con hoặc còn giao dịch thì chặn<span class="chev">›</span></summary>
+          <div class="scenario-body">
+            <div class="file-list"><span class="file-chip">WalletDAO.kt</span><span class="file-chip">EditCategoryAct.kt</span></div>
+            <div class="code-block">
+              <div class="code-head"><span class="tag">WalletDAO.kt</span><span>hàm mới</span></div>
+<pre class="code"><span class="kw">fun</span> isUsed(id: Int): Boolean {
+    <span class="kw">val</span> db = dbHelper.readableDatabase
+    <span class="kw">val</span> cursor = db.rawQuery(
+        <span class="str">"SELECT (SELECT COUNT(*) FROM ${DBHelper.TB_CATEGORY} WHERE ${DBHelper.COL_ID_PARENT} = ?) + "</span> +
+            <span class="str">"(SELECT COUNT(*) FROM ${DBHelper.TB_TRANSACTION} WHERE ${DBHelper.COL_ID_CATEGORY} = ?)"</span>,
+        arrayOf(id.toString(), id.toString())
+    )
+    cursor.moveToFirst()
+    <span class="kw">val</span> count = cursor.getInt(0)
+    cursor.close()
+    <span class="kw">return</span> count &gt; 0
+}</pre>
+            </div>
+            <div class="code-block">
+              <div class="code-head"><span class="tag">EditCategoryAct.kt</span><span>đầu confirmDelete()</span></div>
+<pre class="code"><span class="kw">if</span> (dao.isUsed(category.id)) {
+    Toast.makeText(<span class="kw">this</span>, <span class="str">"Mục đang có mục con hoặc giao dịch, không xóa được"</span>, Toast.LENGTH_SHORT).show()
+    <span class="kw">return</span>
+}</pre>
+            </div>
+          </div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">K18</span>Đổi kiểu thu/chi của một mục thì con cháu đổi theo<span class="chev">›</span></summary>
+          <div class="scenario-body">
+            <p class="scenario-goal">Đây là <a href="#su-co">lỗi đã biết số 3</a>. <code>editCategory</code> hiện chỉ sửa đúng một dòng, con cháu giữ <code>idType</code> cũ nên bị mồ côi.</p>
+            <div class="file-list"><span class="file-chip">WalletDAO.kt</span></div>
+            <p>Tách vòng gom id cả nhánh (đang nằm trong <code>deleteCategory</code>) ra thành hàm riêng <code>branchIds(id)</code> để dùng chung, rồi cuối <code>editCategory</code>:</p>
+            <div class="code-block">
+              <div class="code-head"><span class="tag">WalletDAO.kt</span><span>cuối editCategory</span></div>
+<pre class="code"><span class="kw">val</span> branch = branchIds(c.id)
+<span class="kw">val</span> marks = branch.joinToString(<span class="str">", "</span>) { <span class="str">"?"</span> }
+<span class="kw">val</span> values = ContentValues().apply { put(DBHelper.COL_ID_TYPE, c.type.id) }
+db.update(
+    DBHelper.TB_CATEGORY, values,
+    <span class="str">"${DBHelper.COL_ID} IN ($marks)"</span>,
+    branch.map { it.toString() }.toTypedArray()
+)</pre>
+            </div>
+            <div class="code-block">
+              <div class="code-head"><span class="tag">WalletDAO.kt</span><span>hàm tách ra</span></div>
+<pre class="code"><span class="cm">/** id của mục [id] và mọi con cháu của nó. */</span>
+<span class="kw">private fun</span> branchIds(id: Int): ArrayList&lt;Int&gt; {
+    <span class="kw">val</span> db = dbHelper.readableDatabase
+    <span class="kw">val</span> branch = ArrayList&lt;Int&gt;()
+    <span class="kw">var</span> frontier = listOf(id)
+    <span class="kw">while</span> (frontier.isNotEmpty()) {
+        branch.addAll(frontier)
+        <span class="kw">val</span> next = ArrayList&lt;Int&gt;()
+        <span class="kw">for</span> (parentId <span class="kw">in</span> frontier) {
+            <span class="kw">val</span> cursor = db.rawQuery(
+                <span class="str">"SELECT ${DBHelper.COL_ID} FROM ${DBHelper.TB_CATEGORY} WHERE ${DBHelper.COL_ID_PARENT} = ?"</span>,
+                arrayOf(parentId.toString())
+            )
+            <span class="kw">while</span> (cursor.moveToNext()) next.add(cursor.getInt(0))
+            cursor.close()
+        }
+        frontier = next
+    }
+    <span class="kw">return</span> branch
+}</pre>
+            </div>
+            <p>Cách đơn giản hơn nếu được phép: ở <code>EditCategoryAct</code> khóa luôn công tắc, <code>swType.isEnabled = false</code> — không cho đổi kiểu khi sửa.</p>
+          </div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">K19</span>Không cho trùng tên mục trong cùng một cha<span class="chev">›</span></summary>
+          <div class="scenario-body">
+            <div class="file-list"><span class="file-chip">AddCategoryAct.kt</span></div>
+            <p>Kiểm tra bằng Kotlin trên danh sách đã có, trước khi tạo <code>Category</code> trong <code>save()</code>. Không làm bằng SQL cho gọn vì <code>idParent</code> có thể NULL, mà <code>= ?</code> không khớp NULL và <code>rawQuery</code> không nhận tham số null.</p>
+            <div class="code-block">
+              <div class="code-head"><span class="tag">AddCategoryAct.kt</span><span>save()</span></div>
+<pre class="code"><span class="kw">val</span> parent = selectedParent()
+<span class="kw">val</span> duplicate = dao.getCategories(idType).any {
+    it.name.equals(name, ignoreCase = <span class="kw">true</span>) &amp;&amp; it.parent?.id == parent?.id
+}
+<span class="kw">if</span> (duplicate) {
+    Toast.makeText(<span class="kw">this</span>, <span class="str">"Mục \""</span> + name + <span class="str">"\" đã có"</span>, Toast.LENGTH_SHORT).show()
+    <span class="kw">return</span>
+}</pre>
+            </div>
+          </div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">K20</span>Chọn mục cha xong thì logo tự nhảy theo logo của cha<span class="chev">›</span></summary>
+          <div class="scenario-body">
+            <div class="file-list"><span class="file-chip">AddCategoryAct.kt</span></div>
+            <div class="code-block">
+              <div class="code-head"><span class="tag">AddCategoryAct.kt</span><span>onCreate, sau spIcon.adapter</span></div>
+<pre class="code">spParent.onItemSelectedListener = <span class="kw">object</span> : AdapterView.OnItemSelectedListener {
+    <span class="kw">override fun</span> onItemSelected(p: AdapterView&lt;*&gt;?, v: View?, position: Int, id: Long) {
+        selectedParent()?.let { spIcon.setSelection(Icons.positionOf(it.icon)) }
+    }
+    <span class="kw">override fun</span> onNothingSelected(p: AdapterView&lt;*&gt;?) {}
+}</pre>
+            </div>
+            <p>Dòng "--- trống ---" cho <code>selectedParent()</code> = null nên không đổi logo. Người dùng vẫn chọn logo khác được sau đó.</p>
+          </div>
+        </details>
+
+        <div class="group-title">F · Cấu trúc CSDL</div>
+
+        <details class="scenario">
+          <summary><span class="idx">K21</span>Thêm cột mới cho giao dịch, ví dụ "phương thức" (tiền mặt / chuyển khoản)<span class="chev">›</span></summary>
+          <div class="scenario-body">
+            <div class="file-list"><span class="file-chip">Transaction.kt</span><span class="file-chip">DBHelper.kt</span><span class="file-chip">WalletDAO.kt</span><span class="file-chip">add.xml</span><span class="file-chip">edit.xml</span><span class="file-chip">AddAct.kt</span><span class="file-chip">EditAct.kt</span></div>
+            <ul class="tight">
+              <li><code>Transaction.kt</code> — thêm <code>var method: String = ""</code></li>
+              <li><code>DBHelper.kt</code> — hằng <code>COL_METHOD</code>, thêm cột vào <code>CREATE TABLE tblTransaction</code>, <strong>tăng <code>DB_VERSION</code> lên 3</strong></li>
+              <li><code>WalletDAO.kt</code> — thêm <code>put(COL_METHOD, t.method)</code> vào <code>valuesOf(t)</code>, đọc thêm cột trong <code>getTransactions</code></li>
+              <li><code>add.xml</code> / <code>edit.xml</code> — thêm nhãn + <code>Spinner</code> (hoặc <code>RadioGroup</code>), nối lại ràng buộc dọc của ô bên dưới</li>
+              <li><code>AddAct</code> / <code>EditAct</code> — <code>findViewById</code>, đọc giá trị, đưa vào <code>Transaction</code>; <code>EditAct</code> điền sẵn giá trị cũ</li>
+            </ul>
+            <div class="callout warn"><strong>Quên tăng DB_VERSION</strong> thì máy đã cài vẫn giữ bảng cũ thiếu cột, chạy là lỗi <code>no such column</code>. Tăng lên thì <code>onUpgrade</code> xóa sạch giao dịch cũ.</div>
+          </div>
+        </details>
+
+        <details class="scenario">
+          <summary><span class="idx">K22</span>Lưu ngày dạng yyyy-MM-dd để lọc khoảng ngày bằng SQL<span class="chev">›</span></summary>
+          <div class="scenario-body">
+            <div class="file-list"><span class="file-chip">WalletDAO.kt</span><span class="file-chip">DBHelper.kt</span></div>
+            <p>
+              <code>toText</code>/<code>toDate</code> đang dùng chung cho cả giao diện và CSDL, nên không đổi thẳng mẫu được
+              (màn hình phải vẫn hiện <code>dd/MM/yyyy</code>). Thêm cặp hàm riêng cho CSDL:
+            </p>
+            <div class="code-block">
+              <div class="code-head"><span class="tag">WalletDAO.kt</span><span>companion + chỗ đọc/ghi</span></div>
+<pre class="code"><span class="kw">private fun</span> dbFormat() = SimpleDateFormat(<span class="str">"yyyy-MM-dd"</span>, Locale.US)
+<span class="kw">fun</span> toDbText(date: Date): String = dbFormat().format(date)
+<span class="kw">fun</span> fromDbText(text: String): Date = dbFormat().parse(text) ?: Date()
+
+<span class="cm">// valuesOf(t):       put(COL_DATE, toDbText(t.date))</span>
+<span class="cm">// getTransactions:   WHERE date = ?  với arrayOf(toDbText(date))</span>
+<span class="cm">//                    date = fromDbText(cursor.getString(...))</span>
+<span class="cm">// lọc khoảng:        WHERE date BETWEEN ? AND ?</span></pre>
+            </div>
+            <p>Dạng năm-tháng-ngày so chuỗi đúng bằng so ngày (<code>"2026-09-20" &lt; "2026-10-05"</code>), nên <code>BETWEEN</code>, <code>ORDER BY date</code> đều đúng. Tăng <code>DB_VERSION</code> vì dữ liệu cũ theo mẫu khác.</p>
+          </div>
+        </details>
+      </section>
+
+      <!-- ============ 12 ============ -->
+      <section class="block" id="build">
+        <h2><span class="num">12</span>Build, chạy, và xem CSDL</h2>
+        <div class="code-block">
+          <div class="code-head"><span class="tag">shell</span><span>chạy app</span></div>
+<pre class="code">./build_and_run.sh bai06        <span class="cm"># mặc định cũng là bai06, mở thẳng HomeAct</span>
+./build_and_run.sh bai05        <span class="cm"># các bài cũ vẫn mở LoginAct</span></pre>
+        </div>
+        <p>Script chọn màn mở đầu theo bài: <code>bai06</code> → <code>HomeAct</code>, các bài khác → <code>LoginAct</code>. <code>app/build.gradle.kts</code> cũng đang trỏ vào bai06.</p>
+
+        <h3 class="sub">Xem file db — phải build bản debuggable</h3>
+        <p>
+          Đã thử trên máy ảo Pixel_Tablet: đây là bản <em>production</em> nên <code>adb root</code> bị từ chối,
+          trên máy cũng không có <code>sqlite3</code>, và <code>run-as</code> báo
+          <code>package not debuggable</code> vì script không bật cờ debug. Cách làm được:
+          thêm <code>--debug-mode</code> vào lệnh <code>aapt2 link</code> (dòng <code>--auto-add-overlay</code>),
+          build lại, rồi kéo file về máy tính:
+        </p>
+        <div class="code-block">
+          <div class="code-head"><span class="tag">shell</span><span>đã chạy thử</span></div>
+<pre class="code">adb exec-out run-as ptit.cnpm1.tranxuanthanh.bai06 \
+  cat databases/mywallet.db &gt; mywallet.db
+
+sqlite3 mywallet.db <span class="str">"PRAGMA user_version;"</span>                      <span class="cm"># 2</span>
+sqlite3 mywallet.db <span class="str">"SELECT idType, COUNT(*) FROM tblCategory GROUP BY idType;"</span>
+<span class="cm"># 1|8   (thu)</span>
+<span class="cm"># 2|15  (chi)</span>
+sqlite3 mywallet.db <span class="str">"SELECT t.date, t.amount, c.name FROM tblTransaction t
+                     JOIN tblCategory c ON c.id = t.idCategory;"</span></pre>
+        </div>
+        <div class="callout">
+          <strong>Xóa sạch dữ liệu để demo lại từ đầu:</strong>
+          <code>adb uninstall ptit.cnpm1.tranxuanthanh.bai06</code> rồi chạy lại script.
+        </div>
+      </section>
+
+      <!-- ============ 13 ============ -->
+      <section class="block" id="su-co">
+        <h2><span class="num">13</span>Lỗi đã biết</h2>
+        <p>Biết trước để tự nói ra khi bị hỏi, và biết cách sửa (số K ở cuối là kịch bản sửa tương ứng).</p>
+
+        <h3 class="sub">1. (Đã sửa) 999.999 hiện "1000k"</h3>
+        <p>Bản đầu chọn đơn vị trước khi làm tròn nên 999999 ra "1000k", lệch slide 11. Đã sửa <code>Money.format</code> để chọn lại đơn vị sau khi làm tròn; chạy thử ra "1M". Xem mục 06 và K01.</p>
+
+        <h3 class="sub">2. Số tiền kiểu Float mất chính xác với số lớn</h3>
+        <p>
+          <code>Float</code> chỉ giữ khoảng 7 chữ số có nghĩa. Chạy thử: <code>123456789f</code> thành
+          <code>123456792</code>. Slide 9 quy định <code>amount : float</code> nên giữ đúng slide; làm thật thì
+          dùng <code>Long</code> (tiền VNĐ không có phần lẻ) hoặc <code>Double</code>, cột SQLite vẫn là số.
+        </p>
+
+        <h3 class="sub">3. Đổi kiểu của một mục có con thì con bị "mồ côi"</h3>
+        <p>
+          <code>editCategory</code> chỉ sửa đúng dòng đó. Con cháu vẫn giữ <code>idType</code> cũ, mà
+          <code>loadCategories(kiểu cũ)</code> không còn thấy cha (cha đã sang kiểu kia), nên
+          <code>parent</code> thành <code>null</code> và con hiện ra như một mục cha trong danh sách kiểu cũ.
+          Sửa ở <strong>K18</strong>. (Kết luận từ đọc code; dữ liệu mẫu không có mục con nên phải tự tạo mới thấy.)
+        </p>
+
+        <h3 class="sub">4. Ngày lưu dạng dd/MM/yyyy không so sánh được bằng SQL</h3>
+        <p>So chuỗi thì <code>"05/10/2026" &lt; "20/09/2026"</code> — sai. Lọc theo đúng một ngày (<code>=</code>) hoặc theo tháng (<code>LIKE '%/09/2026'</code>) thì vẫn được, nhưng lọc khoảng và <code>ORDER BY date</code> thì không. Xem <strong>K13</strong>, <strong>K22</strong>.</p>
+
+        <h3 class="sub">5. Để app mở qua nửa đêm, Home vẫn hiện ngày hôm trước</h3>
+        <p><code>today</code> được gán một lần lúc tạo <code>HomeAct</code>. Sửa: trong <code>onResume()</code> gán lại <code>today = Date()</code> và <code>lblDate.text</code> trước khi <code>reload()</code> (nếu đã làm K04 thì chỉ làm khi người dùng chưa chọn ngày khác).</p>
+
+        <h3 class="sub">6. WalletDAO.total() không ai gọi</h3>
+        <p><code>HomeAct.reload()</code> tự cộng trên danh sách vừa đọc, khỏi hỏi CSDL thêm hai lần. <code>total()</code> còn lại là hàm thừa; bỏ đi hoặc dùng nó thay cho vòng cộng đều được.</p>
+
+        <h3 class="sub">7. Xóa mục là xóa luôn giao dịch</h3>
+        <p>Cố ý, để không còn giao dịch trỏ vào mục không tồn tại; dialog có báo trước. Nhưng dễ mất dữ liệu nếu bấm nhầm. Cách an toàn hơn ở <strong>K17</strong>.</p>
+
+        <h3 class="sub">8. Cách vào màn Sửa mục khó đoán</h3>
+        <p>Phải <strong>bấm giữ</strong> Spinner mục ở màn giao dịch. Khi demo phải chỉ rõ. Không dùng bấm thường vì bấm thường là mở danh sách; và <code>Spinner</code> không cho <code>setOnClickListener</code> (ném lỗi <code>Don't call setOnClickListener for an AdapterView</code>).</p>
+
+        <h3 class="sub">9. Tăng DB_VERSION là mất giao dịch</h3>
+        <p><code>onUpgrade</code> xóa ba bảng rồi tạo lại. Lần đổi bộ mục mẫu (lên version 2) đã xóa giao dịch trên máy thử.</p>
+      </section>
+
+      <!-- ============ 14 ============ -->
+      <section class="block" id="hoi-dap">
+        <h2><span class="num">14</span>Bộ câu hỏi &amp; trả lời</h2>
+
+        <h3 class="sub">A · CSDL và quan hệ</h3>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>Sao phải có bảng tblType, không dùng một cột true/false "là thu"?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p>Slide 10 thiết kế vậy, và nó mở rộng được: muốn thêm kiểu thứ ba (ví dụ "chuyển tiền giữa hai ví") chỉ cần thêm một dòng vào <code>tblType</code>, không phải đổi cấu trúc bảng. Cột boolean chỉ chứa được hai kiểu.</p></div>
+        </details>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>idParent bằng NULL nghĩa là gì? Sao không để 0?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p>NULL = không có cha, tức là mục cha ở bậc 0. Để 0 thì trông như trỏ vào mục có id 0 (không tồn tại), dễ nhầm. Code đọc bằng <code>cursor.isNull(...)</code>, ghi bằng <code>putNull(COL_ID_PARENT)</code>.</p></div>
+        </details>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>Có khai báo FOREIGN KEY không? Ai đảm bảo idCategory hợp lệ?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p>Không khai báo. SQLite trên Android mặc định cũng không bật kiểm tra khóa ngoại (phải gọi <code>db.setForeignKeyConstraintsEnabled(true)</code>). Tính đúng do code tự lo: giao dịch chỉ tạo được từ mục chọn trong Spinner, và <code>deleteCategory</code> tự xóa giao dịch của cả nhánh trước khi xóa mục.</p></div>
+        </details>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>Tổng thu/chi đang tính ở đâu? Sao không dùng SUM trong SQL?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p>Tính trong <code>HomeAct.reload()</code> bằng vòng cộng trên danh sách vừa đọc. Danh sách đã có trong tay nên cộng luôn, khỏi hỏi CSDL thêm. Dùng SQL thì phải <code>JOIN</code> với <code>tblCategory</code> vì kiểu nằm ở bảng mục: <code>SELECT SUM(t.amount) FROM tblTransaction t JOIN tblCategory c ON c.id = t.idCategory WHERE t.date = ? AND c.idType = ?</code>.</p></div>
+        </details>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>Vì sao một WalletDAO chứ không tách TransactionDAO, CategoryDAO?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p>Bài nhỏ, ba bảng dính nhau (đọc giao dịch cần nạp cây mục, xếp mục cần đếm giao dịch). Tách được: <code>CategoryDAO</code> lo <code>tblType</code> + <code>tblCategory</code>, <code>TransactionDAO</code> lo <code>tblTransaction</code> và gọi <code>CategoryDAO</code> để lấy mục. Cả hai dùng chung một <code>DBHelper</code>.</p></div>
+        </details>
+
+        <h3 class="sub">B · Thuật toán xếp mục</h3>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>"Lần đầu xếp abc" được code ở đâu?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p>Không có nhánh riêng. Lần đầu chưa có giao dịch nên mọi <code>branch</code> bằng 0; <code>compareByDescending { branch }</code> coi tất cả bằng nhau và <code>.then(byName)</code> quyết định — ra đúng abc.</p></div>
+        </details>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>"Tổng lần sử dụng của cả nhánh" tính thế nào?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p>Với mỗi mục có số lần dùng <code>own &gt; 0</code>, đi từ nó ngược lên theo <code>parent</code> tới gốc, cộng <code>own</code> vào từng mục trên đường. Xong thì mỗi mục chứa tổng của chính nó và mọi con cháu. Mỗi mục đi tối đa bằng độ sâu cây (≤ 3 bước) nên rất nhanh.</p></div>
+        </details>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>Vì sao danh sách trả về đã "duỗi phẳng" chứ không phải cây?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p>Spinner chỉ hiện được một danh sách phẳng. Duỗi theo thứ tự cha → con → cháu (duyệt theo chiều sâu, <code>appendBranch</code> đệ quy), rồi <code>CategoryAdapter</code> dùng <code>level()</code> để thụt lề là nhìn ra cây.</p></div>
+        </details>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>Hai mục cha cùng số lần dùng thì sao?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p>Xếp theo abc giữa hai mục đó, nhờ <code>.then(byName)</code>.</p></div>
+        </details>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>Collator để làm gì? Bỏ đi thì sao?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p>So chuỗi theo luật tiếng Việt. Bỏ đi thì so theo mã Unicode: "Ăn uống" (Ă = U+0102) bị xếp sau mọi chữ Latin thường, "Đầu tư" (Đ = U+0110) cũng vậy. Đã gặp thật ở bản đầu: "Thuê nhà" đứng trước "Ăn uống".</p></div>
+        </details>
+
+        <h3 class="sub">C · Spinner, adapter, giao diện</h3>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>getView với getDropDownView khác nhau thế nào?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p><code>getView</code> vẽ ô đang chọn khi Spinner đóng; <code>getDropDownView</code> vẽ từng dòng trong danh sách xổ ra. Bài này cho dòng xổ ra thụt lề theo bậc, còn ô đang chọn thì không.</p></div>
+        </details>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>Sao phải tách "đổi kiểu" ra listener, và gán isChecked trước?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p>Slide 12 muốn đổi kiểu là mục tự cập nhật, nên listener gọi <code>reloadCategories(0)</code>. Nếu gắn listener trước rồi mới gán <code>isChecked</code> theo giao dịch đang sửa, chính lần gán đó chạy listener, danh sách nạp lại và chọn mục đầu — mất mục cũ của giao dịch.</p></div>
+        </details>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>Sao logo màu xanh/đỏ mà file vector chỉ vẽ màu đen?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p>Tô lúc chạy bằng <code>ImageView.setColorFilter(màu)</code>, màu lấy theo kiểu của mục qua <code>Icons.colorOf</code>. Nhờ vậy một file logo dùng cho cả thu lẫn chi, không phải vẽ hai bản.</p></div>
+        </details>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>Sao CSDL lưu tên logo chứ không lưu R.drawable.xxx?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p><code>R.drawable.xxx</code> chỉ là một số nguyên do aapt2 đánh lúc build, thêm/bớt file là số có thể đổi. Lưu số đó thì lần build sau logo trong CSDL trỏ sai hình. Lưu tên như <code>"anuong"</code> thì luôn đổi đúng qua <code>Icons.resOf</code>.</p></div>
+        </details>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>Sao vào màn Sửa mục bằng bấm giữ, không bấm thường?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p>Bấm thường đã là mở danh sách chọn. <code>Spinner</code> là <code>AdapterView</code>, gọi <code>setOnClickListener</code> sẽ ném lỗi; <code>setOnItemClickListener</code> cũng không dùng được với Spinner. Bấm giữ (<code>setOnLongClickListener</code>) thì được, đã thử trên máy ảo.</p></div>
+        </details>
+
+        <h3 class="sub">D · Luồng và vòng đời</h3>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>Gửi Transaction qua Intent thì màn Sửa cầm cùng đối tượng với Home à?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p>Không. <code>Serializable</code> qua Intent là <strong>bản sao</strong> (được đóng gói gửi qua hệ thống rồi dựng lại). Sửa ở <code>EditAct</code> không đụng tới danh sách của Home; Home thấy thay đổi là nhờ <code>onResume()</code> đọc lại CSDL.</p></div>
+        </details>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>Thêm mục bằng dấu + xong quay về, sao danh sách mục có mục mới?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p><code>AddAct.onResume()</code> gọi <code>reloadCategories(id mục đang chọn)</code>: đọc lại cây từ CSDL, rồi chọn lại đúng mục cũ nếu nó còn. Mục mới có trong danh sách nhưng không tự được chọn — muốn vậy xem K11.</p></div>
+        </details>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>Bấm dấu + cạnh "mục cha" trong màn Thêm mục thì chuyện gì xảy ra?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p>Mở thêm một <code>AddCategoryAct</code> nữa chồng lên, cùng kiểu thu/chi. Thêm xong nó <code>finish()</code>, màn dưới chạy <code>onResume()</code> → <code>reloadParents()</code> nên mục vừa thêm có ngay trong danh sách mục cha.</p></div>
+        </details>
+
+        <h3 class="sub">E · Câu hỏi mở</h3>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>Muốn có nhiều ví (ví tiền mặt, tài khoản ngân hàng) thì sửa CSDL thế nào?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p>Thêm bảng <code>tblWallet(id, name, note)</code> và cột <code>idWallet</code> trong <code>tblTransaction</code>. Thêm lớp <code>Wallet</code>, <code>Transaction</code> có thêm <code>wallet : Wallet</code>. Home thêm Spinner chọn ví, <code>getTransactions</code> thêm điều kiện <code>idWallet = ?</code>. Tăng <code>DB_VERSION</code>.</p></div>
+        </details>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>Tính số dư hiện tại của ví (không chỉ trong ngày)?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p>Tổng mọi khoản thu trừ tổng mọi khoản chi, không lọc ngày: <code>SELECT SUM(CASE WHEN c.idType = 1 THEN t.amount ELSE -t.amount END) FROM tblTransaction t JOIN tblCategory c ON c.id = t.idCategory</code>.</p></div>
+        </details>
+        <details class="scenario">
+          <summary><span class="idx">Q</span>Dùng Room thì bỏ được gì?<span class="chev">›</span></summary>
+          <div class="scenario-body"><p>Bỏ <code>DBHelper</code>, <code>valuesOf</code>, <code>categoryOf</code> và các vòng đọc Cursor; Room tự sinh. Nhưng phần nối cây mục (<code>loadCategories</code>) và thuật toán xếp theo tần suất vẫn phải tự viết, vì đó là logic nghiệp vụ, không phải đọc/ghi.</p></div>
+        </details>
+      </section>
+
+      <!-- ============ 15 ============ -->
+      <section class="block" id="demo">
+        <h2><span class="num">15</span>Kịch bản demo</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>#</th><th>Thao tác</th><th>Câu nói kèm theo</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>Gỡ app, cài lại, mở lên</td><td>"CSDL chưa có, <code>DBHelper.onCreate()</code> tạo ba bảng, gieo 2 kiểu và 23 mục"</td></tr>
+              <tr><td>2</td><td>Chỉ trang home trống</td><td>"Ngày hiện tại, tổng thu 0 xanh, tổng chi 0 đỏ — đúng slide 5"</td></tr>
+              <tr><td>3</td><td>Bấm +, mở Spinner mục</td><td>"Chưa có giao dịch nên mục xếp abc; logo chi màu đỏ"</td></tr>
+              <tr><td>4</td><td>Gạt Switch sang Thu</td><td>"Đổi kiểu là danh sách đổi sang 8 mục thu, logo xanh"</td></tr>
+              <tr><td>5</td><td>Thêm chi "Giải trí" <code>1537000</code></td><td>"Home hiện <code>1,54M</code> màu đỏ, đúng ví dụ slide 11"</td></tr>
+              <tr><td>6</td><td>Bấm + lần nữa, mở Spinner</td><td>"Giải trí đã dùng một lần nên nhảy lên đầu"</td></tr>
+              <tr><td>7</td><td>Bấm + cạnh mục, thêm "Xem phim" có cha là "Giải trí"</td><td>"Để trống cha là mục cha mới; chọn cha là thành mục con"</td></tr>
+              <tr><td>8</td><td>Mở Spinner mục</td><td>"Xem phim thụt vào dưới Giải trí; con cháu luôn abc"</td></tr>
+              <tr><td>9</td><td>Bấm vào dòng ở Home, sửa số tiền, Lưu</td><td>"<code>editTransaction</code> theo id; Home đọc lại ở <code>onResume</code>"</td></tr>
+              <tr><td>10</td><td>Vào lại, bấm Xóa, Có</td><td>"Xóa nằm ở màn Sửa theo slide 6"</td></tr>
+              <tr><td>11</td><td>Bấm giữ Spinner mục</td><td>"Vào màn Sửa mục — slide 13 'sửa tương tự'"</td></tr>
+              <tr><td>12</td><td>Tắt hẳn app, mở lại</td><td>"Dữ liệu còn nguyên vì nằm trong SQLite"</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout">
+          <strong>Nếu bị hỏi "có lỗi gì không":</strong> kể lỗi 999.999 → 1000k đã gặp và đã sửa (chọn đơn vị
+          sau khi làm tròn), rồi tự nói lỗi đổi kiểu mục làm con mồ côi và cách sửa K18. Tự nói trước luôn tốt hơn để bị tìm ra.
+        </div>
+      </section>
+
+      <footer>
+        Sổ tay bài 6 · Ví điện tử phần 1 — Quản lí giao dịch · PTIT — Phát triển ứng dụng cho thiết bị di động.
+        Đối chiếu với wireframe slide 5–8, lớp thực thể slide 9, CSDL slide 10 và hoạt động slide 11–13.
+      </footer>
+    </div>
+  </main>
+</div>
+
+<button class="theme-toggle" id="themeToggle" type="button" aria-label="Đổi giao diện sáng/tối">Tối</button>
+
+<script>
+(function () {
+  // Mặc định sáng; nhớ lựa chọn của người đọc nếu trình duyệt cho lưu
+  var root = document.documentElement;
+  var btn = document.getElementById('themeToggle');
+  var theme = 'light';
+  try { theme = localStorage.getItem('sotay-theme') || 'light'; } catch (e) {}
+  function apply(t) {
+    root.setAttribute('data-theme', t);
+    btn.textContent = t === 'light' ? 'Tối' : 'Sáng';
+  }
+  apply(theme);
+  btn.addEventListener('click', function () {
+    theme = theme === 'light' ? 'dark' : 'light';
+    apply(theme);
+    try { localStorage.setItem('sotay-theme', theme); } catch (e) {}
+  });
+})();
+
+(function () {
+  try {
+    var links = Array.prototype.slice.call(document.querySelectorAll('#navlinks a'));
+    var sections = links.map(function (a) {
+      return document.querySelector(a.getAttribute('href'));
+    });
+    if (!('IntersectionObserver' in window)) return;
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        var idx = sections.indexOf(entry.target);
+        if (idx === -1) return;
+        if (entry.isIntersecting) {
+          links.forEach(function (l) { l.classList.remove('active'); });
+          links[idx].classList.add('active');
+        }
+      });
+    }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+    sections.forEach(function (s) { if (s) observer.observe(s); });
+  } catch (e) { /* scrollspy is a non-essential enhancement */ }
+})();
+</script>
+</body>
+</html>

@@ -1,5 +1,7 @@
 package ptit.cnpm1.tranxuanthanh.bai06
 
+import android.content.Context
+
 /**
  * Danh sách logo cho mục thu/chi. CSDL chỉ cất tên logo dưới dạng chuỗi (cột
  * icon), lớp này lo phần đổi chuỗi đó sang ảnh vẽ trong res/drawable.
@@ -40,6 +42,10 @@ object Icons {
         val index = ALL.keys.indexOf(name)
         return if (index >= 0) index else ALL.keys.indexOf(DEFAULT)
     }
+
+    /** Màu tô logo: mục thu xanh, mục chi đỏ. */
+    fun colorOf(context: Context, idType: Int): Int =
+        context.getColor(if (idType == CategoryType.ID_THU) R.color.thu else R.color.chi)
 
     fun resOf(name: String): Int = when (name) {
         "anuong" -> R.drawable.ic_anuong

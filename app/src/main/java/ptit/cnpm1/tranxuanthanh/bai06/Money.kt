@@ -9,11 +9,22 @@ import java.util.Locale
  */
 object Money {
 
-    fun format(amount: Float): String = when {
-        amount >= 1_000_000_000f -> short(amount / 1_000_000_000f) + "B"
-        amount >= 1_000_000f -> short(amount / 1_000_000f) + "M"
-        amount >= 1_000f -> short(amount / 1_000f) + "k"
-        else -> short(amount)
+    private val UNITS = listOf("", "k", "M", "B")
+
+    fun format(amount: Float): String {
+        var value = amount
+        var unit = 0
+        while (value >= 1000f && unit < UNITS.size - 1) {
+            value /= 1000f
+            unit++
+        }
+        // Chọn đơn vị xong mới làm tròn thì 999999 thành 999,999k -> "1000k".
+        // Làm tròn mà chạm 1000 thì phải lên đơn vị kế: 999999 hiện "1M".
+        if (unit in 1 until UNITS.size - 1 && Math.round(value * 100) >= 100_000) {
+            value /= 1000f
+            unit++
+        }
+        return short(value) + UNITS[unit]
     }
 
     /** Làm tròn 2 chữ số, dùng dấu phẩy thập phân và bỏ phần ",00" thừa. */

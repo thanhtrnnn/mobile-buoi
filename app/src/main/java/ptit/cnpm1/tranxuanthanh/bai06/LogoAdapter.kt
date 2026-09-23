@@ -8,9 +8,15 @@ import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
 
-/** Adapter cho Spinner chọn logo: mỗi dòng vẽ luôn logo bên cạnh tên của nó. */
+/**
+ * Adapter cho Spinner chọn logo: mỗi dòng vẽ luôn logo bên cạnh tên của nó.
+ * Logo tô theo kiểu đang chọn trên màn (thu xanh, chi đỏ); đổi [idType] xong
+ * thì gọi notifyDataSetChanged() để vẽ lại.
+ */
 class LogoAdapter(context: Context) :
     ArrayAdapter<String>(context, 0, Icons.ALL.keys.toList()) {
+
+    var idType = CategoryType.ID_CHI
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View =
         bind(position, convertView, parent)
@@ -22,7 +28,9 @@ class LogoAdapter(context: Context) :
         val row = convertView
             ?: LayoutInflater.from(context).inflate(R.layout.spinnerrow, parent, false)
         val name = Icons.nameAt(position)
-        row.findViewById<ImageView>(R.id.imgIcon).setImageResource(Icons.resOf(name))
+        val imgIcon = row.findViewById<ImageView>(R.id.imgIcon)
+        imgIcon.setImageResource(Icons.resOf(name))
+        imgIcon.setColorFilter(Icons.colorOf(context, idType))
         row.findViewById<TextView>(R.id.lblName).text = Icons.ALL[name]
         return row
     }

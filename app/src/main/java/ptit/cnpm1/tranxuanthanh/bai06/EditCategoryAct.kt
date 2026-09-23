@@ -36,6 +36,7 @@ class EditCategoryAct : Activity(), View.OnClickListener {
     /** Các mục có thể làm cha; phần tử đầu là null, tức dòng "--- trống ---". */
     private val parents = ArrayList<Category?>()
     private lateinit var parentAdapter: CategoryAdapter
+    private lateinit var logoAdapter: LogoAdapter
 
     private lateinit var dao: WalletDAO
 
@@ -67,7 +68,9 @@ class EditCategoryAct : Activity(), View.OnClickListener {
         parentAdapter = CategoryAdapter(this, parents)
         spParent.adapter = parentAdapter
 
-        spIcon.adapter = LogoAdapter(this)
+        logoAdapter = LogoAdapter(this)
+        logoAdapter.idType = idType
+        spIcon.adapter = logoAdapter
 
         // Điền sẵn thông tin cũ
         txtName.setText(category.name)
@@ -85,6 +88,8 @@ class EditCategoryAct : Activity(), View.OnClickListener {
         swType.isChecked = idType == CategoryType.ID_THU
         swType.setOnCheckedChangeListener { _, isChecked ->
             idType = if (isChecked) CategoryType.ID_THU else CategoryType.ID_CHI
+            logoAdapter.idType = idType
+            logoAdapter.notifyDataSetChanged()
             reloadParents(0)
         }
     }

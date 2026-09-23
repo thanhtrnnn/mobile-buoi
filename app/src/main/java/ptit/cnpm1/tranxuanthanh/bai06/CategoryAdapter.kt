@@ -43,6 +43,8 @@ class CategoryAdapter(
         } else {
             imgIcon.visibility = View.VISIBLE
             imgIcon.setImageResource(Icons.resOf(c.icon))
+            // Logo mục thu tô xanh, mục chi tô đỏ, giống màu ở trang home
+            imgIcon.setColorFilter(Icons.colorOf(context, c.type.id))
             lblName.text = c.name
         }
 

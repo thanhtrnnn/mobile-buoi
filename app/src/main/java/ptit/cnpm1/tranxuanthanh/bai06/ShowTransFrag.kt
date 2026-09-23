@@ -39,7 +39,7 @@ class ShowTransFrag @JvmOverloads constructor(
         lblAmount = findViewById(R.id.lblAmount)
     }
 
-    /** Đổ dữ liệu một giao dịch vào dòng này. Khoản thu xanh, khoản chi đỏ. */
+    /** Đổ dữ liệu một giao dịch vào dòng này. Khoản thu xanh, khoản chi đỏ, cả logo lẫn chữ. */
     fun bind(t: Transaction) {
         imgIcon.setImageResource(Icons.resOf(t.category.icon))
         lblName.text = t.category.name
@@ -52,5 +52,6 @@ class ShowTransFrag @JvmOverloads constructor(
         }
         lblName.setTextColor(color)
         lblAmount.setTextColor(color)
+        imgIcon.setColorFilter(color)
     }
 }
