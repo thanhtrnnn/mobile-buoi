@@ -18,7 +18,7 @@ data class Category(
     var parent: Category? = null
 ) : Serializable {
 
-    /** Mục cha ở bậc 0, con bậc 1, cháu bậc 2 — dùng để thụt lề khi hiển thị. */
+    /** Mục cha ở bậc 0, con bậc 1, cháu bậc 2 — CategoryAdapter dùng để thụt lề. */
     fun level(): Int {
         var level = 0
         var p = parent
@@ -28,6 +28,4 @@ data class Category(
         }
         return level
     }
-
-    override fun toString(): String = "    ".repeat(level()) + name
 }

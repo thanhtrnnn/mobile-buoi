@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Logo "Tờ tiền" của mục thu/chi, vẽ đơn giản bằng nét -->
+<!-- Logo "Biểu đồ tăng" của mục thu/chi, vẽ đơn giản bằng nét -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="32dp"
     android:height="32dp"
@@ -7,7 +7,7 @@
     android:viewportHeight="24">
 
     <path
-        android:pathData="M3,6 L21,6 L21,18 L3,18 Z M12,9 C10,9 10,12 12,12 C14,12 14,15 12,15"
+        android:pathData="M3,3 L3,21 L21,21 M6,16 L10,11 L14,14 L20,6 M16,6 L20,6 L20,10"
         android:strokeColor="@color/black"
         android:strokeWidth="1.4" />
 

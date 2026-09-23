@@ -22,51 +22,59 @@
 
     <TextView
         android:id="@+id/lblType"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
         android:text="Kiểu GD:"
         android:textColor="#000000"
         android:textSize="24sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/btnThu"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <!-- Hai nút on/off: bấm cái nào thì cái đó sáng, cái kia tắt -->
-    <Button
-        android:id="@+id/btnThu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="36dp"
-        android:background="@drawable/bg_input"
-        android:minWidth="130dp"
-        android:text="Thu"
-        android:textColor="#000000"
-        android:textSize="24sp"
-        app:layout_constraintStart_toEndOf="@+id/lblType"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lblTitle" />
 
-    <Button
-        android:id="@+id/btnChi"
+    <!-- Nút on/off: gạt sang trái là Chi, sang phải là Thu -->
+    <TextView
+        android:id="@+id/lblChi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="14dp"
-        android:background="@drawable/bg_input"
-        android:minWidth="130dp"
+        android:layout_marginStart="16dp"
         android:text="Chi"
-        android:textColor="#000000"
+        android:textColor="@color/chi"
         android:textSize="24sp"
-        app:layout_constraintStart_toEndOf="@+id/btnThu"
-        app:layout_constraintTop_toTopOf="@+id/btnThu" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/lblType"
+        app:layout_constraintStart_toEndOf="@+id/lblType" />
+
+    <Switch
+        android:id="@+id/swType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="22dp"
+        android:scaleX="1.5"
+        android:scaleY="1.5"
+        app:layout_constraintBottom_toBottomOf="@+id/lblType"
+        app:layout_constraintStart_toEndOf="@+id/lblChi"
+        app:layout_constraintTop_toTopOf="@+id/lblType" />
+
+    <TextView
+        android:id="@+id/lblThu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="22dp"
+        android:text="Thu"
+        android:textColor="@color/thu"
+        android:textSize="24sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/lblType"
+        app:layout_constraintStart_toEndOf="@+id/swType" />
 
     <TextView
         android:id="@+id/lblParent"
-        android:layout_width="150dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:text="Mục thu/chi cha:"
         android:textColor="#000000"
         android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/spParent" />
+        app:layout_constraintBottom_toBottomOf="@+id/spParent"
+        app:layout_constraintTop_toTopOf="@+id/spParent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <!-- Để trống mục cha nghĩa là thêm mục cha ngang hàng các mục cha đã có -->
     <Spinner
@@ -74,18 +82,19 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/bg_input"
-        android:padding="12dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/bg_spinner"
+        android:paddingEnd="50dp"
         app:layout_constraintEnd_toStartOf="@+id/btnNewParent"
         app:layout_constraintStart_toEndOf="@+id/lblParent"
-        app:layout_constraintTop_toBottomOf="@+id/btnThu" />
+        app:layout_constraintTop_toBottomOf="@+id/lblType" />
 
     <Button
         android:id="@+id/btnNewParent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
+        android:minWidth="64dp"
         android:text="+"
         android:textColor="#000000"
         android:textSize="34sp"
@@ -96,7 +105,7 @@
 
     <TextView
         android:id="@+id/lblName"
-        android:layout_width="150dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:text="Tên mục thu/chi:"
         android:textColor="#000000"
@@ -114,13 +123,13 @@
         android:inputType="text"
         android:padding="15dp"
         android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnNewParent"
         app:layout_constraintStart_toEndOf="@+id/lblName"
         app:layout_constraintTop_toBottomOf="@+id/spParent" />
 
     <TextView
         android:id="@+id/lblNote"
-        android:layout_width="150dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:text="Ghi chú:"
         android:textColor="#000000"
@@ -138,19 +147,20 @@
         android:inputType="text"
         android:padding="15dp"
         android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnNewParent"
         app:layout_constraintStart_toEndOf="@+id/lblNote"
         app:layout_constraintTop_toBottomOf="@+id/txtName" />
 
     <TextView
         android:id="@+id/lblIcon"
-        android:layout_width="150dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:text="Logo:"
         android:textColor="#000000"
         android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/spIcon" />
+        app:layout_constraintBottom_toBottomOf="@+id/spIcon"
+        app:layout_constraintTop_toTopOf="@+id/spIcon"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Spinner
         android:id="@+id/spIcon"
@@ -158,9 +168,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
-        android:background="@drawable/bg_input"
-        android:padding="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/bg_spinner"
+        android:paddingEnd="50dp"
+        app:layout_constraintEnd_toStartOf="@+id/btnNewParent"
         app:layout_constraintStart_toEndOf="@+id/lblIcon"
         app:layout_constraintTop_toBottomOf="@+id/txtNote" />
 
@@ -174,8 +184,8 @@
         android:textColor="#000000"
         android:textSize="26sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/btnDelete"
         app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintEnd_toStartOf="@+id/btnDelete"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spIcon" />
 
@@ -188,9 +198,9 @@
         android:textColor="#000000"
         android:textSize="26sp"
         android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@+id/btnSave"
+        app:layout_constraintStart_toEndOf="@+id/btnSave"
         app:layout_constraintEnd_toStartOf="@+id/btnCancel"
-        app:layout_constraintStart_toEndOf="@+id/btnSave" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/btnSave" />
 
     <Button
         android:id="@+id/btnCancel"
@@ -201,8 +211,8 @@
         android:textColor="#000000"
         android:textSize="26sp"
         android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@+id/btnSave"
+        app:layout_constraintStart_toEndOf="@+id/btnDelete"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnDelete" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/btnSave" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

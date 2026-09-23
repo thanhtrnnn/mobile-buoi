@@ -4,10 +4,10 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
+import android.widget.Switch
 import android.widget.Toast
 
 /**
@@ -16,8 +16,7 @@ import android.widget.Toast
  */
 class AddCategoryAct : Activity(), View.OnClickListener {
 
-    private lateinit var btnThu: Button
-    private lateinit var btnChi: Button
+    private lateinit var swType: Switch
     private lateinit var spParent: Spinner
     private lateinit var btnNewParent: Button
     private lateinit var txtName: EditText
@@ -29,10 +28,9 @@ class AddCategoryAct : Activity(), View.OnClickListener {
     /** Kiểu của mục sắp thêm, nhận từ màn giao dịch gọi tới. */
     private var idType = CategoryType.ID_CHI
 
-    /** Các mục có thể làm cha, cùng thứ tự với Spinner trừ dòng "--- trống ---". */
-    private val parents = ArrayList<Category>()
-    private val parentLabels = ArrayList<String>()
-    private lateinit var parentAdapter: ArrayAdapter<String>
+    /** Các mục có thể làm cha; phần tử đầu là null, tức dòng "--- trống ---". */
+    private val parents = ArrayList<Category?>()
+    private lateinit var parentAdapter: CategoryAdapter
 
     private lateinit var dao: WalletDAO
 
@@ -40,8 +38,7 @@ class AddCategoryAct : Activity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.addcategory)
 
-        btnThu = findViewById(R.id.btnThu)
-        btnChi = findViewById(R.id.btnChi)
+        swType = findViewById(R.id.swType)
         spParent = findViewById(R.id.spParent)
         btnNewParent = findViewById(R.id.btnNewParent)
         txtName = findViewById(R.id.txtName)
@@ -54,38 +51,25 @@ class AddCategoryAct : Activity(), View.OnClickListener {
 
         idType = intent.getIntExtra("idType", CategoryType.ID_CHI)
 
-        parentAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, parentLabels)
-        parentAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        parentAdapter = CategoryAdapter(this, parents)
         spParent.adapter = parentAdapter
 
-        val iconAdapter = ArrayAdapter(
-            this, android.R.layout.simple_spinner_item, Icons.ALL.values.toList()
-        )
-        iconAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spIcon.adapter = iconAdapter
+        spIcon.adapter = LogoAdapter(this)
 
-        btnThu.setOnClickListener(this)
-        btnChi.setOnClickListener(this)
         btnNewParent.setOnClickListener(this)
         btnSave.setOnClickListener(this)
         btnCancel.setOnClickListener(this)
 
-        showType()
+        // Gạt nút on/off thì cây mục cha đổi theo kiểu thu/chi mới
+        swType.isChecked = idType == CategoryType.ID_THU
+        swType.setOnCheckedChangeListener { _, isChecked ->
+            idType = if (isChecked) CategoryType.ID_THU else CategoryType.ID_CHI
+            reloadParents()
+        }
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            // Đổi kiểu thì cây mục cha cũng đổi theo
-            R.id.btnThu -> {
-                idType = CategoryType.ID_THU
-                showType()
-                reloadParents()
-            }
-            R.id.btnChi -> {
-                idType = CategoryType.ID_CHI
-                showType()
-                reloadParents()
-            }
             // Dấu + cạnh mục cha: thêm tiếp một mục nữa để làm cha
             R.id.btnNewParent -> {
                 val add = Intent(this, AddCategoryAct::class.java).apply {
@@ -122,29 +106,16 @@ class AddCategoryAct : Activity(), View.OnClickListener {
         finish()
     }
 
-    /** Dòng đầu Spinner là "--- trống ---", nên vị trí 0 nghĩa là không có cha. */
-    private fun selectedParent(): Category? {
-        val position = spParent.selectedItemPosition
-        return if (position <= 0) null else parents.getOrNull(position - 1)
-    }
+    /** Dòng đầu Spinner là null ("--- trống ---"), tức là không có cha. */
+    private fun selectedParent(): Category? = parents.getOrNull(spParent.selectedItemPosition)
 
     private fun typeOf(id: Int): CategoryType =
         dao.getTypes().firstOrNull { it.id == id } ?: CategoryType(id, "", "")
 
-    /** Nút của kiểu đang chọn thì bật (nền xanh), nút kia tắt (nền trắng). */
-    private fun showType() {
-        val thuOn = idType == CategoryType.ID_THU
-        btnThu.setBackgroundResource(if (thuOn) R.drawable.bg_menu else R.drawable.bg_input)
-        btnChi.setBackgroundResource(if (thuOn) R.drawable.bg_input else R.drawable.bg_menu)
-    }
-
     private fun reloadParents() {
         parents.clear()
+        parents.add(null)
         parents.addAll(dao.getCategories(idType))
-
-        parentLabels.clear()
-        parentLabels.add("--- trống ---")
-        parents.forEach { parentLabels.add(it.toString()) }
         parentAdapter.notifyDataSetChanged()
     }
 

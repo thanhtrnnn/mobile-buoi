@@ -5,10 +5,10 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
+import android.widget.Switch
 import android.widget.Toast
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -21,8 +21,7 @@ import java.util.Locale
  */
 class AddAct : Activity(), View.OnClickListener {
 
-    private lateinit var btnThu: Button
-    private lateinit var btnChi: Button
+    private lateinit var swType: Switch
     private lateinit var spCategory: Spinner
     private lateinit var btnNewCategory: Button
     private lateinit var txtAmount: EditText
@@ -34,8 +33,8 @@ class AddAct : Activity(), View.OnClickListener {
     /** Kiểu đang chọn, mặc định là chi. */
     private var idType = CategoryType.ID_CHI
 
-    private val categories = ArrayList<Category>()
-    private lateinit var adapter: ArrayAdapter<Category>
+    private val categories = ArrayList<Category?>()
+    private lateinit var adapter: CategoryAdapter
 
     private lateinit var dao: WalletDAO
 
@@ -43,8 +42,7 @@ class AddAct : Activity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.add)
 
-        btnThu = findViewById(R.id.btnThu)
-        btnChi = findViewById(R.id.btnChi)
+        swType = findViewById(R.id.swType)
         spCategory = findViewById(R.id.spCategory)
         btnNewCategory = findViewById(R.id.btnNewCategory)
         txtAmount = findViewById(R.id.txtAmount)
@@ -55,8 +53,7 @@ class AddAct : Activity(), View.OnClickListener {
 
         dao = WalletDAO(this)
 
-        adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categories)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        adapter = CategoryAdapter(this, categories)
         spCategory.adapter = adapter
 
         // Bấm giữ một mục để sửa chính mục đó (slide 13)
@@ -73,28 +70,22 @@ class AddAct : Activity(), View.OnClickListener {
         txtDate.setText(WalletDAO.toText(Date()))
         txtDate.setOnClickListener { pickDate() }
 
-        btnThu.setOnClickListener(this)
-        btnChi.setOnClickListener(this)
         btnNewCategory.setOnClickListener(this)
         btnSave.setOnClickListener(this)
         btnCancel.setOnClickListener(this)
 
-        showType()
+        // Gạt nút on/off thì danh sách mục đổi theo kiểu thu/chi mới.
+        // Gán trạng thái đầu trước khi gắn listener, để lần gán đó không
+        // làm mất mục đang chọn sẵn.
+        swType.isChecked = idType == CategoryType.ID_THU
+        swType.setOnCheckedChangeListener { _, isChecked ->
+            idType = if (isChecked) CategoryType.ID_THU else CategoryType.ID_CHI
+            reloadCategories(0)
+        }
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            // Đổi kiểu thu/chi thì danh sách mục cũng đổi theo
-            R.id.btnThu -> {
-                idType = CategoryType.ID_THU
-                showType()
-                reloadCategories(0)
-            }
-            R.id.btnChi -> {
-                idType = CategoryType.ID_CHI
-                showType()
-                reloadCategories(0)
-            }
             // Dấu + cạnh mục thu/chi: sang màn thêm mục mới cùng kiểu đang chọn
             R.id.btnNewCategory -> {
                 val add = Intent(this, AddCategoryAct::class.java).apply {
@@ -137,13 +128,6 @@ class AddAct : Activity(), View.OnClickListener {
         finish()
     }
 
-    /** Nút của kiểu đang chọn thì bật (nền xanh), nút kia tắt (nền trắng). */
-    private fun showType() {
-        val thuOn = idType == CategoryType.ID_THU
-        btnThu.setBackgroundResource(if (thuOn) R.drawable.bg_menu else R.drawable.bg_input)
-        btnChi.setBackgroundResource(if (thuOn) R.drawable.bg_input else R.drawable.bg_menu)
-    }
-
     private fun selectedCategory(): Category? =
         categories.getOrNull(spCategory.selectedItemPosition)
 
@@ -156,7 +140,7 @@ class AddAct : Activity(), View.OnClickListener {
         categories.addAll(dao.getCategories(idType))
         adapter.notifyDataSetChanged()
 
-        val index = categories.indexOfFirst { it.id == keepId }
+        val index = categories.indexOfFirst { it?.id == keepId }
         spCategory.setSelection(if (index >= 0) index else 0)
     }
 

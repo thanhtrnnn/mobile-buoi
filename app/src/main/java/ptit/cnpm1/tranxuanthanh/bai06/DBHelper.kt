@@ -16,7 +16,9 @@ class DBHelper(context: Context) :
 
     companion object {
         private const val DB_NAME = "mywallet.db"
-        private const val DB_VERSION = 1
+        // Lên 2 khi đổi bộ mục mẫu: máy đã cài bản cũ sẽ chạy onUpgrade,
+        // xóa bảng cũ và gieo lại bộ mục mới
+        private const val DB_VERSION = 2
 
         const val TB_TYPE = "tblType"
         const val TB_CATEGORY = "tblCategory"
@@ -65,8 +67,9 @@ class DBHelper(context: Context) :
     }
 
     /**
-     * Dữ liệu ban đầu: hai kiểu thu/chi và cây mục thu/chi đúng như ví dụ
-     * wireframe slide 7, để lần chạy đầu tiên đã có cái mà chọn.
+     * Dữ liệu ban đầu: hai kiểu thu/chi, 15 mục chi và 8 mục thu, mỗi mục
+     * một logo riêng, để lần chạy đầu tiên đã có cái mà chọn. Các mục đều là
+     * mục cha; mục con/cháu do người dùng tự thêm qua màn Thêm mục thu/chi.
      */
     private fun seed(db: SQLiteDatabase) {
         db.execSQL(
@@ -78,15 +81,36 @@ class DBHelper(context: Context) :
             arrayOf(CategoryType.ID_CHI.toString(), "Chi", "")
         )
 
-        val sinhHoat = insertCategory(db, "Sinh hoạt", "nha", null, CategoryType.ID_CHI)
-        insertCategory(db, "Thuê nhà", "nha", sinhHoat, CategoryType.ID_CHI)
-        val anUong = insertCategory(db, "Ăn uống", "anuong", sinhHoat, CategoryType.ID_CHI)
-        insertCategory(db, "Ăn nhà hàng", "anuong", anUong, CategoryType.ID_CHI)
-        insertCategory(db, "Học phí", "hoc", null, CategoryType.ID_CHI)
-        insertCategory(db, "Giải trí", "giaitri", null, CategoryType.ID_CHI)
+        val chi = listOf(
+            "Ăn uống" to "anuong",
+            "Chợ & Siêu thị" to "cho",
+            "Mua sắm" to "muasam",
+            "Di chuyển" to "xe",
+            "Nhà cửa" to "nha",
+            "Hóa đơn" to "hoadon",
+            "Giải trí" to "giaitri",
+            "Sức khỏe" to "suckhoe",
+            "Giáo dục" to "hoc",
+            "Làm đẹp" to "lamdep",
+            "Người thân & Bạn bè" to "nguoi",
+            "Du lịch" to "dulich",
+            "Trả nợ" to "the",
+            "Dịch vụ định kỳ" to "dinhky",
+            "Khác" to "khac"
+        )
+        for ((name, icon) in chi) insertCategory(db, name, icon, null, CategoryType.ID_CHI)
 
-        insertCategory(db, "Lương", "tien", null, CategoryType.ID_THU)
-        insertCategory(db, "Thưởng", "tien", null, CategoryType.ID_THU)
+        val thu = listOf(
+            "Lương" to "tien",
+            "Thưởng" to "sao",
+            "Làm thêm / Freelance" to "laptop",
+            "Kinh doanh" to "cap",
+            "Đầu tư" to "bieudo",
+            "Lãi / Tiền gửi" to "nganhang",
+            "Quà tặng / Được cho" to "qua",
+            "Khác" to "khac"
+        )
+        for ((name, icon) in thu) insertCategory(db, name, icon, null, CategoryType.ID_THU)
     }
 
     /** Thêm một mục và trả về id của nó, để dùng làm idParent cho mục con. */
