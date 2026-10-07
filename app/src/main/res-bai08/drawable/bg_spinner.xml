@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Khung Spinner: viền giống ô nhập, tam giác rỗng chỉ xuống ở mép phải
+     giống ô Thời gian, để nhìn là biết bấm vào sẽ xổ danh sách -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/bg_input" />
+
+    <item
+        android:drawable="@drawable/ic_dropdown"
+        android:gravity="end|center_vertical"
+        android:right="15dp" />
+
+</layer-list>

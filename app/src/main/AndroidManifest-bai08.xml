@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Bài 8: ví điện tử, thống kê theo tỉ lệ và quá trình -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="ptit.cnpm1.tranxuanthanh.bai08">
+
+    <uses-sdk
+        android:minSdkVersion="24"
+        android:targetSdkVersion="35" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@android:drawable/sym_def_app_icon"
+        android:label="Bai08 - Ví điện tử"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.MyWallet">
+
+        <activity
+            android:name=".HomeAct"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".AddAct"
+            android:exported="false" />
+
+        <activity
+            android:name=".EditAct"
+            android:exported="false" />
+
+        <activity
+            android:name=".AddCategoryAct"
+            android:exported="false" />
+
+        <activity
+            android:name=".EditCategoryAct"
+            android:exported="false" />
+
+        <activity
+            android:name=".MonthAct"
+            android:exported="false" />
+
+        <activity android:name=".RatioStatAct" android:exported="false" />
+        <activity android:name=".CategoryTransactionsAct" android:exported="false" />
+        <activity android:name=".ProcessStatAct" android:exported="false" />
+
+    </application>
+
+</manifest>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Logo "Hộp quà" của mục thu/chi, vẽ đơn giản bằng nét -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp"
+    android:height="32dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <path
+        android:pathData="M4,10 L20,10 L20,21 L4,21 Z M3,7 L21,7 L21,10 L3,10 Z M12,7 L12,21 M12,7 C9,2 5,5 8,7 M12,7 C15,2 19,5 16,7"
+        android:strokeColor="@color/black"
+        android:strokeWidth="1.4" />
+
+</vector>

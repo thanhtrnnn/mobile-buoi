@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Giao diện Sửa giao dịch theo wireframe slide 6 -->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/screen_background"
+    android:padding="@dimen/form_root_padding">
+
+    <TextView
+        android:id="@+id/lblTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/form_title_top_margin"
+        android:gravity="center"
+        android:text="Sửa giao dịch"
+        android:textColor="#040404"
+        android:textSize="@dimen/form_title_text"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/lblType"
+        android:layout_width="@dimen/form_transaction_label_width"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/form_type_top_margin"
+        android:text="Kiểu GD:"
+        android:textColor="#000000"
+        android:textSize="@dimen/form_body_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblTitle" />
+
+    <!-- Nút on/off: gạt sang trái là Chi, sang phải là Thu -->
+    <TextView
+        android:id="@+id/lblChi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/form_label_start_gap"
+        android:text="Chi"
+        android:textColor="@color/chi"
+        android:textSize="@dimen/form_body_text"
+        app:layout_constraintBaseline_toBaselineOf="@+id/lblType"
+        app:layout_constraintStart_toEndOf="@+id/lblType" />
+
+    <Switch
+        android:id="@+id/swType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/form_switch_side_gap"
+        android:scaleX="1.5"
+        android:scaleY="1.5"
+        app:layout_constraintBottom_toBottomOf="@+id/lblType"
+        app:layout_constraintStart_toEndOf="@+id/lblChi"
+        app:layout_constraintTop_toTopOf="@+id/lblType" />
+
+    <TextView
+        android:id="@+id/lblThu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/form_switch_side_gap"
+        android:text="Thu"
+        android:textColor="@color/thu"
+        android:textSize="@dimen/form_body_text"
+        app:layout_constraintBaseline_toBaselineOf="@+id/lblType"
+        app:layout_constraintStart_toEndOf="@+id/swType" />
+
+    <TextView
+        android:id="@+id/lblCategory"
+        android:layout_width="@dimen/form_transaction_label_width"
+        android:layout_height="wrap_content"
+        android:text="Mục thu/chi:"
+        android:textColor="#000000"
+        android:textSize="@dimen/form_body_text"
+        app:layout_constraintBottom_toBottomOf="@+id/spCategory"
+        app:layout_constraintTop_toTopOf="@+id/spCategory"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Bấm giữ Spinner để sửa mục đang chọn (slide 13) -->
+    <Spinner
+        android:id="@+id/spCategory"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/form_label_start_gap"
+        android:layout_marginTop="@dimen/form_field_top_gap"
+        android:background="@drawable/bg_spinner"
+        android:paddingEnd="@dimen/form_spinner_end_padding"
+        app:layout_constraintEnd_toStartOf="@+id/btnNewCategory"
+        app:layout_constraintStart_toEndOf="@+id/lblCategory"
+        app:layout_constraintTop_toBottomOf="@+id/lblType" />
+
+    <Button
+        android:id="@+id/btnNewCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:minWidth="@dimen/form_new_parent_min_width"
+        android:text="+"
+        android:textColor="#000000"
+        android:textSize="@dimen/form_new_parent_text"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/spCategory"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/spCategory" />
+
+    <TextView
+        android:id="@+id/lblAmount"
+        android:layout_width="@dimen/form_transaction_label_width"
+        android:layout_height="wrap_content"
+        android:text="Số tiền:"
+        android:textColor="#000000"
+        android:textSize="@dimen/form_body_text"
+        app:layout_constraintBaseline_toBaselineOf="@+id/txtAmount"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/txtAmount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/form_label_start_gap"
+        android:layout_marginTop="@dimen/form_field_top_gap"
+        android:background="@drawable/bg_input"
+        android:inputType="number"
+        android:padding="@dimen/form_input_padding"
+        android:textSize="@dimen/form_body_text"
+        app:layout_constraintEnd_toStartOf="@+id/btnNewCategory"
+        app:layout_constraintStart_toEndOf="@+id/lblAmount"
+        app:layout_constraintTop_toBottomOf="@+id/spCategory" />
+
+    <TextView
+        android:id="@+id/lblNote"
+        android:layout_width="@dimen/form_transaction_label_width"
+        android:layout_height="wrap_content"
+        android:text="Ghi chú:"
+        android:textColor="#000000"
+        android:textSize="@dimen/form_body_text"
+        app:layout_constraintBaseline_toBaselineOf="@+id/txtNote"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/txtNote"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/form_label_start_gap"
+        android:layout_marginTop="@dimen/form_field_top_gap"
+        android:background="@drawable/bg_input"
+        android:inputType="text"
+        android:padding="@dimen/form_input_padding"
+        android:textSize="@dimen/form_body_text"
+        app:layout_constraintEnd_toStartOf="@+id/btnNewCategory"
+        app:layout_constraintStart_toEndOf="@+id/lblNote"
+        app:layout_constraintTop_toBottomOf="@+id/txtAmount" />
+
+    <TextView
+        android:id="@+id/lblDate"
+        android:layout_width="@dimen/form_transaction_label_width"
+        android:layout_height="wrap_content"
+        android:text="Thời gian:"
+        android:textColor="#000000"
+        android:textSize="@dimen/form_body_text"
+        app:layout_constraintBaseline_toBaselineOf="@+id/txtDate"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Không gõ tay được: bấm vào sẽ mở DatePickerDialog -->
+    <EditText
+        android:id="@+id/txtDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/form_label_start_gap"
+        android:layout_marginTop="@dimen/form_field_top_gap"
+        android:background="@drawable/bg_input"
+        android:clickable="true"
+        android:drawableEnd="@drawable/ic_dropdown"
+        android:focusable="false"
+        android:hint="dd/mm/yyyy"
+        android:inputType="none"
+        android:padding="@dimen/form_input_padding"
+        android:textSize="@dimen/form_body_text"
+        app:layout_constraintEnd_toStartOf="@+id/btnNewCategory"
+        app:layout_constraintStart_toEndOf="@+id/lblDate"
+        app:layout_constraintTop_toBottomOf="@+id/txtNote" />
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/form_action_top_margin"
+        android:background="@android:color/transparent"
+        android:text="Lưu"
+        android:textColor="#000000"
+        android:textSize="@dimen/form_action_text"
+        android:textStyle="bold"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintEnd_toStartOf="@+id/btnDelete"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtDate" />
+
+    <Button
+        android:id="@+id/btnDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:text="Xóa"
+        android:textColor="#000000"
+        android:textSize="@dimen/form_action_text"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/btnSave"
+        app:layout_constraintEnd_toStartOf="@+id/btnCancel"
+        app:layout_constraintBaseline_toBaselineOf="@+id/btnSave" />
+
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:text="Hủy"
+        android:textColor="#000000"
+        android:textSize="@dimen/form_action_text"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/btnDelete"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBaseline_toBaselineOf="@+id/btnSave" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

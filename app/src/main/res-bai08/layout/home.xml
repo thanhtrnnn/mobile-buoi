@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/homeRoot"
+    android:background="@color/screen_background"
+    android:paddingStart="@dimen/home_padding_horizontal"
+    android:paddingTop="@dimen/home_padding_top"
+    android:paddingEnd="@dimen/home_padding_horizontal"
+    android:paddingBottom="@dimen/home_padding_bottom">
+
+    <TextView
+        android:id="@+id/lblDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:textSize="@dimen/home_date_text"
+        app:layout_constraintBottom_toBottomOf="@+id/btnMonth"
+        app:layout_constraintEnd_toStartOf="@+id/btnMonth"
+        app:layout_constraintStart_toEndOf="@+id/btnStats"
+        app:layout_constraintTop_toTopOf="@+id/btnMonth" />
+
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="@dimen/month_back_size"
+        android:layout_height="@dimen/month_back_size"
+        android:background="@android:color/transparent"
+        android:contentDescription="Quay lại tháng"
+        android:padding="@dimen/month_back_padding"
+        android:src="@drawable/ic_back"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/btnMonth"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btnMonth" />
+
+    <!-- Menu thống kê theo tỉ lệ hoặc theo quá trình (slide 23). -->
+    <Button
+        android:id="@+id/btnStats"
+        android:layout_width="48dp"
+        android:layout_height="52dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="Mở menu thống kê"
+        android:text="☰"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:minWidth="0dp"
+        android:padding="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btnMonth" />
+
+    <Button
+        android:id="@+id/btnMonth"
+        android:layout_width="@dimen/home_month_button_width"
+        android:layout_height="@dimen/home_month_button_height"
+        android:background="@android:color/transparent"
+        android:contentDescription="Xem theo tháng"
+        android:drawableStart="@drawable/ic_calendar_month"
+        android:drawablePadding="6dp"
+        android:drawableTint="#111111"
+        android:minWidth="0dp"
+        android:padding="@dimen/home_month_button_padding"
+        android:text="Tháng"
+        android:textColor="#000000"
+        android:textSize="@dimen/home_month_button_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/weekDays"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/home_week_height"
+        android:layout_marginTop="@dimen/home_week_top_gap"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnMonth" />
+
+    <TextView
+        android:id="@+id/lblTotalThu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/home_total_top_gap"
+        android:textColor="@color/thu"
+        android:textSize="@dimen/home_total_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/weekDays" />
+
+    <TextView
+        android:id="@+id/lblTotalChi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/chi"
+        android:textSize="@dimen/home_total_text"
+        app:layout_constraintBaseline_toBaselineOf="@+id/lblTotalThu"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <View
+        android:id="@+id/lineTotal"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/home_line_height"
+        android:layout_marginTop="@dimen/home_line_top_gap"
+        android:background="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lblTotalThu" />
+
+    <ListView
+        android:id="@+id/lwTrans"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/home_list_top_gap"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="@dimen/home_list_divider_height"
+        app:layout_constraintBottom_toTopOf="@+id/btnAdd"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lineTotal" />
+
+    <Button
+        android:id="@+id/btnAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:minWidth="@dimen/home_add_min_width"
+        android:text="+"
+        android:textColor="#000000"
+        android:textSize="@dimen/home_add_text"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
