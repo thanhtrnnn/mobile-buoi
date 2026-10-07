@@ -69,7 +69,8 @@ class AddCategoryAct : Activity(), View.OnClickListener {
             idType = if (isChecked) CategoryType.ID_THU else CategoryType.ID_CHI
             logoAdapter.idType = idType
             logoAdapter.notifyDataSetChanged()
-            reloadParents()
+            // Mục cha cũ thuộc kiểu kia, không dùng được nữa -> để trống
+            reloadParents(0)
         }
     }
 
@@ -103,6 +104,11 @@ class AddCategoryAct : Activity(), View.OnClickListener {
             parent = selectedParent()
         )
 
+        if (dao.isDuplicateCategory(category)) {
+            Toast.makeText(this, "Mục \"" + name + "\" đã có trong cùng mục cha", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         if (!dao.addCategory(category)) {
             Toast.makeText(this, "Thêm mục thu/chi thất bại", Toast.LENGTH_SHORT).show()
             return
@@ -117,16 +123,26 @@ class AddCategoryAct : Activity(), View.OnClickListener {
     private fun typeOf(id: Int): CategoryType =
         dao.getTypes().firstOrNull { it.id == id } ?: CategoryType(id, "", "")
 
-    private fun reloadParents() {
+    /**
+     * Đọc lại danh sách mục có thể làm cha. [keepId] là mục cha muốn giữ
+     * nguyên lựa chọn, 0 nghĩa là để trống.
+     *
+     * Phải chọn lại theo id: Spinner chỉ nhớ vị trí, danh sách đổi (thêm mục
+     * mới, hoặc gạt sang kiểu kia) thì vị trí cũ trỏ vào một mục khác hẳn.
+     */
+    private fun reloadParents(keepId: Int) {
         parents.clear()
         parents.add(null)
         parents.addAll(dao.getCategories(idType))
         parentAdapter.notifyDataSetChanged()
+
+        val index = parents.indexOfFirst { it != null && it.id == keepId }
+        spParent.setSelection(if (index >= 0) index else 0)
     }
 
     /** Quay lại từ màn thêm mục cha thì cây mục có thể đã khác. */
     override fun onResume() {
         super.onResume()
-        reloadParents()
+        reloadParents(selectedParent()?.id ?: 0)
     }
 }

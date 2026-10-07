@@ -134,13 +134,29 @@ class WalletDAO(context: Context) {
         return usage
     }
 
+    fun isDuplicateCategory(c: Category): Boolean {
+        val locale = Locale("vi", "VN")
+        val key = c.name.trim().lowercase(locale)
+        return loadCategories(c.type.id).values.any {
+            it.id != c.id &&
+                it.parent?.id == c.parent?.id &&
+                it.name.trim().lowercase(locale) == key
+        }
+    }
+
     /** Thêm một mục thu/chi. Trả về false nếu không ghi được. */
     fun addCategory(c: Category): Boolean {
         val db = dbHelper.writableDatabase
         return db.insert(DBHelper.TB_CATEGORY, null, valuesOf(c)) != -1L
     }
 
-    /** Sửa một mục theo [Category.id]. Trả về false nếu không có dòng nào đổi. */
+    /**
+     * Sửa một mục theo [Category.id]. Trả về false nếu không có dòng nào đổi.
+     *
+     * Con cháu phải cùng kiểu với cha: nếu chỉ sửa dòng này thì con cháu giữ
+     * idType cũ, loadCategories(kiểu cũ) không thấy cha nữa và chúng hiện ra
+     * như mục cha "mồ côi". Nên đổi idType cho cả nhánh luôn.
+     */
     fun editCategory(c: Category): Boolean {
         val db = dbHelper.writableDatabase
         val rows = db.update(
@@ -149,17 +165,23 @@ class WalletDAO(context: Context) {
             "${DBHelper.COL_ID} = ?",
             arrayOf(c.id.toString())
         )
-        return rows > 0
+        if (rows == 0) return false
+
+        val branch = branchIds(c.id)
+        val marks = branch.joinToString(", ") { "?" }
+        val values = ContentValues().apply { put(DBHelper.COL_ID_TYPE, c.type.id) }
+        db.update(
+            DBHelper.TB_CATEGORY,
+            values,
+            "${DBHelper.COL_ID} IN ($marks)",
+            branch.map { it.toString() }.toTypedArray()
+        )
+        return true
     }
 
-    /**
-     * Xóa một mục. Xóa cả con cháu của nó và mọi giao dịch đã dùng những mục
-     * đó, nếu không sẽ còn lại giao dịch trỏ vào mục không tồn tại.
-     */
-    fun deleteCategory(id: Int): Boolean {
-        val db = dbHelper.writableDatabase
-
-        // Gom id của cả nhánh: bắt đầu từ chính nó rồi lần xuống các đời con
+    /** id của mục [id] và mọi con cháu của nó, gom theo từng đời. */
+    private fun branchIds(id: Int): ArrayList<Int> {
+        val db = dbHelper.readableDatabase
         val branch = ArrayList<Int>()
         var frontier = listOf(id)
         while (frontier.isNotEmpty()) {
@@ -176,6 +198,16 @@ class WalletDAO(context: Context) {
             }
             frontier = next
         }
+        return branch
+    }
+
+    /**
+     * Xóa một mục. Xóa cả con cháu của nó và mọi giao dịch đã dùng những mục
+     * đó, nếu không sẽ còn lại giao dịch trỏ vào mục không tồn tại.
+     */
+    fun deleteCategory(id: Int): Boolean {
+        val db = dbHelper.writableDatabase
+        val branch = branchIds(id)
 
         val marks = branch.joinToString(", ") { "?" }
         val args = branch.map { it.toString() }.toTypedArray()

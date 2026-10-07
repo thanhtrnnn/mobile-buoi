@@ -206,6 +206,13 @@ class EditAct : Activity(), View.OnClickListener {
      */
     override fun onResume() {
         super.onResume()
+        // Bấm giữ Spinner -> Sửa mục -> Xóa: xóa mục là xóa lan cả giao dịch
+        // dùng nó, có thể chính giao dịch đang sửa. Khi đó không còn gì để sửa.
+        if (dao.getTransactions(trans.date).none { it.id == trans.id }) {
+            Toast.makeText(this, "Giao dịch đã bị xóa cùng mục thu/chi", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
         reloadCategories(selectedCategory()?.id ?: trans.category.id)
     }
 }

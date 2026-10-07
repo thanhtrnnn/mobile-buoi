@@ -33,6 +33,9 @@ class EditCategoryAct : Activity(), View.OnClickListener {
 
     private var idType = CategoryType.ID_CHI
 
+    /** true cho tới lần onResume đầu tiên, lúc cần chọn sẵn mục cha cũ. */
+    private var firstLoad = true
+
     /** Các mục có thể làm cha; phần tử đầu là null, tức dòng "--- trống ---". */
     private val parents = ArrayList<Category?>()
     private lateinit var parentAdapter: CategoryAdapter
@@ -117,7 +120,7 @@ class EditCategoryAct : Activity(), View.OnClickListener {
         }
 
         // Giữ nguyên id để WalletDAO biết sửa đúng dòng nào trong CSDL
-        category = Category(
+        val updated = Category(
             id = category.id,
             name = name,
             icon = Icons.nameAt(spIcon.selectedItemPosition),
@@ -125,6 +128,14 @@ class EditCategoryAct : Activity(), View.OnClickListener {
             type = typeOf(idType),
             parent = selectedParent()
         )
+
+        // Kiểm tra trước khi gán vào category, để lỡ trùng thì màn vẫn giữ
+        // nguyên mục đang sửa như lúc mở
+        if (dao.isDuplicateCategory(updated)) {
+            Toast.makeText(this, "Mục \"" + name + "\" đã có trong cùng mục cha", Toast.LENGTH_SHORT).show()
+            return
+        }
+        category = updated
 
         if (!dao.editCategory(category)) {
             Toast.makeText(this, "Sửa mục thu/chi thất bại", Toast.LENGTH_SHORT).show()
@@ -189,6 +200,10 @@ class EditCategoryAct : Activity(), View.OnClickListener {
      */
     override fun onResume() {
         super.onResume()
-        reloadParents(selectedParent()?.id ?: category.parent?.id ?: 0)
+        // Không dùng "selectedParent() ?: cha cũ": người dùng chọn "--- trống ---"
+        // thì selectedParent() cũng là null, và cha cũ sẽ bị chọn lại sai
+        val keep = if (firstLoad) category.parent?.id ?: 0 else selectedParent()?.id ?: 0
+        firstLoad = false
+        reloadParents(keep)
     }
 }
