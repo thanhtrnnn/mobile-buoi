@@ -3,12 +3,17 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 
+val lesson = providers.gradleProperty("lesson").orElse("bai07").get()
+require(lesson in setOf("bai03", "bai04", "bai05", "bai06", "bai07")) {
+    "Unsupported lesson: $lesson"
+}
+
 android {
-    namespace = "ptit.cnpm1.tranxuanthanh.bai06"
+    namespace = "ptit.cnpm1.tranxuanthanh.$lesson"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "ptit.cnpm1.tranxuanthanh.bai06"
+        applicationId = "ptit.cnpm1.tranxuanthanh.$lesson"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
@@ -26,14 +31,13 @@ android {
             )
         }
     }
-    // Mỗi bài nằm trong một package + thư mục res riêng. Gradle chỉ dựng được
-    // một namespace nên ở đây trỏ vào bài 6; muốn dựng bài khác thì chạy
-    // ./build_and_run.sh bai03|bai04|bai05
+    // Mỗi bài có package, manifest, Kotlin và resources riêng.
+    // Chọn bài bằng ./gradlew -Plesson=bai07 :app:assembleDebug.
     sourceSets {
         getByName("main") {
-            manifest.srcFile("src/main/AndroidManifest-bai06.xml")
-            java.setSrcDirs(listOf("src/main/java/ptit/cnpm1/tranxuanthanh/bai06"))
-            res.setSrcDirs(listOf("src/main/res-bai06"))
+            manifest.srcFile("src/main/AndroidManifest-$lesson.xml")
+            java.setSrcDirs(listOf("src/main/java/ptit/cnpm1/tranxuanthanh/$lesson"))
+            res.setSrcDirs(listOf("src/main/res-$lesson"))
         }
     }
 

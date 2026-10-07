@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Logo "Giỏ hàng" của mục thu/chi, vẽ đơn giản bằng nét -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp"
+    android:height="32dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <path
+        android:pathData="M2,4 L5,4 L7,15 L19,15 L21,7 L6,7 M7.5,19 a1.5,1.5 0 1,0 3,0 a1.5,1.5 0 1,0 -3,0 M16.5,19 a1.5,1.5 0 1,0 3,0 a1.5,1.5 0 1,0 -3,0"
+        android:strokeColor="@color/black"
+        android:strokeWidth="1.4" />
+
+</vector>

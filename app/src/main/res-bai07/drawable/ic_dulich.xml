@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Logo "Máy bay giấy" của mục thu/chi, vẽ đơn giản bằng nét -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp"
+    android:height="32dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <path
+        android:pathData="M3,11 L21,4 L15,20 L11,13 Z M11,13 L21,4"
+        android:strokeColor="@color/black"
+        android:strokeWidth="1.4" />
+
+</vector>
