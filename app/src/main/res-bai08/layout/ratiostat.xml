@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Thống kê bài 08: giao diện dùng chung màu sắc và biểu tượng của bài 07. -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:padding="16dp" android:background="@color/screen_background">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:padding="@dimen/home_padding_horizontal" android:background="@color/screen_background">
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical">
-        <ImageButton android:id="@+id/btnBackStat" android:layout_width="48dp" android:layout_height="48dp" android:background="@android:color/transparent" android:src="@drawable/ic_back" android:contentDescription="Quay lại" />
-        <TextView android:id="@+id/lblStatTitle" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:textSize="22sp" android:textStyle="bold" android:textColor="@color/black" android:gravity="center" />
+        <ImageButton android:id="@+id/btnBackStat" android:layout_width="@dimen/stat_control_height" android:layout_height="@dimen/stat_control_height" android:background="@android:color/transparent" android:src="@drawable/ic_back" android:contentDescription="Quay lại" />
+        <TextView android:id="@+id/lblStatTitle" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:textSize="@dimen/stat_title_text" android:textStyle="bold" android:textColor="@color/black" android:gravity="center" />
     </LinearLayout>
     <!-- Spinner thứ nhất chọn tháng/năm; Spinner thứ hai đổi danh sách kỳ tương ứng. -->
-    <Spinner android:id="@+id/spPeriodType" android:layout_width="match_parent" android:layout_height="48dp" />
-    <Spinner android:id="@+id/spPeriod" android:layout_width="match_parent" android:layout_height="48dp" />
-    <Switch android:id="@+id/swStatType" android:layout_width="match_parent" android:layout_height="48dp" android:text="Kiểu giao dịch: Chi / Thu" android:textSize="18sp" android:showText="true" android:textOn="Thu" android:textOff="Chi" />
-    <ptit.cnpm1.tranxuanthanh.bai08.PieChartView android:id="@+id/pieChart" android:layout_width="match_parent" android:layout_height="190dp" />
-    <TextView android:id="@+id/lblStatTotal" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingTop="8dp" android:paddingBottom="12dp" android:textSize="20sp" />
+    <Spinner android:id="@+id/spPeriodType" android:layout_width="match_parent" android:layout_height="@dimen/stat_control_height" />
+    <Spinner android:id="@+id/spPeriod" android:layout_width="match_parent" android:layout_height="@dimen/stat_control_height" />
+    <Switch android:id="@+id/swStatType" android:layout_width="match_parent" android:layout_height="@dimen/stat_control_height" android:text="Kiểu giao dịch: Chi / Thu" android:textSize="@dimen/stat_body_text" android:showText="true" android:textOn="Thu" android:textOff="Chi" />
+    <ptit.cnpm1.tranxuanthanh.bai08.PieChartView android:id="@+id/pieChart" android:layout_width="match_parent" android:layout_height="@dimen/stat_chart_height" />
+    <TextView android:id="@+id/lblStatTotal" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingTop="8dp" android:paddingBottom="12dp" android:textSize="@dimen/stat_total_text" />
     <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/black" />
-    <TextView android:id="@+id/lblStatEmpty" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Chưa có giao dịch trong kỳ này" android:gravity="center" android:padding="20dp" android:textSize="16sp" />
+    <TextView android:id="@+id/lblStatEmpty" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Chưa có giao dịch trong kỳ này" android:gravity="center" android:padding="20dp" android:textSize="@dimen/stat_body_text" />
     <ListView android:id="@+id/lwStats" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:divider="@android:color/transparent" android:dividerHeight="6dp" />
 </LinearLayout>

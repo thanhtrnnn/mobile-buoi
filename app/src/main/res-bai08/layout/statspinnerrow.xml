@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Dùng cùng kích thước cho lựa chọn hiện tại và danh sách xổ xuống. -->
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:minHeight="@dimen/stat_control_height" android:gravity="center_vertical"
+    android:paddingHorizontal="12dp" android:textSize="@dimen/stat_body_text"
+    android:textColor="@color/black" />

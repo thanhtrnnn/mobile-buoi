@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Kích thước thống kê đồng bộ với lịch; màn hình lớn dùng bộ kích thước riêng. -->
+    <dimen name="stat_title_text">23sp</dimen>
+    <dimen name="stat_body_text">18sp</dimen>
+    <dimen name="stat_total_text">20sp</dimen>
+    <dimen name="stat_row_text">18sp</dimen>
+    <dimen name="stat_control_height">52dp</dimen>
+    <dimen name="stat_chart_height">190dp</dimen>
+    <dimen name="stat_icon_size">40dp</dimen>
+    <dimen name="stat_chart_text">13sp</dimen>
+    <dimen name="stat_chart_width">1008dp</dimen>
+    <dimen name="stat_chart_top">48dp</dimen>
+    <dimen name="stat_chart_bottom">68dp</dimen>
+    <dimen name="stat_chart_label_gap">19dp</dimen>
+</resources>

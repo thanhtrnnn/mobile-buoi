@@ -43,7 +43,7 @@ class PieChartView @JvmOverloads constructor(context: Context, attrs: AttributeS
         paint.style = Paint.Style.FILL
         paint.textAlign = Paint.Align.CENTER
         paint.color = Color.DKGRAY
-        paint.textSize = 16f * resources.displayMetrics.scaledDensity
+        paint.textSize = resources.getDimension(R.dimen.stat_body_text)
         val text = if (total <= 0) "Chưa có dữ liệu" else "${stats.size} mục"
         canvas.drawText(text, cx, cy - (paint.ascent() + paint.descent()) / 2, paint)
     }

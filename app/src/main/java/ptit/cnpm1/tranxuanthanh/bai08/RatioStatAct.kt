@@ -55,8 +55,8 @@ class RatioStatAct : Activity() {
                 .putExtra("category_id", item.id))
         }
         val typeSpinner = findViewById<Spinner>(R.id.spPeriodType)
-        typeSpinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, listOf("Theo tháng", "Theo năm")).apply {
-            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        typeSpinner.adapter = ArrayAdapter(this, R.layout.statspinnerrow, listOf("Theo tháng", "Theo năm")).apply {
+            setDropDownViewResource(R.layout.statspinnerrow)
         }
         typeSpinner.setSelection(if (byYear) 1 else 0)
         typeSpinner.onItemSelectedListener = selectionListener { position ->
@@ -83,8 +83,8 @@ class RatioStatAct : Activity() {
     /** Đổi loại kỳ sẽ thay toàn bộ lựa chọn của Spinner thứ hai. */
     private fun reloadPeriods() {
         periods = dao.getStatPeriods(byYear, period)
-        spPeriod.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, periods).apply {
-            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spPeriod.adapter = ArrayAdapter(this, R.layout.statspinnerrow, periods).apply {
+            setDropDownViewResource(R.layout.statspinnerrow)
         }
         spPeriod.setSelection(periods.indexOf(period).coerceAtLeast(0))
         reloadStats()

@@ -34,15 +34,15 @@ class ProcessChartView @JvmOverloads constructor(context: Context, attrs: Attrib
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         if (stats.isEmpty()) return
-        val top = 48f * density
-        val bottom = height - 68f * density
+        val top = resources.getDimension(R.dimen.stat_chart_top)
+        val bottom = height - resources.getDimension(R.dimen.stat_chart_bottom)
         val chartHeight = (bottom - top).coerceAtLeast(1f)
         val maximum = stats.maxOf { it.totalIn.toDouble() + it.totalOut }.coerceAtLeast(1.0)
         val cellWidth = width.toFloat() / stats.size
         paint.textAlign = Paint.Align.CENTER
-        paint.textSize = 13f * resources.displayMetrics.scaledDensity
+        paint.textSize = resources.getDimension(R.dimen.stat_chart_text)
         paint.color = Color.DKGRAY
-        canvas.drawText("Thang đo tối đa: ${Money.format(maximum.toFloat())}", width / 2f, 24f * density, paint)
+        canvas.drawText("Thang đo tối đa: ${Money.format(maximum.toFloat())}", width / 2f, resources.getDimension(R.dimen.stat_chart_label_gap), paint)
         paint.strokeWidth = density
         canvas.drawLine(0f, bottom, width.toFloat(), bottom, paint)
         stats.forEachIndexed { index, stat ->
@@ -58,12 +58,12 @@ class ProcessChartView @JvmOverloads constructor(context: Context, attrs: Attrib
             canvas.drawRect(left, middle - expenseHeight, right, middle, paint)
             // Nhãn luôn có đủ thu/chi, kể cả cột bằng 0 hoặc quá thấp để chứa chữ bên trong.
             paint.color = context.getColor(R.color.thu)
-            canvas.drawText(Money.format(stat.totalIn), center, bottom + 19f * density, paint)
+            canvas.drawText(Money.format(stat.totalIn), center, bottom + resources.getDimension(R.dimen.stat_chart_label_gap), paint)
             paint.color = context.getColor(R.color.chi)
-            canvas.drawText(Money.format(stat.totalOut), center, bottom + 37f * density, paint)
+            canvas.drawText(Money.format(stat.totalOut), center, bottom + resources.getDimension(R.dimen.stat_chart_label_gap) * 2, paint)
             paint.color = Color.BLACK
             val month = periods[index]
-            canvas.drawText("${month.month}/${month.year}", center, bottom + 57f * density, paint)
+            canvas.drawText("${month.month}/${month.year}", center, bottom + resources.getDimension(R.dimen.stat_chart_label_gap) * 3, paint)
         }
     }
 

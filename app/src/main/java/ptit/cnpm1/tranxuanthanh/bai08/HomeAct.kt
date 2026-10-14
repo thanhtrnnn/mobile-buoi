@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.view.ContextThemeWrapper
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -91,7 +92,7 @@ class HomeAct : Activity(), View.OnClickListener {
         btnStats.visibility = if (monthDayDetail) View.GONE else View.VISIBLE
         btnStats.setOnClickListener {
             // Hai lựa chọn thống kê đúng theo menu ở slide 23.
-            PopupMenu(this, btnStats).apply {
+            PopupMenu(ContextThemeWrapper(this, R.style.Theme_StatPopup), btnStats).apply {
                 menu.add(0, 1, 0, "Thống kê theo tỉ lệ")
                 menu.add(0, 2, 1, "Thống kê theo quá trình")
                 setOnMenuItemClickListener { item ->
