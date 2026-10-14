@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Logo "Ngôi sao" của mục thu/chi, vẽ đơn giản bằng nét -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp"
+    android:height="32dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <path
+        android:pathData="M12,3 L14.6,9 L21,9.5 L16,13.8 L17.6,20.5 L12,17 L6.4,20.5 L8,13.8 L3,9.5 L9.4,9 Z"
+        android:strokeColor="@color/black"
+        android:strokeWidth="1.4" />
+
+</vector>

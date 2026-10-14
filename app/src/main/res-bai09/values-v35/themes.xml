@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Thuộc tính này chỉ có từ Android 15 (API 35). -->
+    <style name="Theme.MyWallet" parent="Theme.MyWallet.Base">
+        <item name="android:windowOptOutEdgeToEdgeEnforcement">true</item>
+    </style>
+</resources>

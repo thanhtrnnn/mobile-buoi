@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Thống kê 12 tháng: màn hình nằm ngang như wireframe slide 19 nên đủ 12 cột, không cần cuộn. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:padding="@dimen/home_padding_horizontal" android:background="@color/screen_background">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical">
+        <ImageButton android:id="@+id/btnBackStat" android:layout_width="@dimen/stat_control_height" android:layout_height="@dimen/stat_control_height" android:background="@android:color/transparent" android:src="@drawable/ic_back" android:contentDescription="Quay lại" />
+        <TextView android:id="@+id/lblStatTitle" android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:textSize="@dimen/stat_title_text" android:textStyle="bold" android:textColor="@color/black" android:gravity="center" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="● Thu     ● Chi" android:textSize="@dimen/stat_body_text" android:padding="8dp" android:id="@+id/lblLegend" />
+    </LinearLayout>
+    <ptit.cnpm1.tranxuanthanh.bai09.ProcessChartView android:id="@+id/processChart" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" />
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Chạm một tháng để xem thống kê tỉ lệ của tháng đó." android:textSize="@dimen/stat_chart_text" android:gravity="center" />
+</LinearLayout>

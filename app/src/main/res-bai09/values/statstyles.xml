@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.StatPopup" parent="@android:style/Theme.DeviceDefault.Light">
+        <item name="android:textAppearanceLargePopupMenu">@style/StatPopupText</item>
+        <item name="android:textAppearanceSmallPopupMenu">@style/StatPopupText</item>
+    </style>
+    <style name="StatPopupText" parent="@android:style/TextAppearance.Material.Widget.PopupMenu.Large">
+        <item name="android:textSize">@dimen/stat_body_text</item>
+    </style>
+</resources>
