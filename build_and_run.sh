@@ -1,12 +1,13 @@
 #!/bin/bash
 set -e
 
-# Dùng: ./build_and_run.sh [bai03|...|bai09]   (mặc định bai09)
+# Dùng: ./build_and_run.sh [bai03|...|bai08|bai09p1|bai09p2|bai09p3]   (mặc định bai09p3)
+# Bài 9 gồm ba app ứng với ba phần của slide: p1 quản lí giao dịch, p2 thêm lịch tuần/tháng, p3 thêm thống kê.
 # Mỗi bài là một app riêng: package Kotlin riêng, thư mục res riêng, manifest riêng.
-BAI="${1:-bai09}"
+BAI="${1:-bai09p3}"
 case "$BAI" in
-  bai03|bai04|bai05|bai06|bai07|bai08|bai09) ;;
-  *) echo "Chỉ nhận bai03, bai04, bai05, bai06, bai07, bai08 hoặc bai09, không phải '$BAI'"; exit 1 ;;
+  bai03|bai04|bai05|bai06|bai07|bai08|bai09p1|bai09p2|bai09p3) ;;
+  *) echo "Chỉ nhận bai03, bai04, bai05, bai06, bai07, bai08, bai09p1, bai09p2 hoặc bai09p3, không phải '$BAI'"; exit 1 ;;
 esac
 
 SDK="$HOME/Library/Android/sdk"
@@ -23,7 +24,7 @@ MANIFEST="app/src/main/AndroidManifest-$BAI.xml"
 OUT="build/$BAI"
 
 # Màn hình mở đầu của từng bài: bài 3-5 vào từ màn Login, bài 6-9 vào thẳng home
-if [ "$BAI" = "bai06" ] || [ "$BAI" = "bai07" ] || [ "$BAI" = "bai08" ] || [ "$BAI" = "bai09" ]; then LAUNCH="HomeAct"; else LAUNCH="LoginAct"; fi
+case "$BAI" in bai03|bai04|bai05) LAUNCH="LoginAct" ;; *) LAUNCH="HomeAct" ;; esac
 
 # Thư viện ngoài (đã giải nén sẵn từ file .aar trong thư mục vendor/), dùng chung cho mọi bài
 CL_JAR="vendor/constraintlayout/classes.jar"

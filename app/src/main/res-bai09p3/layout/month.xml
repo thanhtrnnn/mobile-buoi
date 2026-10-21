@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/screen_background"
+    android:paddingStart="@dimen/month_padding_horizontal"
+    android:paddingTop="@dimen/month_padding_top"
+    android:paddingEnd="@dimen/month_padding_horizontal"
+    android:paddingBottom="@dimen/month_padding_bottom">
+
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="@dimen/month_back_size"
+        android:layout_height="@dimen/month_back_size"
+        android:background="@android:color/transparent"
+        android:contentDescription="Quay lại trang chính"
+        android:padding="@dimen/month_back_padding"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/lblMonth"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:textSize="@dimen/month_title_text"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/btnBack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnBack"
+        app:layout_constraintTop_toTopOf="@+id/btnBack" />
+
+    <GridLayout
+        android:id="@+id/calendarGrid"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/month_grid_top_gap"
+        android:columnCount="7"
+        android:useDefaultMargins="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnBack" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

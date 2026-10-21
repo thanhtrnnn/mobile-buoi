@@ -1,63 +1,84 @@
 # Bài 09 – Ví điện tử, phần 4: vibecoding
 
-Bám theo `slide/b09 - Lap trinh mobile - CS vi dien tu p4.pdf`. Nội dung ba phần (quản lí giao dịch, xem theo tuần/tháng, xem thống kê) giống bài 08; điểm mới là **dùng công cụ AI sinh mã và nộp lại các lệnh prompt** (slide 12 và 23). Bài 09 được tạo từ bài 08 với package, manifest và tài nguyên riêng, rồi rà lại phần 3 theo slide 17–22.
+Bám theo `slide/b09 - Lap trinh mobile - CS vi dien tu p4.pdf`. Slide chia ứng dụng ví điện tử thành ba phần và yêu cầu **dùng công cụ AI sinh mã rồi nộp lại các lệnh prompt** (slide 12 và 23). Mỗi phần là một app riêng, phần sau xây chồng lên phần trước:
+
+| App | Phần | Có gì | Slide |
+| --- | --- | --- | --- |
+| `bai09p1` | 1 – Quản lí giao dịch | Trang chủ ngày hiện tại, thêm/sửa/xóa giao dịch, mục thu/chi dạng cây, thêm/sửa mục | 4–12 |
+| `bai09p2` | 1 + 2 – Xem theo tuần/tháng | Thêm lịch tuần trên trang chủ, lịch tháng, vuốt đổi tuần/tháng | 13–16 |
+| `bai09p3` | 1 + 2 + 3 – Xem thống kê | Thêm menu thống kê, thống kê theo tỉ lệ, theo quá trình 12 tháng | 17–23 |
+
+Ba app có package riêng (`ptit.cnpm1.tranxuanthanh.bai09p1`…`p3`) nên cài cùng lúc trên một máy được, mỗi app một CSDL riêng. Mã nguồn dùng chung một bộ lớp: `bai09p2` là `bai09p3` bỏ phần thống kê, `bai09p1` là `bai09p2` bỏ phần lịch.
 
 ## Chạy ứng dụng
 
 ```bash
-./build_and_run.sh bai09          # mặc định đã là bai09
-./gradlew -Plesson=bai09 :app:assembleDebug
+./build_and_run.sh bai09p1        # hoặc bai09p2, bai09p3 (mặc định bai09p3)
+./gradlew -Plesson=bai09p1 :app:assembleDebug
 ```
 
-## Những gì đã sửa so với bài 08 khi rà phần 3
+## Những gì đã sửa so với bài 08
 
-| Slide | Bài 08 | Bài 09 |
+| Chỗ | Bài 08 | Bài 09 |
 | --- | --- | --- |
-| 18 – biểu đồ tỉ lệ | Giữa vành khuyên ghi “N mục” | Ghi phần trăm của mục lớn nhất (vd “36%”) và tên mục, giống ô “65%” trong wireframe |
-| 19 – thu/chi 12 tháng | Màn dọc, biểu đồ rộng 1008dp, phải vuốt ngang | Màn nằm ngang (`sensorLandscape`) như wireframe, đủ 12 cột trong một màn, chú thích Thu/Chi đưa lên hàng tiêu đề |
+| Slide 18 – biểu đồ tỉ lệ | Giữa vành khuyên ghi “N mục” | Ghi phần trăm của mục lớn nhất (vd “36%”) và tên mục, giống ô “65%” trong wireframe |
+| Slide 19 – thu/chi 12 tháng | Màn dọc, biểu đồ rộng 1008dp, phải vuốt ngang | Màn nằm ngang (`sensorLandscape`) như wireframe, đủ 12 cột trong một màn |
+| Form thêm/sửa giao dịch và mục | Màn ngang trên tablet đẩy nút Thêm/Lưu/Hủy ra ngoài, không cuộn được | Bọc form trong `ScrollView` |
+| Trang chủ phần 1 | (không có app riêng) | Chỉ có ngày hiện tại, tổng thu/chi, danh sách và nút + như slide 5 |
 | Chú thích trong mã | Số slide theo bộ slide b08 | Đổi sang số slide của b09 |
 
-Các yêu cầu còn lại đã đúng và giữ nguyên: menu ☰ có hai lựa chọn; Spinner thứ nhất (tháng/năm) đổi danh sách của Spinner thứ hai; công tắc Chi/Thu; danh sách mục giảm dần theo tổng tiền; chạm mục mở giao dịch của mục trong kỳ, xếp theo thời gian; chạm giao dịch mở màn sửa; chạm tháng ở biểu đồ 12 tháng mở thống kê tỉ lệ của tháng đó.
+Các yêu cầu còn lại của phần 3 đã đúng và giữ nguyên: menu ☰ có hai lựa chọn; Spinner thứ nhất (tháng/năm) đổi danh sách của Spinner thứ hai; công tắc Chi/Thu; danh sách mục giảm dần theo tổng tiền; chạm mục mở giao dịch của mục trong kỳ, xếp theo thời gian; chạm giao dịch mở màn sửa; chạm tháng ở biểu đồ 12 tháng mở thống kê tỉ lệ của tháng đó.
 
 ## Các lệnh prompt
 
-Mỗi prompt gửi cho công cụ AI (Claude Code, Copilot, Cursor…) mở sẵn project đã chạy được sau phần 2. Gửi lần lượt, chạy thử xong prompt này mới gửi prompt sau.
+Gửi lần lượt cho công cụ AI (Claude Code, Copilot, Cursor…), chạy thử xong prompt này mới gửi prompt sau. Prompt chỉ mô tả ứng dụng cần làm gì, để công cụ tự chọn cách tổ chức mã.
 
-### Prompt 0 – Ngữ cảnh chung
+## Phần 1 – Quản lí giao dịch (app `bai09p1`)
 
-> Project Android Kotlin này là ứng dụng ví điện tử đã chạy được phần 1 (thêm/sửa/xóa giao dịch, mục thu/chi dạng cây cha–con–cháu) và phần 2 (lịch tuần trên trang chủ, lịch tháng). CSDL SQLite gồm `tblType`, `tblCategory`, `tblTransaction`; ngày lưu dạng `dd/MM/yyyy`. Đọc `HomeAct`, `TransactionDAO`, `CategoryDAO`, `ShowTransFrag`, `Money` trước khi sửa. Quy ước: giao diện đơn giản như wireframe, khoản thu màu xanh `@color/thu`, khoản chi màu đỏ `@color/chi`, số tiền luôn định dạng bằng `Money.format` (k, M, B, làm tròn 2 chữ số). Không thêm thư viện ngoài. Chưa sửa gì, chỉ tóm tắt cấu trúc hiện có.
+### P1.1 – Trang chủ
 
-### Prompt 1 – Menu thống kê ở trang chủ
+> Làm ứng dụng Android ví điện tử bằng Kotlin, package `ptit.cnpm1.tranxuanthanh.myvibewallet`, giao diện đơn giản như wireframe trong slide, dữ liệu lưu trên máy. Trang chủ hiện ngày hiện tại, tổng thu và tổng chi của ngày, bên dưới là danh sách giao dịch trong ngày, mỗi dòng có logo, tên mục và số tiền. Khoản thu màu xanh, khoản chi màu đỏ. Cuối màn hình có nút “+” để thêm giao dịch; bấm một dòng để sửa giao dịch đó.
 
-> Thêm nút ☰ ở góc trên bên trái trang chủ. Bấm vào hiện `PopupMenu` có hai mục “Thống kê theo tỉ lệ” và “Thống kê theo quá trình”. Mục thứ nhất mở `RatioStatAct`, mục thứ hai mở `ProcessStatAct`; cả hai nhận kỳ mặc định là tháng chứa ngày đang chọn ở trang chủ. Ẩn nút này khi trang chủ đang mở ở chế độ xem chi tiết một ngày từ lịch tháng.
+### P1.2 – Hiện số tiền
 
-### Prompt 2 – Lớp kỳ thống kê và truy vấn DAO
+> Số tiền từ 1.000 đến 999.999 hiện đơn vị k, từ 1.000.000 đến 999.999.999 hiện M, từ 1.000.000.000 hiện B, làm tròn 2 chữ số sau dấu phẩy. Ví dụ 1537000 hiện 1,54M.
 
-> Tạo `data class StatPeriod(year, month)` với `month = 0` nghĩa là cả năm; có `title` (“Tháng 7/2026”, “Năm 2026”), `start`/`end` dạng `yyyy-MM-dd` là khoảng [đầu kỳ, đầu kỳ sau), hàm ghi/đọc kỳ qua `Intent`, và `lastTwelveMonths()` trả đủ 12 tháng từ cũ đến mới, kết thúc ở tháng hiện tại.
-> Trong `TransactionDAO` thêm:
-> - `getStatPeriods(byYear, selected)`: các tháng (hoặc năm) có giao dịch, cộng kỳ hiện tại và kỳ đang chọn, xếp mới nhất trước.
-> - `getCategoryStats(period, idType)`: tổng tiền theo từng mục của kiểu thu hoặc chi trong kỳ, chỉ lấy mục có tổng > 0, xếp giảm dần theo tổng. Mỗi giao dịch chỉ tính vào đúng mục của nó, không cộng trùng lên mục cha.
-> - `getTransactions(period, idCategory)`: giao dịch của một mục trong kỳ, xếp theo ngày tăng dần.
-> - `getMonthlyStats(periods)`: tổng thu và tổng chi của từng tháng bằng một truy vấn; tháng không có giao dịch trả về 0.
-> Vì ngày lưu `dd/MM/yyyy`, khi so sánh khoảng thời gian phải đổi sang `yyyy-MM-dd` bằng `substr` trong SQL.
+### P1.3 – Thêm và sửa giao dịch
 
-### Prompt 3 – Màn thống kê theo tỉ lệ
+> Màn thêm giao dịch có: kiểu giao dịch thu/chi là nút bật/tắt, mục thu/chi chọn từ danh sách, số tiền, ghi chú, thời gian chọn bằng lịch; nút Thêm và Hủy. Màn sửa giống vậy nhưng có Lưu, Xóa, Hủy. Đổi kiểu thu/chi thì danh sách mục đổi theo. Các mục xếp theo nhóm cha, con, cháu: lần đầu theo abc của mục cha, về sau mục cha nào được dùng nhiều hơn (tính cả các mục con) thì xếp trước; các mục con của cùng một cha luôn theo abc.
 
-> Tạo `RatioStatAct` theo wireframe: nút quay lại và tiêu đề; Spinner thứ nhất chọn “Theo tháng”/“Theo năm”; Spinner thứ hai liệt kê kỳ tương ứng và được nạp lại mỗi khi đổi Spinner thứ nhất; công tắc `Switch` chọn kiểu giao dịch Chi/Thu. Bên dưới là biểu đồ vành khuyên tự vẽ bằng `Canvas` (`PieChartView`), mỗi lát là tỉ lệ một mục; giữa vành ghi phần trăm của mục lớn nhất và tên mục đó. Tiếp theo là dòng “Tổng thu/Tổng chi”, một đường kẻ, và `ListView` các mục với chấm màu trùng màu lát, logo, tên, tổng tiền và phần trăm, giảm dần theo tổng tiền. Kỳ trống hiển thị “Chưa có giao dịch trong kỳ này”. Quay lại màn này sau khi sửa giao dịch thì nạp lại số liệu.
+### P1.4 – Thêm và sửa mục thu/chi
 
-### Prompt 4 – Danh sách giao dịch của một mục
+> Cạnh ô chọn mục có nút “+” để thêm mục thu/chi mới. Màn thêm mục có: kiểu thu/chi, mục cha (chọn trong cây mục đã có, để trống là thêm mục cha mới), tên mục, ghi chú, logo; nút Thêm và Hủy. Sửa mục làm tương tự, có thêm nút Xóa.
 
-> Chạm một dòng ở `RatioStatAct` mở `CategoryTransactionsAct`: tiêu đề là tên mục, dòng kỳ đang xem, dòng tổng tiền (xanh nếu là mục thu, đỏ nếu là mục chi), đường kẻ, rồi danh sách giao dịch của mục trong đúng kỳ đó theo thứ tự thời gian. Mỗi dòng dùng lại `ShowTransFrag` nhưng hiện ngày giao dịch thay cho tên mục. Chạm một giao dịch mở `EditAct` có sẵn; quay lại thì đọc lại danh sách và tổng.
+## Phần 2 – Xem theo tuần/tháng (app `bai09p2`)
 
-### Prompt 5 – Màn thu/chi 12 tháng gần nhất
+### P2.1 – Tuần trên trang chủ
 
-> Tạo `ProcessStatAct` tiêu đề “Thu/chi 12 tháng gần nhất”, màn hình nằm ngang như wireframe. `ProcessChartView` tự vẽ 12 cột chồng, mỗi tháng một cột: phần dưới màu xanh là tổng thu, phần trên màu đỏ là tổng chi, mọi cột dùng chung một thang đo. Dưới mỗi cột ghi tổng thu, tổng chi và “tháng/năm”. Cả 12 cột phải nằm vừa một màn hình, không cần cuộn. Chạm vào một cột mở `RatioStatAct` của đúng tháng đó.
+> Trang chủ thêm 7 ngày của tuần hiện tại, đang chọn ngày hôm nay. Mỗi ngày ghi thứ, tổng thu (xanh) và tổng chi (đỏ) của ngày đó, số nào bằng 0 thì không hiện. Bấm ngày nào thì danh sách giao dịch bên dưới đổi sang ngày đó. Vuốt sang trái hoặc phải để xem tuần sau hoặc tuần trước.
 
-### Prompt 6 – Kiểm tra
+### P2.2 – Xem theo tháng
 
-> Build bằng `./gradlew -Plesson=bai09 :app:assembleDebug` và `lintDebug`, sửa hết lỗi. Sau đó liệt kê cách kiểm tra bằng tay: có giao dịch ở nhiều tháng và năm khác nhau; tổng từng mục khớp với biểu đồ; phần trăm cộng lại 100%; tháng trống hiển thị 0; đổi Spinner thứ nhất thì Spinner thứ hai đổi theo; sửa số tiền một giao dịch rồi quay lại thì tổng và biểu đồ cập nhật.
+> Trang chủ có thêm nút xem theo tháng. Màn tháng hiện đủ các tuần có ngày của tháng, mỗi ngày ghi ngày trong tháng, tổng thu và tổng chi như ô tuần; ngày ngoài tháng làm mờ. Bấm một ngày thì xem các giao dịch của ngày đó giống trang chủ. Vuốt sang trái hoặc phải để xem tháng sau hoặc tháng trước.
+
+## Phần 3 – Xem thống kê (app `bai09p3`)
+
+### P3.1 – Menu thống kê
+
+> Trang chủ thêm menu thống kê có 2 lựa chọn: thống kê theo tỉ lệ và thống kê theo quá trình.
+
+### P3.2 – Thống kê theo tỉ lệ
+
+> Màn thống kê theo tỉ lệ có ô chọn xem theo tháng hay theo năm, ô thứ hai chọn tháng hoặc năm cụ thể (đổi ô thứ nhất thì danh sách ô thứ hai đổi theo), và nút bật/tắt thu hoặc chi. Hiện biểu đồ hình tròn theo tỉ lệ các mục trong thời gian đã chọn, giữa biểu đồ ghi phần trăm của mục lớn nhất. Bên dưới là tổng tiền và danh sách các mục với số tiền, xếp giảm dần theo tiền. Bấm một mục thì hiện các giao dịch của mục đó trong thời gian đã chọn, xếp theo thời gian; bấm một giao dịch thì mở màn sửa giao dịch.
+
+### P3.3 – Thống kê theo quá trình
+
+> Màn thống kê theo quá trình là biểu đồ cột thu/chi của 12 tháng gần nhất, màn hình nằm ngang như wireframe: mỗi tháng một cột, phần thu màu xanh, phần chi màu đỏ, có ghi số tiền và tên tháng. Bấm vào một tháng thì mở thống kê theo tỉ lệ của tháng đó.
 
 ## Kiểm tra đã thực hiện
 
-- `./gradlew -Plesson=bai09 :app:assembleDebug :app:lintDebug`: build thành công, lint không có lỗi. Lint có thêm cảnh báo `DiscouragedApi` vì khóa màn 12 tháng ở chiều ngang; giữ lại vì wireframe slide 19 vẽ màn ngang.
-- Chạy trên emulator Pixel Tablet với dữ liệu thử 12 tháng (chế độ `-read-only`, dữ liệu không được giữ lại): biểu đồ tỉ lệ tháng 10/2026 ghi 36% cho Nhà cửa (5,1M / 14,04M); biểu đồ 12 tháng hiện đủ 11/2025–10/2026 trong một màn; chạm cột 7/2026 mở tỉ lệ tháng 7 với tổng chi 13,1M khớp nhãn cột; chạm mục Nhà cửa mở đúng một giao dịch 08/07/2026 – 5M.
+- `./gradlew -Plesson=<app> :app:assembleDebug :app:lintDebug` cho cả `bai09p1`, `bai09p2`, `bai09p3`: build thành công, lint không có lỗi. `bai09p3` có thêm cảnh báo `DiscouragedApi` vì khóa màn 12 tháng ở chiều ngang; giữ lại vì wireframe slide 19 vẽ màn ngang.
+- Cài cả ba app cùng lúc trên emulator Pixel Tablet (chế độ `-read-only`, dữ liệu không được giữ lại):
+  - `bai09p1`: trang chủ chỉ có ngày, tổng thu/chi, danh sách và “+”; thêm giao dịch 1537000 vào Ăn uống qua form thì trang chủ hiện “1,54M” và “Tổng chi: 1,54M”.
+  - `bai09p2`: trang chủ có hàng 7 ngày, không có nút ☰; bấm “Tháng” mở lịch tháng.
+  - `bai09p3`, với dữ liệu thử 12 tháng: biểu đồ tỉ lệ tháng 10/2026 ghi 36% cho Nhà cửa (5,1M / 14,04M); biểu đồ 12 tháng hiện đủ 11/2025–10/2026 trong một màn; chạm cột 7/2026 mở tỉ lệ tháng 7 với tổng chi 13,1M khớp nhãn cột; chạm mục Nhà cửa mở đúng một giao dịch 08/07/2026 – 5M.

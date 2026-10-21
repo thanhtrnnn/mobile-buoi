@@ -3,8 +3,8 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 
-val lesson = providers.gradleProperty("lesson").orElse("bai09").get()
-require(lesson in setOf("bai03", "bai04", "bai05", "bai06", "bai07", "bai08", "bai09")) {
+val lesson = providers.gradleProperty("lesson").orElse("bai09p3").get()
+require(lesson in setOf("bai03", "bai04", "bai05", "bai06", "bai07", "bai08", "bai09p1", "bai09p2", "bai09p3")) {
     "Unsupported lesson: $lesson"
 }
 
@@ -32,7 +32,7 @@ android {
         }
     }
     // Mỗi bài có package, manifest, Kotlin và resources riêng.
-    // Chọn bài bằng ./gradlew -Plesson=bai09 :app:assembleDebug.
+    // Chọn bài bằng ./gradlew -Plesson=bai09p3 :app:assembleDebug.
     sourceSets {
         getByName("main") {
             manifest.srcFile("src/main/AndroidManifest-$lesson.xml")

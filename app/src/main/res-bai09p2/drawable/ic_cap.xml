@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Logo "Cặp công tác" của mục thu/chi, vẽ đơn giản bằng nét -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp"
+    android:height="32dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <path
+        android:pathData="M3,8 L21,8 L21,20 L3,20 Z M9,8 L9,5 L15,5 L15,8 M3,13 L21,13"
+        android:strokeColor="@color/black"
+        android:strokeWidth="1.4" />
+
+</vector>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Tam giác rỗng chỉ xuống, vẽ đúng như ký hiệu trong wireframe slide 6 -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="30dp"
+    android:height="30dp"
+    android:viewportWidth="20"
+    android:viewportHeight="20">
+
+    <path
+        android:pathData="M3,6 L17,6 L10,16 Z"
+        android:strokeColor="@color/black"
+        android:strokeWidth="1.2" />
+
+</vector>
