@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Tablet: chữ, nút và ảnh to hơn để màn hình lớn không bị trống -->
+<resources>
+    <dimen name="padding_screen">32dp</dimen>
+    <dimen name="text_header">30sp</dimen>
+    <dimen name="text_title">26sp</dimen>
+    <dimen name="text_body">22sp</dimen>
+    <dimen name="text_item_name">24sp</dimen>
+    <dimen name="button_height">72dp</dimen>
+    <dimen name="label_width">170dp</dimen>
+    <dimen name="img_item">100dp</dimen>
+    <dimen name="img_form">150dp</dimen>
+</resources>

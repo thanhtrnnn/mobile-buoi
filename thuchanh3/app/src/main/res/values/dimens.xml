@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Kích thước cho điện thoại; tablet (values-sw600dp) dùng bộ lớn hơn -->
+<resources>
+    <dimen name="padding_screen">16dp</dimen>
+    <dimen name="text_header">18sp</dimen>
+    <dimen name="text_title">16sp</dimen>
+    <dimen name="text_body">14sp</dimen>
+    <dimen name="text_item_name">16sp</dimen>
+    <dimen name="button_height">44dp</dimen>
+    <dimen name="label_width">96dp</dimen>
+    <dimen name="img_item">56dp</dimen>
+    <dimen name="img_form">80dp</dimen>
+</resources>

@@ -3,6 +3,7 @@ package ptit.cnpm1.tranxuanthanh.quanlynhansu;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -52,6 +53,8 @@ public class NhanSuForm {
         spTrinhDo = activity.findViewById(R.id.spTrinhDo);
         spPhongBan = activity.findViewById(R.id.spPhongBan);
         imgAnh = activity.findViewById(R.id.imgAnh);
+        spTrinhDo.setAdapter(spinnerAdapter(R.array.trinh_do));
+        spPhongBan.setAdapter(spinnerAdapter(R.array.phong_ban));
 
         // Nút Chọn ảnh mở trình chọn ảnh của máy, chọn xong thì thu nhỏ và hiện lên ImageView
         ActivityResultLauncher<String> chonAnh = activity.registerForActivityResult(
@@ -127,6 +130,14 @@ public class NhanSuForm {
         edt.setError(message);
         edt.requestFocus();
         return null;
+    }
+
+    // Spinner dùng spinner_item.xml để cỡ chữ theo dimens (tablet to hơn)
+    private ArrayAdapter<String> spinnerAdapter(int arrayId) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(activity, R.layout.spinner_item,
+                activity.getResources().getStringArray(arrayId));
+        adapter.setDropDownViewResource(R.layout.spinner_item);
+        return adapter;
     }
 
     private void selectSpinner(Spinner spinner, int arrayId, String value) {
