@@ -14,7 +14,8 @@ Một app Android (Java) lưu nhân sự trong SQLite, làm đủ CRUD + tìm ki
 ```
 Activity_main                 Activity_add               Activity_detail
 ┌───────────────────┐         ┌──────────────────┐       ┌──────────────────┐
-│ MSSV - Họ tên     │         │ MSSV - Họ tên    │       │ MSSV - Họ tên    │
+│ MSSV              │         │ MSSV - Họ tên    │       │ MSSV - Họ tên    │
+│ Họ tên            │         │                  │       │                  │
 │ [ô tìm] [Search]  │ (V)     │ Mã NS  ____      │       │ Mã NS  ____      │
 │ [Sắp xếp lương]   │         │ Họ tên ____      │       │ Họ tên ____      │
 │ ─ nhân sự 1 ───── │ (I)     │ ...              │ (II)  │ ...              │ (III)
@@ -42,7 +43,7 @@ Bảng `nhansu` trong file `quanlynhansu.db`, tạo bằng `SQLiteOpenHelper`:
 |-----|------|-----------|
 | `ma` | TEXT, khoá chính | EditText |
 | `hoten` | TEXT | EditText |
-| `namsinh` | INTEGER | EditText số |
+| `ngaysinh` | TEXT `yyyy-MM-dd` | Bấm ô để mở `DatePickerDialog` (không cho chọn ngày tương lai), hiển thị `dd/MM/yyyy` |
 | `gioitinh` | TEXT | RadioButton Nam / Nữ |
 | `quequan` | TEXT | EditText |
 | `trinhdo` | TEXT | Spinner: Trung cấp, Cao đẳng, Đại học, Thạc sĩ, Tiến sĩ |
@@ -50,11 +51,13 @@ Bảng `nhansu` trong file `quanlynhansu.db`, tạo bằng `SQLiteOpenHelper`:
 | `luong` | REAL | EditText số |
 | `phongban` | TEXT | Spinner: Hành chính, Phần mềm, Kỹ thuật, Dự án |
 
-Kiểm tra khi Submit/Update: không bỏ trống trường chữ, năm sinh hợp lệ, lương là số; mã trùng thì báo lỗi. Lần đầu tạo DB có sẵn vài nhân sự mẫu để danh sách, tìm kiếm, sắp xếp có dữ liệu xem ngay.
+Đề và sơ đồ trên bảng ghi năm sinh (YoB); app lưu đủ **ngày sinh** (DoB) theo yêu cầu chỉnh lại.
+
+Kiểm tra khi Submit/Update: không bỏ trống trường chữ và ngày sinh, lương là số; mã trùng thì báo lỗi. Lần đầu tạo DB có sẵn vài nhân sự mẫu để danh sách, tìm kiếm, sắp xếp có dữ liệu xem ngay.
 
 ### Yêu cầu chung
 
-- Cả 3 màn hình đều có dòng **B23DCAT280 - Trần Xuân Thành** ở trên cùng.
+- Cả 3 màn hình đều có MSSV và họ tên ở trên cùng: Activity_main ghi trên 2 dòng (**B23DCAT280** / **Trần Xuân Thành**) như sơ đồ, hai màn còn lại ghi 1 dòng **B23DCAT280 - Trần Xuân Thành**.
 - Giao diện giữ đơn giản, đúng khung như sơ đồ trên bảng.
 
 ## Sản phẩm nộp

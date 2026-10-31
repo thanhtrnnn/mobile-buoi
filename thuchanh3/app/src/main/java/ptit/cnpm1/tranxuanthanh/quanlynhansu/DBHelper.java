@@ -13,12 +13,12 @@ import java.util.List;
 public class DBHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "quanlynhansu.db";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2; // v2: năm sinh -> ngày sinh
 
     private static final String TABLE = "nhansu";
     private static final String COL_MA = "ma";
     private static final String COL_HO_TEN = "hoten";
-    private static final String COL_NAM_SINH = "namsinh";
+    private static final String COL_NGAY_SINH = "ngaysinh";
     private static final String COL_GIOI_TINH = "gioitinh";
     private static final String COL_QUE_QUAN = "quequan";
     private static final String COL_TRINH_DO = "trinhdo";
@@ -40,7 +40,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE " + TABLE + " ("
                 + COL_MA + " TEXT PRIMARY KEY, "
                 + COL_HO_TEN + " TEXT NOT NULL, "
-                + COL_NAM_SINH + " INTEGER, "
+                + COL_NGAY_SINH + " TEXT, "
                 + COL_GIOI_TINH + " TEXT, "
                 + COL_QUE_QUAN + " TEXT, "
                 + COL_TRINH_DO + " TEXT, "
@@ -49,11 +49,11 @@ public class DBHelper extends SQLiteOpenHelper {
                 + COL_PHONG_BAN + " TEXT)");
 
         // Vài nhân sự mẫu để danh sách có dữ liệu ngay lần chạy đầu
-        db.insert(TABLE, null, toValues(new NhanSu("NS01", "Nguyễn Văn An", 1990, "Nam", "Hà Nội", "Đại học", null, 15000000, "Phần mềm")));
-        db.insert(TABLE, null, toValues(new NhanSu("NS02", "Trần Thị Bình", 1995, "Nữ", "Nam Định", "Cao đẳng", null, 9000000, "Hành chính")));
-        db.insert(TABLE, null, toValues(new NhanSu("NS03", "Lê Văn Cường", 1988, "Nam", "Hải Phòng", "Thạc sĩ", null, 22000000, "Dự án")));
-        db.insert(TABLE, null, toValues(new NhanSu("NS04", "Phạm Thị Dung", 1998, "Nữ", "Thanh Hóa", "Đại học", null, 12000000, "Kỹ thuật")));
-        db.insert(TABLE, null, toValues(new NhanSu("NS05", "Hoàng Minh Đức", 1992, "Nam", "Nghệ An", "Tiến sĩ", null, 30000000, "Phần mềm")));
+        db.insert(TABLE, null, toValues(new NhanSu("NS01", "Nguyễn Văn An", "1990-05-12", "Nam", "Hà Nội", "Đại học", null, 15000000, "Phần mềm")));
+        db.insert(TABLE, null, toValues(new NhanSu("NS02", "Trần Thị Bình", "1995-08-20", "Nữ", "Nam Định", "Cao đẳng", null, 9000000, "Hành chính")));
+        db.insert(TABLE, null, toValues(new NhanSu("NS03", "Lê Văn Cường", "1988-11-03", "Nam", "Hải Phòng", "Thạc sĩ", null, 22000000, "Dự án")));
+        db.insert(TABLE, null, toValues(new NhanSu("NS04", "Phạm Thị Dung", "1998-02-14", "Nữ", "Thanh Hóa", "Đại học", null, 12000000, "Kỹ thuật")));
+        db.insert(TABLE, null, toValues(new NhanSu("NS05", "Hoàng Minh Đức", "1992-07-30", "Nam", "Nghệ An", "Tiến sĩ", null, 30000000, "Phần mềm")));
     }
 
     @Override
@@ -115,7 +115,7 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(COL_MA, ns.getMa());
         values.put(COL_HO_TEN, ns.getHoTen());
-        values.put(COL_NAM_SINH, ns.getNamSinh());
+        values.put(COL_NGAY_SINH, ns.getNgaySinh());
         values.put(COL_GIOI_TINH, ns.getGioiTinh());
         values.put(COL_QUE_QUAN, ns.getQueQuan());
         values.put(COL_TRINH_DO, ns.getTrinhDo());
@@ -129,7 +129,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return new NhanSu(
                 c.getString(c.getColumnIndexOrThrow(COL_MA)),
                 c.getString(c.getColumnIndexOrThrow(COL_HO_TEN)),
-                c.getInt(c.getColumnIndexOrThrow(COL_NAM_SINH)),
+                c.getString(c.getColumnIndexOrThrow(COL_NGAY_SINH)),
                 c.getString(c.getColumnIndexOrThrow(COL_GIOI_TINH)),
                 c.getString(c.getColumnIndexOrThrow(COL_QUE_QUAN)),
                 c.getString(c.getColumnIndexOrThrow(COL_TRINH_DO)),

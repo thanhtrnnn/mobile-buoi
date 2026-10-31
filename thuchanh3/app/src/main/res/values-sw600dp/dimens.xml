@@ -10,4 +10,5 @@
     <dimen name="label_width">170dp</dimen>
     <dimen name="img_item">100dp</dimen>
     <dimen name="img_form">150dp</dimen>
+    <dimen name="form_row_gap">28dp</dimen>
 </resources>

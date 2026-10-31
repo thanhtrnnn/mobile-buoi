@@ -1,5 +1,6 @@
 package ptit.cnpm1.tranxuanthanh.quanlynhansu;
 
+import android.app.DatePickerDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -32,11 +33,12 @@ public class NhanSuForm {
 
     private final ComponentActivity activity;
     final EditText edtMa;
-    private final EditText edtHoTen, edtNamSinh, edtQueQuan, edtLuong;
+    private final EditText edtHoTen, edtNgaySinh, edtQueQuan, edtLuong;
     private final RadioGroup rgGioiTinh;
     private final RadioButton rbNam, rbNu;
     private final Spinner spTrinhDo, spPhongBan;
     private final ImageView imgAnh;
+    private String ngaySinh; // yyyy-MM-dd, null nếu chưa chọn
     private byte[] anh;
 
     // Phải tạo trong onCreate vì registerForActivityResult chỉ gọi được trước khi activity chạy
@@ -44,7 +46,7 @@ public class NhanSuForm {
         this.activity = activity;
         edtMa = activity.findViewById(R.id.edtMa);
         edtHoTen = activity.findViewById(R.id.edtHoTen);
-        edtNamSinh = activity.findViewById(R.id.edtNamSinh);
+        edtNgaySinh = activity.findViewById(R.id.edtNgaySinh);
         edtQueQuan = activity.findViewById(R.id.edtQueQuan);
         edtLuong = activity.findViewById(R.id.edtLuong);
         rgGioiTinh = activity.findViewById(R.id.rgGioiTinh);
@@ -55,6 +57,9 @@ public class NhanSuForm {
         imgAnh = activity.findViewById(R.id.imgAnh);
         spTrinhDo.setAdapter(spinnerAdapter(R.array.trinh_do));
         spPhongBan.setAdapter(spinnerAdapter(R.array.phong_ban));
+
+        // Ô ngày sinh không gõ được, bấm vào thì mở lịch chọn ngày
+        edtNgaySinh.setOnClickListener(v -> chonNgaySinh());
 
         // Nút Chọn ảnh mở trình chọn ảnh của máy, chọn xong thì thu nhỏ và hiện lên ImageView
         ActivityResultLauncher<String> chonAnh = activity.registerForActivityResult(
@@ -68,7 +73,7 @@ public class NhanSuForm {
     public void fill(NhanSu ns) {
         edtMa.setText(ns.getMa());
         edtHoTen.setText(ns.getHoTen());
-        edtNamSinh.setText(String.valueOf(ns.getNamSinh()));
+        setNgaySinh(ns.getNgaySinh());
         rgGioiTinh.check(rbNu.getText().toString().equals(ns.getGioiTinh()) ? R.id.rbNu : R.id.rbNam);
         edtQueQuan.setText(ns.getQueQuan());
         selectSpinner(spTrinhDo, R.array.trinh_do, ns.getTrinhDo());
@@ -80,10 +85,11 @@ public class NhanSuForm {
 
     // Xoá trắng mọi ô, kể cả thông báo lỗi còn treo từ lần Submit trước
     public void reset() {
-        for (EditText edt : new EditText[]{edtMa, edtHoTen, edtNamSinh, edtQueQuan, edtLuong}) {
+        for (EditText edt : new EditText[]{edtMa, edtHoTen, edtNgaySinh, edtQueQuan, edtLuong}) {
             edt.setText("");
             edt.setError(null);
         }
+        ngaySinh = null;
         rgGioiTinh.check(R.id.rbNam);
         spTrinhDo.setSelection(0);
         spPhongBan.setSelection(0);
@@ -96,18 +102,13 @@ public class NhanSuForm {
     public NhanSu read() {
         String ma = edtMa.getText().toString().trim();
         String hoTen = edtHoTen.getText().toString().trim();
-        String namSinhText = edtNamSinh.getText().toString().trim();
         String queQuan = edtQueQuan.getText().toString().trim();
         String luongText = edtLuong.getText().toString().trim();
 
         if (ma.isEmpty()) return loi(edtMa, activity.getString(R.string.err_trong, activity.getString(R.string.lbl_ma)));
         if (hoTen.isEmpty()) return loi(edtHoTen, activity.getString(R.string.err_trong, activity.getString(R.string.lbl_hoten)));
 
-        int namHienTai = Calendar.getInstance().get(Calendar.YEAR);
-        int namSinh = namSinhText.isEmpty() ? 0 : Integer.parseInt(namSinhText);
-        if (namSinh < 1950 || namSinh > namHienTai) {
-            return loi(edtNamSinh, activity.getString(R.string.err_namsinh, namHienTai));
-        }
+        if (ngaySinh == null) return loi(edtNgaySinh, activity.getString(R.string.err_trong, activity.getString(R.string.lbl_ngaysinh)));
 
         if (queQuan.isEmpty()) return loi(edtQueQuan, activity.getString(R.string.err_trong, activity.getString(R.string.lbl_quequan)));
 
@@ -121,7 +122,7 @@ public class NhanSuForm {
 
         String gioiTinh = rgGioiTinh.getCheckedRadioButtonId() == R.id.rbNu
                 ? rbNu.getText().toString() : rbNam.getText().toString();
-        return new NhanSu(ma.toUpperCase(), hoTen, namSinh, gioiTinh, queQuan,
+        return new NhanSu(ma.toUpperCase(), hoTen, ngaySinh, gioiTinh, queQuan,
                 spTrinhDo.getSelectedItem().toString(), anh, luong,
                 spPhongBan.getSelectedItem().toString());
     }
@@ -129,7 +130,35 @@ public class NhanSuForm {
     private NhanSu loi(EditText edt, String message) {
         edt.setError(message);
         edt.requestFocus();
+        // Ô ngày sinh không nhận focus nên không hiện bóng lỗi, báo thêm bằng Toast
+        if (!edt.isFocusable()) Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
         return null;
+    }
+
+    // Lịch mở sẵn ở ngày đang chọn, chưa chọn thì ở 01/01 của năm cách đây 25 năm; không cho chọn ngày tương lai
+    private void chonNgaySinh() {
+        int nam, thang, ngay;
+        if (ngaySinh != null) {
+            String[] p = ngaySinh.split("-");
+            nam = Integer.parseInt(p[0]);
+            thang = Integer.parseInt(p[1]) - 1;
+            ngay = Integer.parseInt(p[2]);
+        } else {
+            nam = Calendar.getInstance().get(Calendar.YEAR) - 25;
+            thang = Calendar.JANUARY;
+            ngay = 1;
+        }
+        DatePickerDialog dialog = new DatePickerDialog(activity,
+                (view, y, m, d) -> setNgaySinh(String.format(Locale.US, "%04d-%02d-%02d", y, m + 1, d)),
+                nam, thang, ngay);
+        dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        dialog.show();
+    }
+
+    private void setNgaySinh(String ngay) {
+        ngaySinh = ngay;
+        edtNgaySinh.setText(NhanSu.hienThiNgay(ngay));
+        edtNgaySinh.setError(null);
     }
 
     // Spinner dùng spinner_item.xml để cỡ chữ theo dimens (tablet to hơn)

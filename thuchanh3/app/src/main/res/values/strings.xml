@@ -4,6 +4,8 @@
 
     <!-- Dòng thông tin cá nhân ở đầu mọi màn hình -->
     <string name="sinh_vien">B23DCAT280 - Trần Xuân Thành</string>
+    <string name="mssv">B23DCAT280</string>
+    <string name="ho_ten">Trần Xuân Thành</string>
 
     <!-- Activity_main -->
     <string name="title_main">Danh sách nhân sự</string>
@@ -28,7 +30,8 @@
     <string name="title_detail">Chi tiết nhân sự</string>
     <string name="lbl_ma">Mã NS</string>
     <string name="lbl_hoten">Họ tên</string>
-    <string name="lbl_namsinh">Năm sinh</string>
+    <string name="lbl_ngaysinh">Ngày sinh</string>
+    <string name="hint_ngaysinh">Bấm để chọn ngày</string>
     <string name="lbl_gioitinh">Giới tính</string>
     <string name="lbl_quequan">Quê quán</string>
     <string name="lbl_trinhdo">Trình độ</string>
@@ -44,7 +47,6 @@
 
     <!-- Thông báo của form -->
     <string name="err_trong">Không được bỏ trống %s</string>
-    <string name="err_namsinh">Năm sinh phải từ 1950 đến %d</string>
     <string name="err_luong">Mức lương phải là số lớn hơn 0</string>
     <string name="err_trung_ma">Mã %s đã tồn tại</string>
     <string name="err_anh">Không đọc được ảnh</string>

@@ -10,4 +10,5 @@
     <dimen name="label_width">96dp</dimen>
     <dimen name="img_item">56dp</dimen>
     <dimen name="img_form">80dp</dimen>
+    <dimen name="form_row_gap">8dp</dimen>
 </resources>

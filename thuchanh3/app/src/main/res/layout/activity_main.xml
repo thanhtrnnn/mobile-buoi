@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Activity_main: MSSV - Họ tên, ô tìm + Search (V), nút sắp xếp theo lương, danh sách nhân sự (I) và nút ADD -->
+<!-- Activity_main: MSSV và Họ tên trên 2 dòng, ô tìm + Search (V), nút sắp xếp theo lương, danh sách nhân sự (I) và nút ADD -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,7 +10,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/sinh_vien"
+        android:text="@string/mssv"
+        android:textColor="#000000"
+        android:textSize="@dimen/text_header"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/ho_ten"
         android:textColor="#000000"
         android:textSize="@dimen/text_header"
         android:textStyle="bold" />
