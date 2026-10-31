@@ -11,4 +11,5 @@
     <dimen name="img_item">100dp</dimen>
     <dimen name="img_form">150dp</dimen>
     <dimen name="form_row_gap">28dp</dimen>
+    <dimen name="item_padding">20dp</dimen>
 </resources>

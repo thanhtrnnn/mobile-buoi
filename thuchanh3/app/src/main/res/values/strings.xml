@@ -15,7 +15,6 @@
     <string name="btn_sort_asc">Lương: tăng dần</string>
     <string name="btn_sort_desc">Lương: giảm dần</string>
     <string name="btn_add">ADD</string>
-    <string name="so_nhan_su">Số nhân sự: %d</string>
     <string name="danh_sach_trong">Không có nhân sự nào</string>
 
     <!-- Hộp thoại xoá -->

@@ -7,7 +7,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -25,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText edtSearch;
     private Button btnSort;
-    private TextView tvCount;
 
     private String keyword = "";
     private int sort = DBHelper.SORT_NONE;
@@ -39,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
 
         edtSearch = findViewById(R.id.edtSearch);
         btnSort = findViewById(R.id.btnSort);
-        tvCount = findViewById(R.id.tvCount);
         Button btnSearch = findViewById(R.id.btnSearch);
         Button btnAdd = findViewById(R.id.btnAdd);
         ListView lvNhanSu = findViewById(R.id.lvNhanSu);
@@ -119,6 +116,5 @@ public class MainActivity extends AppCompatActivity {
         list.clear();
         list.addAll(db.getAll(keyword, sort));
         adapter.notifyDataSetChanged();
-        tvCount.setText(getString(R.string.so_nhan_su, list.size()));
     }
 }
