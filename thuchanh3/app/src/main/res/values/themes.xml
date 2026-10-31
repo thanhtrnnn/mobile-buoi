@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Theme trơn: nền trắng, chữ đen, không màu nhấn, nút vuông viền đen -->
+    <style name="Theme.QuanLyNhanSu" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">#000000</item>
+        <item name="colorPrimaryDark">#FFFFFF</item>
+        <item name="colorAccent">#000000</item>
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:statusBarColor">#FFFFFF</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:buttonStyle">@style/NutVuong</item>
+        <item name="buttonStyle">@style/NutVuong</item>
+        <!-- targetSdk 35 bắt buộc vẽ tràn dưới thanh trạng thái; tắt đi để dòng MSSV không bị che -->
+        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
+    </style>
+
+    <style name="NutVuong" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/bg_button</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:minHeight">44dp</item>
+        <item name="android:paddingHorizontal">16dp</item>
+        <item name="android:stateListAnimator">@null</item>
+    </style>
+</resources>
