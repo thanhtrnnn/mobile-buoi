@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                 .setTitle(R.string.title_delete)
                 .setMessage(getString(R.string.msg_delete, ns.getMa(), ns.getHoTen()))
                 .setPositiveButton(R.string.btn_delete, (dialog, which) -> {
-                    db.delete(ns.getMa());
+                    db.delete(ns.getMa()); // LOGIC khong xu ly exception
                     Toast.makeText(this, getString(R.string.da_xoa, ns.getHoTen()), Toast.LENGTH_SHORT).show();
                     loadData();
                 })
