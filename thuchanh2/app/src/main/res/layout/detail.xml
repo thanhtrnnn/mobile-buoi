@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Màn hình 2: tiêu đề, ảnh, tên và mô tả vật phẩm xếp dọc, căn giữa ngang. -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:id="@+id/lblTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CHI TIẾT VẬT PHẨM"
+            android:textSize="24sp" />
+
+        <ImageView
+            android:id="@+id/imgItem"
+            android:layout_width="240dp"
+            android:layout_height="160dp"
+            android:layout_marginTop="40dp"
+            android:contentDescription="Hình ảnh vật phẩm"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:id="@+id/lblName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/lblDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+</ScrollView>
